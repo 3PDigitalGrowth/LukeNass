@@ -1,0 +1,249 @@
+'use client'
+
+import React from "react"
+
+import { useState } from 'react'
+import { motion } from 'framer-motion'
+import { Button } from '@/components/ui/button'
+import { CheckCircle2, MapPin, Clock, Home } from 'lucide-react'
+
+export function BuyMatchingForm() {
+  const [submitted, setSubmitted] = useState(false)
+  const [formData, setFormData] = useState({
+    budget: [0, 1500000],
+    suburbs: [] as string[],
+    mustHaves: [] as string[],
+    timeframe: 'flexible',
+    finance: 'preapproved',
+    email: '',
+    phone: '',
+    smsAlerts: false,
+  })
+
+  const suburbs = ['Roleystone', 'Kelmscott', 'Armadale', 'Bedfordale', 'Seville Grove', 'Mount Nasura']
+  const mustHaves = ['Pool', 'Modern', 'Land Size', 'Original Features', 'Reno Ready']
+
+  const handleSubmit = (e: React.FormEvent) => {
+    e.preventDefault()
+    setSubmitted(true)
+    setTimeout(() => {
+      setSubmitted(false)
+      setFormData({
+        budget: [0, 1500000],
+        suburbs: [],
+        mustHaves: [],
+        timeframe: 'flexible',
+        finance: 'preapproved',
+        email: '',
+        phone: '',
+        smsAlerts: false,
+      })
+    }, 5000)
+  }
+
+  const toggleSuburb = (suburb: string) => {
+    setFormData({
+      ...formData,
+      suburbs: formData.suburbs.includes(suburb)
+        ? formData.suburbs.filter((s) => s !== suburb)
+        : [...formData.suburbs, suburb],
+    })
+  }
+
+  const toggleMustHave = (item: string) => {
+    setFormData({
+      ...formData,
+      mustHaves: formData.mustHaves.includes(item)
+        ? formData.mustHaves.filter((m) => m !== item)
+        : [...formData.mustHaves, item],
+    })
+  }
+
+  return (
+    <section className="py-16 bg-secondary/5 border-t border-border/30">
+      <div className="container mx-auto px-4 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          transition={{ duration: 0.6 }}
+        >
+          <div className="max-w-4xl mx-auto">
+            <div className="mb-8">
+              <h2 className="text-3xl lg:text-4xl font-serif font-bold text-foreground mb-2 tracking-tighter">
+                Get Matched to Your Ideal Home
+              </h2>
+              <p className="text-lg text-muted-foreground">
+                Tell us what you're looking for and we'll match you to off-market and pre-market opportunities
+              </p>
+            </div>
+
+            {submitted ? (
+              <motion.div
+                initial={{ scale: 0.95, opacity: 0 }}
+                animate={{ scale: 1, opacity: 1 }}
+                className="p-8 bg-card rounded-xl border border-primary/30 text-center"
+              >
+                <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-4" />
+                <h3 className="text-2xl font-serif font-bold text-foreground mb-2 tracking-tight">
+                  Perfect! We've Got You Matched
+                </h3>
+                <p className="text-muted-foreground mb-4">
+                  Check your email and SMS for matching properties. We'll send updates as new opportunities align with your criteria.
+                </p>
+              </motion.div>
+            ) : (
+              <form onSubmit={handleSubmit} className="bg-card p-8 rounded-xl border border-border/50 shadow-lg">
+                <div className="grid md:grid-cols-2 gap-8 mb-8">
+                  {/* Budget Range */}
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                      <Home className="w-4 h-4" /> Budget Range
+                    </label>
+                    <div className="space-y-2">
+                      <input
+                        type="range"
+                        min="200000"
+                        max="2000000"
+                        value={formData.budget[1]}
+                        onChange={(e) => setFormData({ ...formData, budget: [formData.budget[0], parseInt(e.target.value)] })}
+                        className="w-full"
+                      />
+                      <p className="text-lg font-semibold text-primary">
+                        ${(formData.budget[1] / 1000000).toFixed(1)}M
+                      </p>
+                    </div>
+                  </div>
+
+                  {/* Timeframe */}
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                      <Clock className="w-4 h-4" /> When are you looking?
+                    </label>
+                    <select
+                      value={formData.timeframe}
+                      onChange={(e) => setFormData({ ...formData, timeframe: e.target.value })}
+                      className="w-full px-4 py-2 rounded-lg bg-muted/50 border border-border/50 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    >
+                      <option value="flexible">Flexible</option>
+                      <option value="3months">Within 3 months</option>
+                      <option value="6months">Within 6 months</option>
+                      <option value="12months">Within 12 months</option>
+                    </select>
+                  </div>
+                </div>
+
+                {/* Suburbs */}
+                <div className="mb-8">
+                  <label className="block text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
+                    <MapPin className="w-4 h-4" /> Preferred Suburbs
+                  </label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {suburbs.map((suburb) => (
+                      <button
+                        key={suburb}
+                        type="button"
+                        onClick={() => toggleSuburb(suburb)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                          formData.suburbs.includes(suburb)
+                            ? 'bg-primary text-primary-foreground'
+                            : 'bg-muted/50 text-foreground border border-border/50 hover:bg-muted'
+                        }`}
+                      >
+                        {suburb}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Must Haves */}
+                <div className="mb-8">
+                  <label className="block text-sm font-semibold text-foreground mb-4">Must-Haves (Optional)</label>
+                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
+                    {mustHaves.map((item) => (
+                      <button
+                        key={item}
+                        type="button"
+                        onClick={() => toggleMustHave(item)}
+                        className={`px-4 py-2 rounded-lg font-medium transition-all ${
+                          formData.mustHaves.includes(item)
+                            ? 'bg-secondary text-foreground'
+                            : 'bg-muted/50 text-foreground border border-border/50 hover:bg-muted'
+                        }`}
+                      >
+                        {item}
+                      </button>
+                    ))}
+                  </div>
+                </div>
+
+                {/* Finance Status */}
+                <div className="mb-8">
+                  <label className="block text-sm font-semibold text-foreground mb-4">Finance Status</label>
+                  <select
+                    value={formData.finance}
+                    onChange={(e) => setFormData({ ...formData, finance: e.target.value })}
+                    className="w-full md:w-1/2 px-4 py-2 rounded-lg bg-muted/50 border border-border/50 text-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  >
+                    <option value="preapproved">Pre-approved</option>
+                    <option value="savingdeposit">Saving for deposit</option>
+                    <option value="cash">Cash buyer</option>
+                    <option value="exploring">Exploring options</option>
+                  </select>
+                </div>
+
+                {/* Contact & Alerts */}
+                <div className="grid md:grid-cols-2 gap-6 mb-8 pb-8 border-b border-border/30">
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">Email</label>
+                    <input
+                      type="email"
+                      required
+                      value={formData.email}
+                      onChange={(e) => setFormData({ ...formData, email: e.target.value })}
+                      placeholder="you@example.com"
+                      className="w-full px-4 py-2 rounded-lg bg-muted/50 border border-border/50 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                  </div>
+                  <div>
+                    <label className="block text-sm font-semibold text-foreground mb-2">Phone (for SMS alerts)</label>
+                    <input
+                      type="tel"
+                      value={formData.phone}
+                      onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
+                      placeholder="(02) 0000 0000"
+                      className="w-full px-4 py-2 rounded-lg bg-muted/50 border border-border/50 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                    />
+                  </div>
+                </div>
+
+                {/* SMS Alerts Checkbox */}
+                <div className="mb-8">
+                  <label className="flex items-center gap-3 cursor-pointer">
+                    <input
+                      type="checkbox"
+                      checked={formData.smsAlerts}
+                      onChange={(e) => setFormData({ ...formData, smsAlerts: e.target.checked })}
+                      className="w-4 h-4 rounded accent-primary"
+                    />
+                    <span className="text-sm text-muted-foreground">
+                      <span className="font-semibold text-foreground">SMS alerts for new off-market listings</span> - High intent buyers get priority notifications
+                    </span>
+                  </label>
+                </div>
+
+                <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-3 font-bold text-lg">
+                  Get Matched to Off-Market & Pre-Market Listings
+                </Button>
+
+                <p className="text-xs text-muted-foreground text-center mt-4">
+                  We never spam. Unsubscribe anytime.
+                </p>
+              </form>
+            )}
+          </div>
+        </motion.div>
+      </div>
+    </section>
+  )
+}

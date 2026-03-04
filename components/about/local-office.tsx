@@ -1,0 +1,101 @@
+'use client'
+
+import { Button } from '@/components/ui/button'
+import { motion } from 'framer-motion'
+import { Phone, Mail, MapPin, Clock } from 'lucide-react'
+
+export function LocalOffice() {
+  return (
+    <section className="py-20 lg:py-28 bg-background">
+      <div className="container mx-auto px-4 lg:px-8">
+        <motion.div
+          initial={{ opacity: 0, y: 20 }}
+          whileInView={{ opacity: 1, y: 0 }}
+          viewport={{ once: true }}
+          className="text-center mb-16"
+        >
+          <h2 className="font-serif text-4xl lg:text-5xl font-bold text-foreground mb-4 tracking-tighter">
+            Our Local Office
+          </h2>
+        </motion.div>
+
+        <div className="grid lg:grid-cols-2 gap-12">
+          {/* Contact Information */}
+          <motion.div
+            initial={{ opacity: 0, x: -20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8 }}
+          >
+            <h3 className="font-serif text-3xl font-bold text-foreground mb-8 tracking-tight">
+              Luke Nass Real Estate
+            </h3>
+
+            <div className="space-y-6">
+              <div className="flex gap-4">
+                <MapPin className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
+                <div>
+                  <p className="font-bold text-foreground">Address</p>
+                  <p className="text-muted-foreground">564 Brookton Highway</p>
+                  <p className="text-muted-foreground">Roleystone WA 6111</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <Phone className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
+                <div>
+                  <p className="font-bold text-foreground">Phone</p>
+                  <p className="text-muted-foreground">08 9495 2226</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <Mail className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
+                <div>
+                  <p className="font-bold text-foreground">Email</p>
+                  <p className="text-muted-foreground">luke@lukenass.com.au</p>
+                </div>
+              </div>
+
+              <div className="flex gap-4">
+                <Clock className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
+                <div>
+                  <p className="font-bold text-foreground">Office Hours</p>
+                  <p className="text-muted-foreground">Monday–Friday: 9am–5pm</p>
+                  <p className="text-muted-foreground">Saturday: 9am–1pm</p>
+                  <p className="text-muted-foreground">Sunday: Closed</p>
+                </div>
+              </div>
+            </div>
+
+            <div className="flex flex-col sm:flex-row gap-4 mt-10">
+              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold flex items-center gap-2 py-6">
+                <Phone className="w-5 h-5" />
+                Call Now
+              </Button>
+              <Button variant="outline" className="border-2 border-secondary font-bold py-6 bg-transparent">
+                <Mail className="w-5 h-5 mr-2" />
+                Email Now
+              </Button>
+            </div>
+          </motion.div>
+
+          {/* Map Placeholder */}
+          <motion.div
+            initial={{ opacity: 0, x: 20 }}
+            whileInView={{ opacity: 1, x: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.8, delay: 0.2 }}
+            className="rounded-2xl overflow-hidden shadow-xl h-96 bg-muted flex items-center justify-center border border-border/50"
+          >
+            <div className="text-center">
+              <MapPin className="w-12 h-12 text-primary/50 mx-auto mb-4" />
+              <p className="text-muted-foreground">Google Map Integration Coming Soon</p>
+              <p className="text-sm text-muted-foreground mt-2">564 Brookton Highway, Roleystone WA 6111</p>
+            </div>
+          </motion.div>
+        </div>
+      </div>
+    </section>
+  )
+}
