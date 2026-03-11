@@ -19,8 +19,8 @@ const steps = [
   {
     number: '03',
     title: 'Matching & Previews',
-    description: 'Get early access to off-market properties that match your criteria.',
-    details: ['Off-market listings', 'Private previews', 'Strategy recommendations'],
+    description: 'Receive tailored listing matches and inspection options that align with your criteria.',
+    details: ['Matched listings', 'Inspection planning', 'Strategy recommendations'],
   },
   {
     number: '04',

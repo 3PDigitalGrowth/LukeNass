@@ -10,19 +10,17 @@ export function TestimonialsFeatured() {
   const testimonials = [
     {
       id: 1,
-      quote: "Luke's strategic approach transformed our sale. He identified the perfect off-market buyer before we even listed.",
+      quote: "Luke's strategic approach transformed our sale. He kept the campaign focused and made us feel supported from start to finish.",
       name: 'Sarah & Michael Thompson',
       location: 'Roleystone, WA',
       topic: 'Communication',
-      daysOnMarket: 12
     },
     {
       id: 2,
-      quote: 'After three failed campaigns with other agents, Luke delivered in weeks what others couldn\'t in months.',
+      quote: 'After difficult experiences with other agents, Luke restored our confidence with calm guidance and consistent communication.',
       name: 'David Chen',
       location: 'Kelmscott, WA',
       topic: 'Negotiation',
-      daysOnMarket: 18
     },
     {
       id: 3,
@@ -30,19 +28,17 @@ export function TestimonialsFeatured() {
       name: 'Emma & James Wilson',
       location: 'Seville Grove, WA',
       topic: 'Local Market Knowledge',
-      daysOnMarket: 21
     },
     {
       id: 4,
-      quote: 'The results speak for themselves. We sold well above expectations in a challenging market.',
+      quote: 'The whole experience felt thoughtful, professional, and well managed, even in a challenging market.',
       name: 'Robert Matthews',
       location: 'Armadale, WA',
-      topic: 'Results',
-      daysOnMarket: 15
+      topic: 'Support',
     }
   ]
 
-  const topics = ['Communication', 'Negotiation', 'Local Market Knowledge', 'Results']
+  const topics = ['Communication', 'Negotiation', 'Local Market Knowledge', 'Support']
   const filteredTestimonials = activeFilter 
     ? testimonials.filter(t => t.topic === activeFilter)
     : testimonials
@@ -60,7 +56,7 @@ export function TestimonialsFeatured() {
             What Our Clients Say
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Real results from real people. Filter by topic to find what matters to you.
+            Real feedback from real people. Filter by topic to find what matters to you.
           </p>
         </motion.div>
 
@@ -110,7 +106,6 @@ export function TestimonialsFeatured() {
               <div className="pt-4 border-t border-border/50">
                 <p className="font-bold text-foreground mb-1">{testimonial.name}</p>
                 <p className="text-sm text-muted-foreground">{testimonial.location}</p>
-                <p className="text-xs text-muted-foreground mt-2">{testimonial.daysOnMarket} days on market</p>
               </div>
             </motion.div>
           ))}

@@ -36,8 +36,8 @@ export function LocalOffice() {
                 <MapPin className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
                 <div>
                   <p className="font-bold text-foreground">Address</p>
-                  <p className="text-muted-foreground">564 Brookton Highway</p>
-                  <p className="text-muted-foreground">Roleystone WA 6111</p>
+                  <p className="text-muted-foreground">Unit 1/8 Rundle St</p>
+                  <p className="text-muted-foreground">Kelmscott WA 6111</p>
                 </div>
               </div>
 
@@ -62,7 +62,7 @@ export function LocalOffice() {
                 <div>
                   <p className="font-bold text-foreground">Office Hours</p>
                   <p className="text-muted-foreground">Monday–Friday: 9am–5pm</p>
-                  <p className="text-muted-foreground">Saturday: 9am–1pm</p>
+                  <p className="text-muted-foreground">Saturday: By Appointment Only</p>
                   <p className="text-muted-foreground">Sunday: Closed</p>
                 </div>
               </div>
@@ -91,7 +91,7 @@ export function LocalOffice() {
             <div className="text-center">
               <MapPin className="w-12 h-12 text-primary/50 mx-auto mb-4" />
               <p className="text-muted-foreground">Google Map Integration Coming Soon</p>
-              <p className="text-sm text-muted-foreground mt-2">564 Brookton Highway, Roleystone WA 6111</p>
+              <p className="text-sm text-muted-foreground mt-2">Unit 1/8 Rundle St, Kelmscott WA 6111</p>
             </div>
           </motion.div>
         </div>

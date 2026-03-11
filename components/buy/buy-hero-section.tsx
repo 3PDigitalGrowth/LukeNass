@@ -39,9 +39,9 @@ export function BuyHeroSection() {
           alt="Luke Nass Real Estate team in park setting"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-[42%_center] sm:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-background/95 via-background/80 to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/80 lg:bg-gradient-to-r lg:from-background/95 lg:via-background/80 lg:to-background/40" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80" />
       </div>
 
@@ -59,7 +59,7 @@ export function BuyHeroSection() {
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight text-balance mb-6 tracking-tighter">
                 Your Perfect Home Awaits.
                 <br />
-                <span className="text-primary">Off-Market First.</span>
+                <span className="text-primary">With Local Guidance.</span>
               </h1>
             </motion.div>
 
@@ -67,18 +67,19 @@ export function BuyHeroSection() {
               variants={itemVariants}
               className="text-lg md:text-xl text-muted-foreground max-w-xl mb-6 text-pretty"
             >
-              Discover exclusive off-market properties in Perth&apos;s most sought-after suburbs before they hit the public market. Join The Inner Circle for first-look access.
+              Find the right home in Perth&apos;s most sought-after suburbs with tailored buyer guidance, curated matches,
+              and a strategy that keeps you confident at every step.
             </motion.p>
 
             {/* Key Benefits */}
             <motion.div variants={itemVariants} className="space-y-3 mb-10">
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
-                <span className="text-muted-foreground">See homes 7 days before public listing</span>
+                <span className="text-muted-foreground">Tailored property matches based on your goals</span>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
-                <span className="text-muted-foreground">Access exclusive off-market opportunities</span>
+                <span className="text-muted-foreground">Clear guidance on value, timing, and negotiation</span>
               </div>
               <div className="flex items-start gap-3">
                 <div className="w-2 h-2 rounded-full bg-primary mt-2.5 flex-shrink-0" />
@@ -93,7 +94,7 @@ export function BuyHeroSection() {
                 size="lg"
                 className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 font-medium gap-2"
               >
-                Get Off-Market Access
+                Start Your Buyer Plan
                 <ArrowRight className="h-4 w-4" />
               </Button>
               <Button
@@ -116,8 +117,8 @@ export function BuyHeroSection() {
                 <div>Happy Buyers</div>
               </div>
               <div>
-                <div className="font-semibold text-primary text-lg mb-1">20+</div>
-                <div>Years Experience</div>
+                <div className="font-semibold text-primary text-lg mb-1">65+</div>
+                <div>Years Combined</div>
               </div>
               <div>
                 <div className="font-semibold text-primary text-lg mb-1">$1.2B+</div>
@@ -142,10 +143,10 @@ export function BuyHeroSection() {
               onClick={(e) => e.stopPropagation()}
             >
               <h2 className="text-2xl font-serif font-semibold text-foreground mb-2 tracking-tighter">
-                Get Off-Market Access
+                Start Your Buyer Plan
               </h2>
               <p className="text-muted-foreground mb-6">
-                Join The Inner Circle and unlock exclusive listings.
+                Tell us what you&apos;re looking for and we&apos;ll help you build a clear path to the right home.
               </p>
 
               <form className="space-y-4">
@@ -181,7 +182,7 @@ export function BuyHeroSection() {
                   />
                 </div>
                 <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 font-medium">
-                  Join The Inner Circle
+                  Request Buyer Guidance
                 </Button>
               </form>
 

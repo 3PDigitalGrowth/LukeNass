@@ -1,15 +1,5 @@
-'use client'
-
-import { Header } from '@/components/header'
-import { InnerCircleLanding } from '@/components/inner-circle/inner-circle-landing'
-import { Footer } from '@/components/footer'
+import { redirect } from 'next/navigation'
 
 export default function InnerCirclePage() {
-  return (
-    <main className="min-h-screen">
-      <Header />
-      <InnerCircleLanding />
-      <Footer />
-    </main>
-  )
+  redirect('/buy')
 }

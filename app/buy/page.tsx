@@ -6,7 +6,6 @@ import { BuyHeroSection } from '@/components/buy/buy-hero-section'
 import { BuyMatchingForm } from '@/components/buy/buyer-matching-form'
 import { BuyListingsPage } from '@/components/buy/buy-listings-page'
 import { AreaGuidance } from '@/components/buy/area-guidance'
-import { BuyerWinsCarousel } from '@/components/buy/buyer-wins-carousel'
 import { BuyerJourney } from '@/components/buy/buyer-journey'
 
 export default function Buy() {
@@ -16,7 +15,6 @@ export default function Buy() {
       <BuyHeroSection />
       <BuyMatchingForm />
       <BuyListingsPage />
-      <BuyerWinsCarousel />
       <AreaGuidance />
       <BuyerJourney />
       <Footer />

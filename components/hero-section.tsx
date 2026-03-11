@@ -59,9 +59,9 @@ export function HeroSection() {
           alt="Luke Nass Real Estate team in park setting"
           fill
           priority
-          className="object-cover object-center"
+          className="object-cover object-[42%_center] sm:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-r from-transparent via-background/30 to-background/90" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 lg:bg-gradient-to-r lg:from-transparent lg:via-background/30 lg:to-background/90" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80" />
       </div>
 
@@ -90,7 +90,7 @@ export function HeroSection() {
               variants={itemVariants}
               className="text-lg md:text-xl text-muted-foreground max-w-xl mx-auto lg:ml-auto lg:mr-0 mb-10 text-pretty"
             >
-              Navigating the 2026 market with 20 years of local mastery in Roleystone, Kelmscott, and beyond.
+              Navigating the 2026 market with 65+ years combined local expertise across Roleystone, Kelmscott, and beyond.
             </motion.p>
 
             {/* Lead Capture Form */}
@@ -125,7 +125,7 @@ export function HeroSection() {
               </div>
               <div className="px-6 py-5 rounded-xl bg-card/90 backdrop-blur-sm border border-secondary/30 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center lg:items-start">
                 <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">65+</span>
-                <span className="text-sm sm:text-base text-muted-foreground font-medium">Years Experience</span>
+                <span className="text-sm sm:text-base text-muted-foreground font-medium">Years Combined</span>
               </div>
               <div className="px-6 py-5 rounded-xl bg-card/90 backdrop-blur-sm border border-secondary/30 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center lg:items-start">
                 <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">$1.2B+</span>

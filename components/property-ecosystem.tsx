@@ -27,10 +27,10 @@ const itemVariants = {
   },
 }
 
-const tabs = ["Off-Market & Upcoming", "Live Listings", "Historical Success"]
+const tabs = ["Coming Soon", "Live Listings", "Historical Success"]
 
 const properties = {
-  "Off-Market & Upcoming": [
+  "Coming Soon": [
     {
       id: 1,
       image: "/luxury-home-roleystone-bushland-views.jpg",
@@ -48,7 +48,7 @@ const properties = {
       title: "Contemporary Elegance",
       location: "Kelmscott",
       price: "$985,000 - $1.05M",
-      badge: "Off-Market",
+      badge: "Coming Soon",
       beds: 4,
       baths: 2,
       area: "890m²",
@@ -153,7 +153,7 @@ export function PropertyEcosystem() {
             The Property Portfolio
           </h2>
           <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Exclusive access to properties before they hit the market
+            Explore upcoming listings, current homes for sale, and standout past results
           </p>
         </motion.div>
 

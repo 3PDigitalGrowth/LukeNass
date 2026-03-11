@@ -46,16 +46,15 @@ export function InnerCircleLeadMagnet() {
               Don't see what you want?
             </h3>
             <p className="text-foreground/70 mb-6 max-w-2xl">
-              Join <span className="font-semibold text-primary">The Inner Circle</span> for exclusive access to off-market
-              properties and first-look previews before they hit the public market. Get notified about properties that match
-              your exact criteria.
+              Join our <span className="font-semibold text-primary">buyer update list</span> to receive relevant listings,
+              open home alerts, and property matches tailored to your exact criteria.
             </p>
             <Button
               onClick={() => setIsOpen(true)}
               className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold"
               size="lg"
             >
-              Join The Inner Circle
+              Get Buyer Updates
               <ArrowRight className="ml-2 h-4 w-4" />
             </Button>
           </div>
@@ -65,8 +64,8 @@ export function InnerCircleLeadMagnet() {
       <Dialog open={isOpen} onOpenChange={setIsOpen}>
         <DialogContent className="max-w-md">
           <DialogHeader>
-            <DialogTitle className="font-serif text-2xl tracking-tighter">Join The Inner Circle</DialogTitle>
-            <DialogDescription>Get exclusive access to off-market properties and first-look previews.</DialogDescription>
+            <DialogTitle className="font-serif text-2xl tracking-tighter">Get Buyer Updates</DialogTitle>
+            <DialogDescription>Receive relevant listings and property updates tailored to your search.</DialogDescription>
           </DialogHeader>
 
           {!submitted ? (
@@ -83,7 +82,7 @@ export function InnerCircleLeadMagnet() {
                 />
               </div>
               <Button type="submit" className="w-full bg-primary hover:bg-primary/90 font-semibold h-10">
-                Get Exclusive Access
+                Send Me Updates
               </Button>
             </form>
           ) : (
@@ -93,8 +92,8 @@ export function InnerCircleLeadMagnet() {
               className="text-center py-8"
             >
               <Crown className="h-12 w-12 text-secondary mx-auto mb-4" />
-              <p className="text-lg font-semibold text-foreground mb-2">Welcome to The Inner Circle!</p>
-              <p className="text-foreground/60">Check your email for exclusive property previews.</p>
+              <p className="text-lg font-semibold text-foreground mb-2">You&apos;re on the list.</p>
+              <p className="text-foreground/60">Check your email for tailored property updates.</p>
             </motion.div>
           )}
         </DialogContent>

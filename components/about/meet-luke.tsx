@@ -34,7 +34,7 @@ export function MeetLuke() {
               </div>
               <div className="p-4 rounded-lg bg-background border border-border/50">
                 <p className="text-sm font-medium text-muted-foreground mb-1">Local Experience</p>
-                <p className="text-lg font-bold text-foreground">35+ Years</p>
+                <p className="text-lg font-bold text-foreground">Since 1987</p>
               </div>
               <div className="p-4 rounded-lg bg-background border border-border/50 flex items-center gap-3">
                 <Award className="w-5 h-5 text-secondary" />
@@ -68,7 +68,9 @@ export function MeetLuke() {
               </div>
 
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Since founding Luke Nass Real Estate in 1990, I've dedicated 35 years to mastering the Perth Hills market. My commitment has remained unwavering: put our clients first, always. This approach has built lasting relationships across Roleystone, Kelmscott, and the surrounding suburbs.
+                Since founding Luke Nass Real Estate in 1987, I&apos;ve dedicated decades to mastering the Perth Hills market.
+                My commitment has remained unwavering: put our clients first, always. This approach has built lasting
+                relationships across Roleystone, Kelmscott, and the surrounding suburbs.
               </p>
 
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">

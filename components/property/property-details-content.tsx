@@ -30,7 +30,7 @@ export function PropertyDetailsContent({ propertyId }: PropertyDetailsContentPro
       '/family-home-armadale-perth.jpg',
       '/stunning-hillside-home-perth-views.jpg',
     ],
-    strategy: 'This exceptional Roleystone residence exemplifies the "Inner Circle advantage." The property combines elevated bushland positioning with modern architectural refinement, presenting a compelling acquisition for discerning buyers seeking lifestyle and capital appreciation. Our analysis indicates strong position relative to recent comparable sales, with off-market preview phase lending credibility to long-term value retention in the Perth Hills sector.',
+    strategy: 'This exceptional Roleystone residence combines elevated bushland positioning with modern architectural refinement, presenting a compelling acquisition for discerning buyers seeking lifestyle and capital appreciation. Our analysis indicates a strong position relative to recent comparable sales and supports long-term value retention in the Perth Hills sector.',
     floorplan: '/public/placeholder-floorplan.jpg',
     videoUrl: 'https://www.youtube.com/embed/dQw4w9WgXcQ',
   }

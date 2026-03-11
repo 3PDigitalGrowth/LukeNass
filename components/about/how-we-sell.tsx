@@ -19,15 +19,15 @@ export function HowWeSell() {
     },
     {
       number: '3',
-      title: 'The "Inner Circle" Launch',
-      description: 'Exclusive access to our private buyer database before public listing. Test the market with qualified buyers.',
+      title: 'Qualified Buyer Outreach',
+      description: 'Introduce the property to qualified buyers already in our database and gather early feedback.',
       isHighlight: true,
       badge: 'Our Unique Edge'
     },
     {
       number: '4',
       title: 'Public Market Launch',
-      description: 'Digital campaigns, portals, and maximum exposure once Inner Circle has vetted the property.',
+      description: 'Digital campaigns, portals, and maximum exposure once pricing and messaging are fully refined.',
       isHighlight: false
     },
     {
@@ -148,7 +148,8 @@ export function HowWeSell() {
           className="mt-16 p-6 rounded-xl bg-secondary/5 border border-secondary/20 text-center"
         >
           <p className="text-sm text-muted-foreground leading-relaxed">
-            <span className="font-semibold text-foreground">The Inner Circle difference:</span> By testing your property with our exclusive buyer database first, we identify the right market fit and often secure qualified offers before public competition emerges.
+            <span className="font-semibold text-foreground">Our difference:</span> We use early buyer feedback to refine pricing,
+            positioning, and campaign messaging before scaling your property to the full market.
           </p>
         </motion.div>
       </div>

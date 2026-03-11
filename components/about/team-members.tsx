@@ -11,7 +11,7 @@ export function TeamMembers() {
       title: 'Licensee & Principal',
       phone: '08 9495 2226',
       email: 'luke@lukenass.com.au',
-      bio: 'Living and selling in the Hills for over three decades. Luke specializes in distressed sales, high-end negotiation, and off-market transactions. A REIWA Award Achiever who guarantees personal integrity.',
+      bio: 'Part of a team with 65+ years combined experience in the Hills, Luke specializes in distressed sales, high-end negotiation, and tailored buyer-seller strategy. A REIWA Award Achiever who guarantees personal integrity.',
       image: '/luke-nass-portrait.png'
     },
     {
@@ -20,7 +20,7 @@ export function TeamMembers() {
       phone: '0419 600 504',
       email: 'andrew@lukenass.com.au',
       bio: 'Praised by clients for his ability to rescue failed campaigns. Andrew is known for securing buyers that match the property perfectly, often achieving prices above expectation through strategic negotiation.',
-      quote: 'Andrew delivered in weeks what others couldn\'t in months.',
+      quote: 'Andrew brought clarity, reassurance, and a steady hand throughout the campaign.',
       image: '/andrew-hill-portrait.png'
     },
     {

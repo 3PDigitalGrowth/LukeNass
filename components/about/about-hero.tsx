@@ -28,17 +28,17 @@ export function AboutHero() {
           className="max-w-2xl"
         >
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4 tracking-tighter">
-            Strategy Over Luck.<br />35 Years of Local Mastery.
+            Strategy Over Luck.<br />Established 1987.
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
-            Since 1990, we have been the definition of boutique real estate in Roleystone, Kelmscott, and the Perth Hills.
+            Since 1987, we have been the definition of boutique real estate in Roleystone, Kelmscott, and the Perth Hills.
           </p>
 
           {/* Stats Row */}
           <div className="grid grid-cols-3 gap-4 mb-10 py-6 border-y border-border/30">
             <div>
-              <p className="text-3xl font-serif font-bold text-secondary mb-1">35+</p>
-              <p className="text-sm text-muted-foreground">Years Local Experience</p>
+              <p className="text-3xl font-serif font-bold text-secondary mb-1">1987</p>
+              <p className="text-sm text-muted-foreground">Established</p>
             </div>
             <div>
               <p className="text-3xl font-serif font-bold text-secondary mb-1">98%</p>
@@ -62,7 +62,7 @@ export function AboutHero() {
 
           {/* Micro Trust Line */}
           <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground">
-            <span>📍 564 Brookton Highway, Roleystone</span>
+            <span>📍 Unit 1/8 Rundle St, Kelmscott WA 6111</span>
             <span>📞 08 9495 2226</span>
           </div>
         </motion.div>

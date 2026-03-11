@@ -20,7 +20,7 @@ export function SimilarResultsSlider() {
       address: '15 Valley Ridge Road',
       suburb: 'Roleystone',
       soldPrice: '$1.05M',
-      daysOnMarket: '7 days',
+      daysOnMarket: '9 days',
       image: '/property-42-interior-1.jpg'
     },
     {

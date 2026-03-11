@@ -9,44 +9,26 @@ const testimonials = [
   {
     id: 1,
     quote:
-      "Luke's strategic approach transformed our sale. He identified the perfect off-market buyer before we even listed, creating competition that drove our price well beyond expectations.",
+      "Luke's strategic approach transformed our sale. He kept the campaign focused, communicated clearly, and made us feel supported throughout the process.",
     name: "Sarah & Michael Thompson",
     location: "Roleystone, WA",
     image: "/professional-couple-in-their-50s-portrait.jpg",
-    stats: {
-      initialAppraisal: "$950,000",
-      finalSale: "$1,085,000",
-      strategy: "Off-Market Preview",
-      daysOnMarket: 12,
-    },
   },
   {
     id: 2,
     quote:
-      "After three failed campaigns with other agents, Luke's boutique approach delivered in weeks what others couldn't in months. His Inner Circle network found our buyer.",
+      "After difficult experiences with other agents, Luke's boutique approach gave us confidence again. He was calm, proactive, and deeply committed to helping us move forward.",
     name: "David Chen",
     location: "Kelmscott, WA",
     image: "/professional-asian-man-40s-portrait.jpg",
-    stats: {
-      initialAppraisal: "$780,000",
-      finalSale: "$865,000",
-      strategy: "Inner Circle Exclusive",
-      daysOnMarket: 18,
-    },
   },
   {
     id: 3,
     quote:
-      "We needed to upsize quickly in a competitive market. Luke's transition strategy meant we secured our dream home before our old house even hit the market.",
+      "We needed to upsize in a competitive market, and Luke guided us through every step with clarity and reassurance. His transition strategy made the whole experience feel manageable.",
     name: "Emma & James Wilson",
     location: "Seville Grove, WA",
     image: "/young-professional-couple-30s-portrait.jpg",
-    stats: {
-      initialAppraisal: "$620,000",
-      finalSale: "$695,000",
-      strategy: "Simultaneous Settlement",
-      daysOnMarket: 21,
-    },
   },
 ]
 
@@ -57,11 +39,6 @@ export function Testimonials() {
   const prev = () => setCurrentIndex((i) => (i - 1 + testimonials.length) % testimonials.length)
 
   const current = testimonials[currentIndex]
-
-  const initialValue = Number.parseInt(current.stats.initialAppraisal.replace(/[$,]/g, ""))
-  const finalValue = Number.parseInt(current.stats.finalSale.replace(/[$,]/g, ""))
-  const gain = finalValue - initialValue
-  const gainPercent = ((gain / initialValue) * 100).toFixed(1)
 
   return (
     <section className="py-20 lg:py-28 bg-card">
@@ -87,7 +64,7 @@ export function Testimonials() {
               animate={{ opacity: 1, y: 0 }}
               exit={{ opacity: 0, y: -20 }}
               transition={{ duration: 0.4, ease: [0.22, 1, 0.36, 1] }}
-              className="grid lg:grid-cols-2 gap-8 lg:gap-16 items-center"
+              className="max-w-3xl mx-auto"
             >
               <div className="relative">
                 {/* Editorial issue number in background */}
@@ -116,66 +93,6 @@ export function Testimonials() {
                     <div>
                       <p className="font-semibold text-foreground text-lg">{current.name}</p>
                       <p className="text-muted-foreground">{current.location}</p>
-                    </div>
-                  </div>
-                </div>
-              </div>
-
-              <div className="bg-background rounded-2xl p-8 lg:p-10 shadow-2xl">
-                <div className="text-center mb-6">
-                  <span className="text-xs uppercase tracking-[0.15em] text-muted-foreground font-medium">
-                    Results Breakdown
-                  </span>
-                  <h3 className="font-serif text-2xl text-foreground mt-2">The Numbers</h3>
-                </div>
-
-                <div className="space-y-6">
-                  {/* Initial vs Final comparison */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center p-4 bg-muted/30 rounded-xl">
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-1">
-                        Initial Appraisal
-                      </span>
-                      <span className="font-serif text-2xl lg:text-3xl text-foreground">
-                        {current.stats.initialAppraisal}
-                      </span>
-                    </div>
-                    <div className="text-center p-4 bg-primary/10 rounded-xl border border-primary/20">
-                      <span className="text-xs uppercase tracking-wider text-primary block mb-1">Final Sale</span>
-                      <span className="font-serif text-2xl lg:text-3xl text-primary font-semibold">
-                        {current.stats.finalSale}
-                      </span>
-                    </div>
-                  </div>
-
-                  {/* Gain highlight */}
-                  <div className="text-center py-4 border-y border-border">
-                    <span className="text-sm text-muted-foreground">Above Appraisal</span>
-                    <div className="flex items-center justify-center gap-2 mt-1">
-                      <span className="font-serif text-3xl lg:text-4xl text-secondary font-bold">
-                        +${gain.toLocaleString()}
-                      </span>
-                      <span className="text-secondary font-medium">({gainPercent}%)</span>
-                    </div>
-                  </div>
-
-                  {/* Strategy & Days on Market */}
-                  <div className="grid grid-cols-2 gap-4">
-                    <div className="text-center">
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-2">
-                        Strategy
-                      </span>
-                      <span className="inline-block px-4 py-2 bg-secondary/10 text-secondary rounded-full text-sm font-medium border border-secondary/20">
-                        {current.stats.strategy}
-                      </span>
-                    </div>
-                    <div className="text-center">
-                      <span className="text-xs uppercase tracking-wider text-muted-foreground block mb-2">
-                        Days on Market
-                      </span>
-                      <span className="font-serif text-3xl text-foreground font-semibold">
-                        {current.stats.daysOnMarket}
-                      </span>
                     </div>
                   </div>
                 </div>

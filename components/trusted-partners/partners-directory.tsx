@@ -23,7 +23,6 @@ const partnersData = {
   'Property Inspections': {
     icon: Home,
     partners: [
-      { company: 'Aztech Building Reports', contact: 'Richard Eaves', phone: '0415 888 281' },
       { company: 'Directional Services (Pest)', contact: 'Colin', phone: '0403 825 628' },
     ],
   },

@@ -5,26 +5,9 @@ import Image from "next/image"
 import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Clock } from "lucide-react"
 import { useEffect, useState } from "react"
 
-const theHills = [
-  { name: "Roleystone", href: "/areas/roleystone" },
-  { name: "Bedfordale", href: "/areas/bedfordale" },
-  { name: "Mount Nasura", href: "/areas/mount-nasura" },
-  { name: "Karragullen", href: "/areas/karragullen" },
-  { name: "Pickering Brook", href: "/areas/pickering-brook" },
-]
-
-const theValley = [
-  { name: "Kelmscott", href: "/areas/kelmscott" },
-  { name: "Armadale", href: "/areas/armadale" },
-  { name: "Seville Grove", href: "/areas/seville-grove" },
-  { name: "Camillo", href: "/areas/camillo" },
-  { name: "Champion Lakes", href: "/areas/champion-lakes" },
-]
-
 const quickLinks = [
   { href: "#selling", label: "Selling Your Property" },
   { href: "#buying", label: "Buying a Home" },
-  { href: "#inner-circle", label: "The Inner Circle" },
   { href: "#insights", label: "Market Insights" },
   { href: "#about", label: "About Luke" },
   { href: "#contact", label: "Contact Us" },
@@ -35,7 +18,7 @@ const seoLinks = [
   "Homes for Sale Kelmscott",
   "Property Valuation Armadale",
   "Sell My House Bedfordale",
-  "Off-Market Properties Perth Hills",
+  "Property Marketing Perth Hills",
   "Luxury Homes Mount Nasura",
   "First Home Buyer Seville Grove",
   "Investment Property Camillo",
@@ -54,11 +37,11 @@ export function Footer() {
       const day = perthTime.getDay()
       const hour = perthTime.getHours()
 
-      // Office hours: Mon-Fri 9am-5pm, Sat 9am-1pm, Sun closed
+      // Office hours: Mon-Fri 9am-5pm, Sat by appointment, Sun closed
       if (day >= 1 && day <= 5 && hour >= 9 && hour < 17) {
-        setOfficeStatus({ isOpen: true, message: "Open Today — Visit us in Roleystone" })
-      } else if (day === 6 && hour >= 9 && hour < 13) {
-        setOfficeStatus({ isOpen: true, message: "Open Today — Visit us in Roleystone" })
+        setOfficeStatus({ isOpen: true, message: "Open Today — Visit us in Kelmscott" })
+      } else if (day === 6) {
+        setOfficeStatus({ isOpen: false, message: "Saturday — By Appointment Only" })
       } else if (day === 0) {
         setOfficeStatus({ isOpen: false, message: "Closed Today — Opens Monday 9am" })
       } else if (hour < 9) {
@@ -77,9 +60,9 @@ export function Footer() {
     <footer className="bg-(--umber) text-(--umber-foreground)">
       {/* Main Footer Content */}
       <div className="container mx-auto px-4 lg:px-8 py-16">
-        <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-12 gap-12">
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,1.5fr)_minmax(220px,0.8fr)_minmax(260px,1fr)] gap-10 xl:gap-14 items-start">
           {/* Brand & Office Status */}
-          <div className="lg:col-span-4">
+          <div className="max-w-xl">
             <Image
               src="/images/logo.png"
               alt="Luke Nass Real Estate"
@@ -88,8 +71,8 @@ export function Footer() {
               className="h-12 w-auto mb-6 brightness-0 invert opacity-90"
             />
             <p className="text-(--umber-foreground)/80 text-sm leading-relaxed mb-6">
-              Your boutique real estate partner in Perth&apos;s SE Corridor. Two decades of local expertise, delivering
-              strategic results for discerning sellers and buyers.
+              Your boutique real estate partner in Perth&apos;s SE Corridor. Backed by 65+ years combined local expertise,
+              we deliver strategic results for discerning sellers and buyers.
             </p>
 
             <div className="bg-(--umber-foreground)/5 rounded-lg p-4 mb-6 border border-(--umber-foreground)/10">
@@ -121,42 +104,8 @@ export function Footer() {
             </div>
           </div>
 
-          <div className="lg:col-span-2">
-            <h4 className="font-serif text-lg text-(--umber-foreground) mb-5">The Hills</h4>
-            <ul className="space-y-3">
-              {theHills.map((suburb) => (
-                <li key={suburb.name}>
-                  <Link
-                    href={suburb.href}
-                    className="text-(--umber-foreground)/70 hover:text-(--umber-foreground) text-sm transition-colors inline-flex items-center gap-1.5 group"
-                  >
-                    <span className="w-1 h-1 rounded-full bg-primary/60 group-hover:bg-primary transition-colors" />
-                    {suburb.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
-          <div className="lg:col-span-2">
-            <h4 className="font-serif text-lg text-(--umber-foreground) mb-5">The Valley</h4>
-            <ul className="space-y-3">
-              {theValley.map((suburb) => (
-                <li key={suburb.name}>
-                  <Link
-                    href={suburb.href}
-                    className="text-(--umber-foreground)/70 hover:text-(--umber-foreground) text-sm transition-colors inline-flex items-center gap-1.5 group"
-                  >
-                    <span className="w-1 h-1 rounded-full bg-secondary/60 group-hover:bg-secondary transition-colors" />
-                    {suburb.name}
-                  </Link>
-                </li>
-              ))}
-            </ul>
-          </div>
-
           {/* Quick Links */}
-          <div className="lg:col-span-2">
+          <div>
             <h4 className="font-serif text-lg text-(--umber-foreground) mb-5">Explore</h4>
             <ul className="space-y-3">
               {quickLinks.map((link) => (
@@ -173,14 +122,14 @@ export function Footer() {
           </div>
 
           {/* Contact */}
-          <div className="lg:col-span-2">
+          <div>
             <h4 className="font-serif text-lg text-(--umber-foreground) mb-5">Contact</h4>
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Phone className="h-4 w-4 text-(--umber-foreground)/60 mt-0.5" />
                 <div>
                   <p className="text-(--umber-foreground) text-sm font-medium">0412 345 678</p>
-                  <p className="text-(--umber-foreground)/50 text-xs">Available 7 days</p>
+                  <p className="text-(--umber-foreground)/50 text-xs">Available by appointment</p>
                 </div>
               </li>
               <li className="flex items-start gap-3">
@@ -190,8 +139,8 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 text-(--umber-foreground)/60 mt-0.5" />
                 <div>
-                  <p className="text-(--umber-foreground) text-sm">Shop 2, Roleystone Village</p>
-                  <p className="text-(--umber-foreground)/50 text-xs">Perth SE Corridor, WA</p>
+                  <p className="text-(--umber-foreground) text-sm">Unit 1/8 Rundle St</p>
+                  <p className="text-(--umber-foreground)/50 text-xs">Kelmscott WA 6111</p>
                 </div>
               </li>
             </ul>

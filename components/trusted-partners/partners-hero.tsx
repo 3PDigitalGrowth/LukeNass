@@ -45,7 +45,8 @@ export function PartnersHero() {
             variants={itemVariants}
             className="text-xl text-muted-foreground max-w-2xl mx-auto leading-relaxed mb-12"
           >
-            We have spent 35 years vetting the best local trades and services in the Perth Hills. Here are the people we trust with our own homes.
+            Since 1987, we have vetted the best local trades and services in the Perth Hills. Here are the people we trust
+            with our own homes.
           </motion.p>
 
           {/* Transparency Note */}

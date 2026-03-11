@@ -74,7 +74,7 @@ export function BuyMatchingForm() {
                 Get Matched to Your Ideal Home
               </h2>
               <p className="text-lg text-muted-foreground">
-                Tell us what you're looking for and we'll match you to off-market and pre-market opportunities
+                Tell us what you&apos;re looking for and we&apos;ll send suitable listings, inspections, and buyer guidance
               </p>
             </div>
 
@@ -227,13 +227,14 @@ export function BuyMatchingForm() {
                       className="w-4 h-4 rounded accent-primary"
                     />
                     <span className="text-sm text-muted-foreground">
-                      <span className="font-semibold text-foreground">SMS alerts for new off-market listings</span> - High intent buyers get priority notifications
+                      <span className="font-semibold text-foreground">SMS alerts for relevant new listings</span> - Stay updated when
+                      suitable properties hit the market
                     </span>
                   </label>
                 </div>
 
                 <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-3 font-bold text-lg">
-                  Get Matched to Off-Market & Pre-Market Listings
+                  Get Matched to Suitable Listings
                 </Button>
 
                 <p className="text-xs text-muted-foreground text-center mt-4">

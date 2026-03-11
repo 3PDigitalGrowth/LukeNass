@@ -26,7 +26,9 @@ export function SoldContentSection() {
       <motion.div variants={item} className="p-8 rounded-2xl bg-secondary/5 border border-secondary/20">
         <h2 className="font-serif text-3xl font-bold text-foreground mb-4 tracking-tight">How We Did It</h2>
         <p className="text-lg text-muted-foreground leading-relaxed">
-          By utilizing our Inner Circle database, we secured 3 pre-market viewings before launching to REA, creating early competition. This strategy resulted in 5 written offers within 9 days and a final sale price of $1.185M—exactly in line with our initial positioning strategy.
+          By aligning pricing, presentation, and buyer targeting from the outset, we generated strong early momentum once the
+          campaign launched on REA. That strategy resulted in 5 written offers within 9 days and a final sale price of
+          $1.185M, exactly in line with our initial positioning strategy.
         </p>
       </motion.div>
 
