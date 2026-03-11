@@ -24,12 +24,6 @@ const steps = [
   },
   {
     number: '04',
-    title: 'Offer & Negotiation',
-    description: 'We handle the negotiation to secure the best terms for your purchase.',
-    details: ['Competitive analysis', 'Offer strategy', 'Vendor negotiation'],
-  },
-  {
-    number: '05',
     title: 'Settlement & Handover',
     description: 'Smooth transition with conveyancer coordination and final preparations.',
     details: ['Conveyancer coordination', 'Inspection support', 'Final walkthrough'],
@@ -71,7 +65,7 @@ export function BuyerJourney() {
             Your Buyer Journey
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl">
-            A streamlined 5-step process designed to get you into your ideal home with confidence and speed.
+            A streamlined 4-step process designed to help you move toward your ideal home with clarity and confidence.
           </p>
         </motion.div>
 
@@ -81,7 +75,7 @@ export function BuyerJourney() {
           initial="hidden"
           whileInView="show"
           viewport={{ once: true }}
-          className="grid md:grid-cols-2 lg:grid-cols-5 gap-6 mb-16"
+          className="grid md:grid-cols-2 xl:grid-cols-4 gap-6 mb-16"
         >
           {steps.map((step, idx) => (
             <motion.div key={idx} variants={itemVariants} className="relative">

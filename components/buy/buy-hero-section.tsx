@@ -2,10 +2,9 @@
 
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { ArrowRight, Phone, Mail } from 'lucide-react'
+import { Phone } from 'lucide-react'
 import Image from 'next/image'
-import { useState } from 'react'
+import { BuyMatchingForm } from './buyer-matching-form'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -28,8 +27,6 @@ const itemVariants = {
 }
 
 export function BuyHeroSection() {
-  const [showContactForm, setShowContactForm] = useState(false)
-
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden">
       {/* Background Image */}
@@ -47,13 +44,12 @@ export function BuyHeroSection() {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32 pb-16 flex-1 flex flex-col justify-center">
-        <div className="flex flex-col lg:flex-row gap-8 items-center">
-          <div className="flex-1" />
+        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] gap-10 lg:gap-12 items-start">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="flex-1 max-w-xl"
+            className="max-w-xl lg:pt-10"
           >
             <motion.div variants={itemVariants}>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight text-balance mb-6 tracking-tighter">
@@ -90,14 +86,6 @@ export function BuyHeroSection() {
             {/* CTA Buttons */}
             <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
               <Button
-                onClick={() => setShowContactForm(true)}
-                size="lg"
-                className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-8 font-medium gap-2"
-              >
-                Start Your Buyer Plan
-                <ArrowRight className="h-4 w-4" />
-              </Button>
-              <Button
                 variant="outline"
                 size="lg"
                 className="border-foreground/30 h-12 px-8 font-medium gap-2 bg-transparent"
@@ -126,75 +114,16 @@ export function BuyHeroSection() {
               </div>
             </motion.div>
           </motion.div>
-        </div>
 
-        {/* Contact Form Overlay */}
-        {showContactForm && (
           <motion.div
-            initial={{ opacity: 0 }}
-            animate={{ opacity: 1 }}
-            className="fixed inset-0 bg-black/50 z-50 flex items-center justify-center p-4"
-            onClick={() => setShowContactForm(false)}
+            initial={{ opacity: 0, scale: 0.96 }}
+            animate={{ opacity: 1, scale: 1 }}
+            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
+            className="w-full"
           >
-            <motion.div
-              initial={{ scale: 0.95, opacity: 0 }}
-              animate={{ scale: 1, opacity: 1 }}
-              className="bg-card rounded-2xl shadow-2xl p-8 max-w-md w-full"
-              onClick={(e) => e.stopPropagation()}
-            >
-              <h2 className="text-2xl font-serif font-semibold text-foreground mb-2 tracking-tighter">
-                Start Your Buyer Plan
-              </h2>
-              <p className="text-muted-foreground mb-6">
-                Tell us what you&apos;re looking for and we&apos;ll help you build a clear path to the right home.
-              </p>
-
-              <form className="space-y-4">
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Name</label>
-                  <Input
-                    type="text"
-                    placeholder="Your full name"
-                    className="h-10 bg-background/50 border-border/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Email</label>
-                  <Input
-                    type="email"
-                    placeholder="your@email.com"
-                    className="h-10 bg-background/50 border-border/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Phone</label>
-                  <Input
-                    type="tel"
-                    placeholder="(02) 9999 9999"
-                    className="h-10 bg-background/50 border-border/50"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">What are you looking for?</label>
-                  <textarea
-                    placeholder="e.g., 4-bed home in Roleystone, $1.2M budget..."
-                    className="w-full h-24 p-3 bg-background/50 border border-border/50 rounded-lg text-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary resize-none"
-                  />
-                </div>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 h-10 font-medium">
-                  Request Buyer Guidance
-                </Button>
-              </form>
-
-              <button
-                onClick={() => setShowContactForm(false)}
-                className="absolute top-4 right-4 text-muted-foreground hover:text-foreground"
-              >
-                ✕
-              </button>
-            </motion.div>
+            <BuyMatchingForm embedded />
           </motion.div>
-        )}
+        </div>
       </div>
     </section>
   )

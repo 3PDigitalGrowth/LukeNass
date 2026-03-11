@@ -7,7 +7,11 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, MapPin, Clock, Home } from 'lucide-react'
 
-export function BuyMatchingForm() {
+interface BuyMatchingFormProps {
+  embedded?: boolean
+}
+
+export function BuyMatchingForm({ embedded = false }: BuyMatchingFormProps) {
   const [submitted, setSubmitted] = useState(false)
   const [formData, setFormData] = useState({
     budget: [0, 1500000],
@@ -59,41 +63,52 @@ export function BuyMatchingForm() {
     })
   }
 
-  return (
-    <section className="py-16 bg-secondary/5 border-t border-border/30">
-      <div className="container mx-auto px-4 lg:px-8">
-        <motion.div
-          initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
-          transition={{ duration: 0.6 }}
-        >
-          <div className="max-w-4xl mx-auto">
-            <div className="mb-8">
-              <h2 className="text-3xl lg:text-4xl font-serif font-bold text-foreground mb-2 tracking-tighter">
-                Get Matched to Your Ideal Home
-              </h2>
-              <p className="text-lg text-muted-foreground">
-                Tell us what you&apos;re looking for and we&apos;ll send suitable listings, inspections, and buyer guidance
-              </p>
-            </div>
+  const formContent = (
+    <motion.div
+      initial={{ opacity: 0, y: 20 }}
+      whileInView={{ opacity: 1, y: 0 }}
+      viewport={{ once: true }}
+      transition={{ duration: 0.6 }}
+      className={embedded ? "w-full" : undefined}
+    >
+      <div className={embedded ? "w-full" : "max-w-4xl mx-auto"}>
+        {!embedded && (
+          <div className="mb-8">
+            <h2 className="text-3xl lg:text-4xl font-serif font-bold text-foreground mb-2 tracking-tighter">
+              Get Matched to Your Ideal Home
+            </h2>
+            <p className="text-lg text-muted-foreground">
+              Tell us what you&apos;re looking for and we&apos;ll send suitable listings, inspections, and buyer guidance
+            </p>
+          </div>
+        )}
 
-            {submitted ? (
-              <motion.div
-                initial={{ scale: 0.95, opacity: 0 }}
-                animate={{ scale: 1, opacity: 1 }}
-                className="p-8 bg-card rounded-xl border border-primary/30 text-center"
-              >
-                <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-4" />
-                <h3 className="text-2xl font-serif font-bold text-foreground mb-2 tracking-tight">
-                  Perfect! We've Got You Matched
-                </h3>
-                <p className="text-muted-foreground mb-4">
-                  Check your email and SMS for matching properties. We'll send updates as new opportunities align with your criteria.
+        {submitted ? (
+          <motion.div
+            initial={{ scale: 0.95, opacity: 0 }}
+            animate={{ scale: 1, opacity: 1 }}
+            className="p-8 bg-card rounded-xl border border-primary/30 text-center"
+          >
+            <CheckCircle2 className="w-12 h-12 text-primary mx-auto mb-4" />
+            <h3 className="text-2xl font-serif font-bold text-foreground mb-2 tracking-tight">
+              Perfect! We&apos;ve Got You Matched
+            </h3>
+            <p className="text-muted-foreground mb-4">
+              Check your email and SMS for matching properties. We&apos;ll send updates as new opportunities align with your criteria.
+            </p>
+          </motion.div>
+        ) : (
+          <form onSubmit={handleSubmit} className={`bg-card rounded-xl border border-border/50 shadow-lg ${embedded ? 'p-6 lg:p-8' : 'p-8'}`}>
+            {embedded && (
+              <div className="mb-8">
+                <h2 className="text-3xl font-serif font-bold text-foreground mb-2 tracking-tighter">
+                  Get Matched to Your Ideal Home
+                </h2>
+                <p className="text-base text-muted-foreground">
+                  Tell us what you&apos;re looking for and we&apos;ll send suitable listings, inspections, and buyer guidance
                 </p>
-              </motion.div>
-            ) : (
-              <form onSubmit={handleSubmit} className="bg-card p-8 rounded-xl border border-border/50 shadow-lg">
+              </div>
+            )}
                 <div className="grid md:grid-cols-2 gap-8 mb-8">
                   {/* Budget Range */}
                   <div>
@@ -240,10 +255,20 @@ export function BuyMatchingForm() {
                 <p className="text-xs text-muted-foreground text-center mt-4">
                   We never spam. Unsubscribe anytime.
                 </p>
-              </form>
-            )}
-          </div>
-        </motion.div>
+          </form>
+        )}
+      </div>
+    </motion.div>
+  )
+
+  if (embedded) {
+    return formContent
+  }
+
+  return (
+    <section className="py-16 bg-secondary/5 border-t border-border/30">
+      <div className="container mx-auto px-4 lg:px-8">
+        {formContent}
       </div>
     </section>
   )
