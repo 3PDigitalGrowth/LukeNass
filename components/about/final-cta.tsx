@@ -59,7 +59,7 @@ export function FinalCTA() {
               Looking to Buy?
             </h3>
             <p className="text-muted-foreground mb-6">
-              Get matched to upcoming homes that fit your criteria before they hit the market.
+              Buy with expert guidance, superior service, and a strategy designed to make your biggest purchase feel clear and stress free.
             </p>
             <Button asChild className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold py-6">
               <Link href="/buy">Get Matched to Homes</Link>
