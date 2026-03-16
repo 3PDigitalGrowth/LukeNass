@@ -115,7 +115,7 @@ export function BuyHeroSection() {
             </motion.div>
 
             <motion.div variants={itemVariants} className="hidden lg:block mt-10 max-w-2xl">
-              <BuyMatchingForm embedded />
+              <BuyMatchingForm embedded showIntro={false} />
             </motion.div>
           </motion.div>
         </div>

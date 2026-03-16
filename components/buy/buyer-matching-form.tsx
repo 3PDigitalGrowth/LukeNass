@@ -9,9 +9,10 @@ import { CheckCircle2, MapPin, Clock, Home } from 'lucide-react'
 
 interface BuyMatchingFormProps {
   embedded?: boolean
+  showIntro?: boolean
 }
 
-export function BuyMatchingForm({ embedded = false }: BuyMatchingFormProps) {
+export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatchingFormProps) {
   const [submitted, setSubmitted] = useState(false)
   const [formData, setFormData] = useState({
     budget: [0, 1500000],
@@ -72,7 +73,7 @@ export function BuyMatchingForm({ embedded = false }: BuyMatchingFormProps) {
       className={embedded ? "w-full" : undefined}
     >
       <div className={embedded ? "w-full" : "max-w-4xl mx-auto"}>
-        {!embedded && (
+        {!embedded && showIntro && (
           <div className="mb-8">
             <h2 className="text-3xl lg:text-4xl font-serif font-bold text-foreground mb-2 tracking-tighter">
               Get Matched to Your Ideal Home
@@ -99,7 +100,7 @@ export function BuyMatchingForm({ embedded = false }: BuyMatchingFormProps) {
           </motion.div>
         ) : (
           <form onSubmit={handleSubmit} className={`bg-card rounded-xl border border-border/50 shadow-lg ${embedded ? 'p-6 lg:p-8' : 'p-8'}`}>
-            {embedded && (
+            {embedded && showIntro && (
               <div className="mb-8">
                 <h2 className="text-3xl font-serif font-bold text-foreground mb-2 tracking-tighter">
                   Get Matched to Your Ideal Home
