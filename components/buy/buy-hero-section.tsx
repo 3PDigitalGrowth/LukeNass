@@ -44,12 +44,12 @@ export function BuyHeroSection() {
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32 pb-16 flex-1 flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] gap-10 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 items-start">
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="max-w-xl lg:pt-10"
+            className="max-w-xl lg:max-w-2xl lg:pt-10"
           >
             <motion.div variants={itemVariants}>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight text-balance mb-6 tracking-tighter">
@@ -113,15 +113,10 @@ export function BuyHeroSection() {
                 <div>Total Sales Value</div>
               </div>
             </motion.div>
-          </motion.div>
 
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="w-full"
-          >
-            <BuyMatchingForm embedded />
+            <motion.div variants={itemVariants} className="hidden lg:block mt-10 max-w-2xl">
+              <BuyMatchingForm embedded />
+            </motion.div>
           </motion.div>
         </div>
       </div>
