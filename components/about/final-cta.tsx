@@ -1,5 +1,6 @@
 'use client'
 
+import Link from 'next/link'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import { CheckCircle2 } from 'lucide-react'
@@ -39,8 +40,8 @@ export function FinalCTA() {
             <p className="text-muted-foreground mb-6">
               Get a comprehensive appraisal and marketing campaign plan tailored to your home.
             </p>
-            <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-6">
-              Get Your Appraisal
+            <Button asChild className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-6">
+              <Link href="/sell">Get Your Appraisal</Link>
             </Button>
           </motion.div>
 
@@ -60,8 +61,8 @@ export function FinalCTA() {
             <p className="text-muted-foreground mb-6">
               Get matched to upcoming homes that fit your criteria before they hit the market.
             </p>
-            <Button className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold py-6">
-              Get Matched to Homes
+            <Button asChild className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold py-6">
+              <Link href="/buy">Get Matched to Homes</Link>
             </Button>
           </motion.div>
         </div>

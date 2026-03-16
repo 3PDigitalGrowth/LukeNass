@@ -2,7 +2,7 @@
 
 import Link from "next/link"
 import Image from "next/image"
-import { Facebook, Instagram, Linkedin, Mail, Phone, MapPin, Clock } from "lucide-react"
+import { Linkedin, Mail, Phone, MapPin, Clock } from "lucide-react"
 import { useEffect, useState } from "react"
 
 const quickLinks = [
@@ -22,6 +22,14 @@ const seoLinks = [
   "Luxury Homes Mount Nasura",
   "First Home Buyer Seville Grove",
   "Investment Property Camillo",
+]
+
+const socialLinks = [
+  {
+    href: "https://au.linkedin.com/company/luke-nass-real-estate",
+    label: "LinkedIn",
+    icon: Linkedin,
+  },
 ]
 
 export function Footer() {
@@ -92,15 +100,22 @@ export function Footer() {
 
             {/* Social Links */}
             <div className="flex gap-4">
-              <Link href="#" className="text-(--umber-foreground)/60 hover:text-(--umber-foreground) transition-colors">
-                <Facebook className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-(--umber-foreground)/60 hover:text-(--umber-foreground) transition-colors">
-                <Instagram className="h-5 w-5" />
-              </Link>
-              <Link href="#" className="text-(--umber-foreground)/60 hover:text-(--umber-foreground) transition-colors">
-                <Linkedin className="h-5 w-5" />
-              </Link>
+              {socialLinks.map((social) => {
+                const Icon = social.icon
+
+                return (
+                  <a
+                    key={social.label}
+                    href={social.href}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    aria-label={`Visit Luke Nass Real Estate on ${social.label}`}
+                    className="text-(--umber-foreground)/60 hover:text-(--umber-foreground) transition-colors"
+                  >
+                    <Icon className="h-5 w-5" />
+                  </a>
+                )
+              })}
             </div>
           </div>
 

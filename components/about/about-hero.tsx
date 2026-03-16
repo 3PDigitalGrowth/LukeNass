@@ -35,14 +35,10 @@ export function AboutHero() {
           </p>
 
           {/* Stats Row */}
-          <div className="grid grid-cols-3 gap-4 mb-10 py-6 border-y border-border/30">
+          <div className="grid grid-cols-2 gap-4 mb-10 py-6 border-y border-border/30 max-w-md">
             <div>
               <p className="text-3xl font-serif font-bold text-secondary mb-1">1987</p>
               <p className="text-sm text-muted-foreground">Established</p>
-            </div>
-            <div>
-              <p className="text-3xl font-serif font-bold text-secondary mb-1">98%</p>
-              <p className="text-sm text-muted-foreground">List-to-Sell Ratio</p>
             </div>
             <div>
               <p className="text-3xl font-serif font-bold text-secondary mb-1">REIWA</p>
