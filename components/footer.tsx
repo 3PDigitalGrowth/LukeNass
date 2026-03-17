@@ -76,7 +76,7 @@ export function Footer() {
               alt="Luke Nass Real Estate"
               width={180}
               height={50}
-              className="h-12 w-auto mb-6 brightness-0 invert opacity-90"
+              className="h-12 w-auto mb-6"
             />
             <p className="text-(--umber-foreground)/80 text-sm leading-relaxed mb-6">
               Your boutique real estate partner in Perth&apos;s SE Corridor. Backed by 65+ years combined local expertise,
