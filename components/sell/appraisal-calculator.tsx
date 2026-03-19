@@ -23,19 +23,21 @@ interface AppraisalCalculatorProps {
   embedded?: boolean
 }
 
+const APPRAISAL_RECIPIENTS = ['luke@lukenass.com.au', 'andrew@lukenass.com.au']
+
 export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorProps) {
   const [step, setStep] = useState<Step>('address')
   const [formData, setFormData] = useState<FormData>({
     address: '',
-    suburb: 'Roleystone',
-    bedrooms: '3',
-    condition: 'good',
-    renovations: 'none',
+    suburb: '',
+    bedrooms: '',
+    condition: '',
+    renovations: '',
     name: '',
     email: '',
     phone: '',
   })
-  const [estimatedValue, setEstimatedValue] = useState<number | null>(null)
+  const [requestPrepared, setRequestPrepared] = useState(false)
 
   const suburbs = [
     'Roleystone',
@@ -44,6 +46,8 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
     'Seville Grove',
     'Bedfordale',
     'Mount Nasura',
+    'Maddington',
+    'Gosnells',
   ]
 
   const handleNext = () => {
@@ -52,18 +56,29 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
     } else if (step === 'condition') {
       setStep('contact')
     } else if (step === 'contact') {
-      const baseValue = 600000
-      const bedroomMultiplier = parseInt(formData.bedrooms) * 50000
-      const conditionMultiplier =
-        formData.condition === 'excellent'
-          ? 1.15
-          : formData.condition === 'good'
-            ? 1.0
-            : 0.85
-      const calculated = Math.round(
-        (baseValue + bedroomMultiplier) * conditionMultiplier
+      const subject = encodeURIComponent(
+        `Appraisal Request: ${formData.address || 'Property in ' + formData.suburb}`
       )
-      setEstimatedValue(calculated)
+      const body = encodeURIComponent(
+        [
+          'Hi Luke and Andy,',
+          '',
+          'I would like to request a property appraisal.',
+          '',
+          `Street Address: ${formData.address}`,
+          `Suburb: ${formData.suburb}`,
+          `Bedrooms: ${formData.bedrooms}`,
+          `Condition: ${formData.condition}`,
+          `Recent Renovations: ${formData.renovations}`,
+          '',
+          `Name: ${formData.name}`,
+          `Email: ${formData.email}`,
+          `Phone: ${formData.phone || 'Not provided'}`,
+        ].join('\n')
+      )
+
+      window.location.href = `mailto:${APPRAISAL_RECIPIENTS.join(',')}?subject=${subject}&body=${body}`
+      setRequestPrepared(true)
     }
   }
 
@@ -84,15 +99,15 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
       transition={{ duration: 0.6 }}
       viewport={{ once: true }}
       className={embedded ? 'w-full' : 'max-w-3xl mx-auto'}
+      id={embedded ? 'sell-appraisal-form' : undefined}
     >
       {!embedded && (
         <>
           <h2 className="text-4xl lg:text-5xl font-serif tracking-tighter mb-4 text-foreground">
-            Your Property Appraisal
+            Request Your Property Appraisal
           </h2>
           <p className="text-lg text-foreground/60 mb-12">
-            Answer a few quick questions to receive your personalized market
-            appraisal
+            Share a few details and Luke or Andy will follow up personally with tailored appraisal guidance.
           </p>
         </>
       )}
@@ -130,9 +145,9 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
       <div className={`bg-card rounded-2xl border border-border/50 shadow-lg ${embedded ? 'p-6 lg:p-8' : 'p-8 lg:p-12'}`}>
         {embedded && (
           <div className="mb-8">
-            <p className="text-sm uppercase tracking-[0.18em] text-muted-foreground font-medium mb-3">Instant Appraisal</p>
+            <p className="text-sm uppercase tracking-[0.18em] text-muted-foreground font-medium mb-3">Appraisal Request</p>
             <h2 className="text-3xl lg:text-4xl font-serif tracking-tight text-foreground mb-3">Your Property Appraisal</h2>
-            <p className="text-foreground/60">Answer a few quick questions to receive your personalized market appraisal.</p>
+            <p className="text-foreground/60">Enter your property details and Luke or Andy will follow up personally by email.</p>
           </div>
         )}
 
@@ -177,6 +192,7 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-background border border-border/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                   >
+                    <option value="">Select suburb</option>
                     {suburbs.map((s) => (
                       <option key={s} value={s}>
                         {s}
@@ -195,6 +211,7 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
                     onChange={handleInputChange}
                     className="w-full px-4 py-3 bg-background border border-border/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                   >
+                    <option value="">Select bedrooms</option>
                     {[1, 2, 3, 4, 5, 6].map((b) => (
                       <option key={b} value={b}>
                         {b} Bedroom{b > 1 ? 's' : ''}
@@ -334,7 +351,7 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
             </motion.div>
           )}
 
-          {estimatedValue && (
+          {requestPrepared && (
             <motion.div
               key="result"
               initial={{ opacity: 0, y: 20 }}
@@ -344,33 +361,29 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
               className="text-center"
             >
               <h3 className="text-2xl font-serif tracking-tight mb-4">
-                Your 2026 Appraisal
+                Your Appraisal Request Is Ready
               </h3>
               <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl p-8 mb-8">
-                <p className="text-muted-foreground mb-2">
-                  Estimated Value
+                <p className="text-foreground/70 text-lg">
+                  We&apos;ve prepared an email draft with your property details for Luke and Andy.
                 </p>
-                <p className="text-5xl lg:text-6xl font-serif tracking-tighter text-primary">
-                  ${estimatedValue.toLocaleString()}
-                </p>
-                <p className="text-foreground/60 mt-4 text-lg">
-                  Based on your property details and current market data
+                <p className="text-foreground/60 mt-4">
+                  Send the email and one of them will follow up personally with tailored advice on your next move.
                 </p>
               </div>
               <p className="text-foreground/70 mb-8">
-                Ready to discuss your selling strategy? Schedule a free
-                consultation with our team.
+                Prefer to talk now? Call the office and ask for Luke or Andy.
               </p>
               <button
                 onClick={() => {
                   setStep('address')
-                  setEstimatedValue(null)
+                  setRequestPrepared(false)
                   setFormData({
                     address: '',
-                    suburb: 'Roleystone',
-                    bedrooms: '3',
-                    condition: 'good',
-                    renovations: 'none',
+                    suburb: '',
+                    bedrooms: '',
+                    condition: '',
+                    renovations: '',
                     name: '',
                     email: '',
                     phone: '',
@@ -384,7 +397,7 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
           )}
         </AnimatePresence>
 
-        {!estimatedValue && (
+        {!requestPrepared && (
           <div className="flex gap-4 mt-8 pt-8 border-t border-border/50">
             {step !== 'address' && (
               <button
@@ -400,12 +413,13 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
             <button
               onClick={handleNext}
               disabled={
-                (step === 'address' && !formData.address) ||
+                (step === 'address' && (!formData.address || !formData.suburb || !formData.bedrooms)) ||
+                (step === 'condition' && (!formData.condition || !formData.renovations)) ||
                 (step === 'contact' && (!formData.name || !formData.email))
               }
               className="ml-auto px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 disabled:opacity-50 disabled:cursor-not-allowed transition-all duration-300 flex items-center gap-2"
             >
-              {step === 'contact' ? 'Get Appraisal' : 'Continue'}
+              {step === 'contact' ? 'Email Request' : 'Continue'}
               <ChevronRight className="h-4 w-4" />
             </button>
           </div>

@@ -48,7 +48,7 @@ export function WhyChooseUs() {
             Why Choose Us
           </h2>
           <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-            Serving the Perth Hills locally since 1987
+            Local Perth Hills experience since 1987
           </p>
         </motion.div>
 

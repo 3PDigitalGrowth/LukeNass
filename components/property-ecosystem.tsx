@@ -5,7 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
-import { Eye, ArrowRight } from "lucide-react"
+import { ArrowRight, CheckCircle2, MessageSquareText, Phone } from "lucide-react"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -27,207 +27,214 @@ const itemVariants = {
   },
 }
 
-const tabs = ["Coming Soon", "Live Listings", "Historical Success"]
+const tabs = ["Live Listings", "Historical Success"] as const
+type PortfolioTab = (typeof tabs)[number]
+
+type HistoricalProperty = {
+  id: number
+  image: string
+  title: string
+  location: string
+  price: string
+  badge: string
+  beds: number
+  baths: number
+  thirdStat?: string
+}
 
 const properties = {
-  "Coming Soon": [
-    {
-      id: 1,
-      image: "/luxury-home-roleystone-bushland-views.jpg",
-      title: "Bushland Sanctuary",
-      location: "Roleystone",
-      price: "Price on Application",
-      badge: "Coming Soon",
-      beds: 5,
-      baths: 3,
-      area: "4,200m²",
-    },
-    {
-      id: 2,
-      image: "/modern-contemporary-home-kelmscott-hills.jpg",
-      title: "Contemporary Elegance",
-      location: "Kelmscott",
-      price: "$985,000 - $1.05M",
-      badge: "Coming Soon",
-      beds: 4,
-      baths: 2,
-      area: "890m²",
-    },
-    {
-      id: 3,
-      image: "/family-home-armadale-perth.jpg",
-      title: "Family Haven",
-      location: "Armadale",
-      price: "$750,000+",
-      badge: "Upcoming",
-      beds: 4,
-      baths: 2,
-      area: "720m²",
-    },
-  ],
-  "Live Listings": [
-    {
-      id: 4,
-      image: "/stunning-hillside-home-perth-views.jpg",
-      title: "Hillside Retreat",
-      location: "Roleystone",
-      price: "$1,150,000",
-      badge: "New",
-      beds: 4,
-      baths: 3,
-      area: "2,100m²",
-    },
-    {
-      id: 5,
-      image: "/modern-family-home-swimming-pool.jpg",
-      title: "Pool Paradise",
-      location: "Kelmscott",
-      price: "$895,000",
-      badge: "Open Sat",
-      beds: 4,
-      baths: 2,
-      area: "650m²",
-    },
-    {
-      id: 6,
-      image: "/charming-cottage-home-garden.jpg",
-      title: "Character Charm",
-      location: "Seville Grove",
-      price: "$680,000",
-      badge: "Under Offer",
-      beds: 3,
-      baths: 2,
-      area: "550m²",
-    },
-  ],
+  "Live Listings": [],
   "Historical Success": [
     {
       id: 7,
-      image: "/luxury-estate-property-sold.jpg",
-      title: "Record Sale",
-      location: "Roleystone",
-      price: "Sold $1.45M",
-      badge: "Record",
-      beds: 5,
-      baths: 4,
-      area: "5,000m²",
+      image: "/11-george-street-kelmscott-sold.png",
+      title: "11 George Street",
+      location: "Kelmscott WA 6111",
+      price: "SOLD",
+      badge: "Sold",
+      beds: 3,
+      baths: 1,
+      thirdStat: "1 Car",
     },
     {
       id: 8,
-      image: "/beautiful-home-sold-success.jpg",
-      title: "Above Asking",
-      location: "Kelmscott",
-      price: "Sold $920,000",
-      badge: "+8% Above",
+      image: "/21-savage-road-kelmscott-sold.png",
+      title: "21 Savage Road",
+      location: "Kelmscott WA 6111",
+      price: "SOLD",
+      badge: "Sold",
       beds: 4,
       baths: 2,
-      area: "800m²",
+      thirdStat: "2 Car",
     },
     {
       id: 9,
-      image: "/quick-sale-property-real-estate.jpg",
-      title: "7 Day Sale",
-      location: "Armadale",
-      price: "Sold $785,000",
-      badge: "Fast Sale",
-      beds: 4,
-      baths: 2,
-      area: "680m²",
+      image: "/16-spencer-road-kelmscott-sold.png",
+      title: "16 Spencer Road",
+      location: "Kelmscott WA 6111",
+      price: "SOLD",
+      badge: "Sold",
+      beds: 3,
+      baths: 1,
     },
   ],
-}
+} satisfies Record<PortfolioTab, HistoricalProperty[]>
 
 export function PropertyEcosystem() {
-  const [activeTab, setActiveTab] = useState(tabs[0])
+  const [activeTab, setActiveTab] = useState<PortfolioTab>(tabs[0])
+  const activeProperties = properties[activeTab]
 
   return (
     <section className="py-20 lg:py-28 bg-muted/30" id="buying">
-      <div className="container mx-auto px-4 lg:px-8">
+      <div className="container mx-auto px-4 lg:px-8 max-w-7xl">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
           whileInView={{ opacity: 1, y: 0 }}
           viewport={{ once: true }}
-          className="text-center mb-12"
+          className="text-center mb-10 lg:mb-12"
         >
+          <Badge className="mb-4 bg-primary/10 text-primary border-primary/20 hover:bg-primary/10">
+            Curated Portfolio
+          </Badge>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-4 tracking-tighter">
             The Property Portfolio
           </h2>
-          <p className="text-muted-foreground text-lg max-w-2xl mx-auto">
-            Explore upcoming listings, current homes for sale, and standout past results
+          <p className="text-muted-foreground text-lg max-w-3xl mx-auto leading-relaxed">
+            Explore current market activity and standout past results across Perth&apos;s southeast corridor.
           </p>
         </motion.div>
 
         {/* Tabs */}
-        <div className="flex flex-wrap justify-center gap-2 mb-12">
-          {tabs.map((tab) => (
-            <button
-              key={tab}
-              onClick={() => setActiveTab(tab)}
-              className={`px-6 py-3 rounded-full text-sm font-medium transition-all ${
-                activeTab === tab
-                  ? "bg-primary text-primary-foreground shadow-lg"
-                  : "bg-card text-muted-foreground hover:bg-muted border-0 shadow-md"
-              }`}
-            >
-              {tab}
-            </button>
-          ))}
+        <div className="flex justify-center mb-10 lg:mb-12">
+          <div className="inline-flex flex-wrap justify-center gap-2 rounded-full border border-border/60 bg-card/80 p-2 shadow-sm backdrop-blur-sm">
+            {tabs.map((tab) => (
+              <button
+                key={tab}
+                onClick={() => setActiveTab(tab)}
+                aria-pressed={activeTab === tab}
+                className={`rounded-full px-5 py-2.5 text-sm font-medium transition-all duration-300 ${
+                  activeTab === tab
+                    ? "bg-primary text-primary-foreground shadow-md"
+                    : "text-muted-foreground hover:bg-muted hover:text-foreground"
+                }`}
+              >
+                {tab}
+              </button>
+            ))}
+          </div>
         </div>
 
         {/* Property Grid */}
         <AnimatePresence mode="wait">
-          <motion.div
-            key={activeTab}
-            variants={containerVariants}
-            initial="hidden"
-            animate="visible"
-            exit={{ opacity: 0, y: -20 }}
-            className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-          >
-            {properties[activeTab as keyof typeof properties].map((property) => (
-              <motion.div key={property.id} variants={itemVariants}>
-                <Card className="group overflow-hidden border-0 shadow-lg hover:shadow-2xl transition-all duration-500">
-                  <div className="relative aspect-[4/3] overflow-hidden">
-                    <img
-                      src={property.image || "/placeholder.svg"}
-                      alt={property.title}
-                      className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                    />
-                    <Badge className="absolute top-4 left-4 bg-secondary text-secondary-foreground">
-                      {property.badge}
-                    </Badge>
-                    <div className="absolute inset-0 bg-gradient-to-t from-black/60 via-transparent to-transparent opacity-0 group-hover:opacity-100 transition-opacity" />
-                    <Button
-                      size="sm"
-                      variant="secondary"
-                      className="absolute bottom-4 right-4 opacity-0 group-hover:opacity-100 transition-opacity"
-                    >
-                      <Eye className="h-4 w-4 mr-2" />
-                      Quick View
+          {activeTab === "Live Listings" && activeProperties.length === 0 ? (
+            <motion.div
+              key={activeTab}
+              initial={{ opacity: 0, y: 20 }}
+              animate={{ opacity: 1, y: 0 }}
+              exit={{ opacity: 0, y: -20 }}
+              className="max-w-4xl mx-auto"
+            >
+              <Card className="overflow-hidden border border-border/50 bg-gradient-to-br from-card via-card to-primary/5 shadow-xl">
+                <CardContent className="p-8 lg:p-12 text-center">
+                  <div className="inline-flex items-center rounded-full border border-primary/15 bg-primary/8 px-4 py-1.5 text-sm font-medium text-primary mb-6">
+                    Live Listings
+                  </div>
+                  <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 shadow-sm">
+                    <MessageSquareText className="h-8 w-8 text-primary" />
+                  </div>
+                  <h3 className="font-serif text-2xl lg:text-4xl font-semibold text-foreground mb-4 tracking-tight">
+                    Nothing is currently featured under Live Listings
+                  </h3>
+                  <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-8">
+                    If you&apos;re thinking of selling, request a confidential chat with our team. We&apos;re uniquely positioned to
+                    develop a tailored sales and marketing strategy designed to attract the best possible price for your home.
+                  </p>
+                  <div className="grid gap-3 text-sm text-muted-foreground max-w-2xl mx-auto mb-8 lg:grid-cols-3">
+                    <div className="rounded-xl border border-border/50 bg-background/70 px-4 py-3">Tailored pricing strategy</div>
+                    <div className="rounded-xl border border-border/50 bg-background/70 px-4 py-3">Premium campaign planning</div>
+                    <div className="rounded-xl border border-border/50 bg-background/70 px-4 py-3">Negotiation built for results</div>
+                  </div>
+                  <div className="flex flex-col sm:flex-row justify-center gap-4">
+                    <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                      <a href="/sell#sell-appraisal-form">
+                        Request a Confidential Chat
+                        <ArrowRight className="ml-2 h-4 w-4" />
+                      </a>
+                    </Button>
+                    <Button asChild size="lg" variant="outline" className="bg-transparent border-primary text-primary hover:bg-primary/5">
+                      <a href="tel:0894952226">
+                        <Phone className="h-4 w-4 mr-2" />
+                        Call Us
+                      </a>
                     </Button>
                   </div>
-                  <CardContent className="p-5">
-                    <div className="flex justify-between items-start mb-2">
-                      <div>
-                        <h3 className="font-semibold text-lg text-card-foreground">{property.title}</h3>
-                        <p className="text-muted-foreground text-sm">{property.location}</p>
+                </CardContent>
+              </Card>
+            </motion.div>
+          ) : (
+            <motion.div
+              key={activeTab}
+              variants={containerVariants}
+              initial="hidden"
+              animate="visible"
+              exit={{ opacity: 0, y: -20 }}
+              className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8"
+            >
+              {activeProperties.map((property) => (
+                <motion.div key={property.id} variants={itemVariants}>
+                  <Card className="group h-full overflow-hidden border border-border/40 bg-card shadow-md hover:-translate-y-1 hover:shadow-2xl transition-all duration-500">
+                    <div className="relative aspect-[4/3] overflow-hidden">
+                      <img
+                        src={property.image || "/placeholder.svg"}
+                        alt={property.title}
+                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+                      />
+                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+                      <Badge className="absolute top-4 left-4 bg-card/90 text-foreground border border-white/20 backdrop-blur-sm shadow-sm">
+                        {property.badge}
+                      </Badge>
+                      <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
+                        <div>
+                          <p className="text-xs uppercase tracking-[0.2em] text-white/75 mb-1">Historical Success</p>
+                          <h3 className="font-serif text-2xl text-white leading-tight">{property.title}</h3>
+                        </div>
+                        <div className="hidden sm:flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm">
+                          <CheckCircle2 className="h-5 w-5" />
+                        </div>
                       </div>
-                      <p className="font-serif font-semibold text-primary">{property.price}</p>
                     </div>
-                    <div className="flex items-center gap-4 text-sm text-muted-foreground mt-4 pt-4 border-t border-border">
-                      <span>{property.beds} Beds</span>
-                      <span>{property.baths} Baths</span>
-                      <span>{property.area}</span>
-                    </div>
-                    <Button variant="ghost" className="w-full mt-4 group/btn">
-                      View Strategy
-                      <ArrowRight className="ml-2 h-4 w-4 group-hover/btn:translate-x-1 transition-transform" />
-                    </Button>
-                  </CardContent>
-                </Card>
-              </motion.div>
-            ))}
-          </motion.div>
+                    <CardContent className="p-6 flex flex-col">
+                      <div className="flex items-start justify-between gap-4 mb-5">
+                        <div>
+                          <p className="text-sm text-muted-foreground mb-1">{property.location}</p>
+                          <p className="font-serif text-xl font-semibold text-primary">{property.price}</p>
+                        </div>
+                        <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary">
+                          Sold Result
+                        </Badge>
+                      </div>
+                      <div className={`grid gap-3 pt-5 border-t border-border/60 ${property.thirdStat ? "grid-cols-3" : "grid-cols-2"}`}>
+                        <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
+                          <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Beds</div>
+                          <div className="font-semibold text-foreground">{property.beds}</div>
+                        </div>
+                        <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
+                          <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Baths</div>
+                          <div className="font-semibold text-foreground">{property.baths}</div>
+                        </div>
+                        {property.thirdStat && (
+                          <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
+                            <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Parking</div>
+                            <div className="font-semibold text-foreground">{property.thirdStat.replace(" Car", "")}</div>
+                          </div>
+                        )}
+                      </div>
+                    </CardContent>
+                  </Card>
+                </motion.div>
+              ))}
+            </motion.div>
+          )}
         </AnimatePresence>
       </div>
     </section>

@@ -5,41 +5,43 @@ import { motion } from 'framer-motion'
 import { Phone, Globe, FileText, Zap, Home, Briefcase, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
+const OFFICE_PHONE = '08 9495 2226'
+
 const partnersData = {
   'Settlement & Legal': {
     icon: FileText,
     partners: [
-      { company: 'Jarrah Settlements', contact: 'Adam', phone: '9397 5600', website: 'https://www.jarrahsettlements.com.au/' },
-      { company: 'Roleystone Settlements', contact: 'Karen or Tania', phone: '9496 1662', website: 'https://rksettlements.com.au/' },
+      { company: 'Jarrah Settlements', contact: 'Adam', phone: OFFICE_PHONE, website: 'https://www.jarrahsettlements.com.au/' },
+      { company: 'Roleystone Settlements', contact: 'Karen or Tania', phone: OFFICE_PHONE, website: 'https://rksettlements.com.au/' },
     ],
   },
   'Finance': {
     icon: Briefcase,
     partners: [
-      { company: 'Westate Finance', contact: 'Bruce Campbell', phone: '0419 945 228', website: 'https://www.coniannello.com.au/' },
-      { company: 'Everfirst Financial', contact: 'Richard Siegers', phone: '0447 300 519', website: 'https://www.everfirst.net.au/' },
+      { company: 'Westate Finance', contact: 'Bruce Campbell', phone: OFFICE_PHONE, website: 'https://www.coniannello.com.au/' },
+      { company: 'Everfirst Financial', contact: 'Richard Siegers', phone: OFFICE_PHONE, website: 'https://www.everfirst.net.au/' },
     ],
   },
   'Property Inspections': {
     icon: Home,
     partners: [
-      { company: 'Directional Services (Pest)', contact: 'Colin', phone: '0403 825 628' },
+      { company: 'Directional Services (Pest)', contact: 'Colin', phone: OFFICE_PHONE },
+      { company: 'Asset Wise Building Inspections', contact: 'Asset Wise Team', phone: OFFICE_PHONE, website: 'https://assetwisebuilding.au/' },
     ],
   },
   'Trades & Maintenance': {
     icon: Zap,
     partners: [
-      { company: 'Always Electrical', contact: 'Ron', phone: '0417 179 468', website: 'https://alwayselectrical.com.au/' },
-      { company: 'GSS Security', contact: 'Gordon', phone: '0419 927 119', website: 'https://www.gssgroup.au/gss-security/' },
-      { company: 'Sue Coe Photography', contact: 'Sue Coe', phone: '0438 137 728', website: 'https://www.susancoephotography.com/' },
+      { company: 'Always Electrical', contact: 'Ron', phone: OFFICE_PHONE, website: 'https://alwayselectrical.com.au/' },
+      { company: 'GSS Security', contact: 'Gordon', phone: OFFICE_PHONE, website: 'https://www.gssgroup.au/gss-security/' },
     ],
   },
   'Council & Planning': {
     icon: CheckCircle2,
     partners: [
-      { company: 'Dykstra Planning', contact: 'Henry', phone: '9495 1947', website: 'https://www.harleydykstra.com.au/' },
-      { company: 'City of Armadale', contact: 'Inquiry', phone: '9394 5000', website: 'https://www.armadale.wa.gov.au/' },
-      { company: 'City of Gosnells', contact: 'Inquiry', phone: '9397 3000', website: 'https://www.gosnells.wa.gov.au/' },
+      { company: 'Dykstra Planning', contact: 'Henry', phone: OFFICE_PHONE, website: 'https://www.harleydykstra.com.au/' },
+      { company: 'City of Armadale', contact: 'Inquiry', phone: OFFICE_PHONE, website: 'https://www.armadale.wa.gov.au/' },
+      { company: 'City of Gosnells', contact: 'Inquiry', phone: OFFICE_PHONE, website: 'https://www.gosnells.wa.gov.au/' },
     ],
   },
 }

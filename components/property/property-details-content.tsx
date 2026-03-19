@@ -216,11 +216,11 @@ export function PropertyDetailsContent({ propertyId }: PropertyDetailsContentPro
 
             {/* Contact Button */}
             <a
-              href="tel:+61412345678"
+              href="tel:0894952226"
               className="flex items-center gap-2 bg-primary text-primary-foreground w-full justify-center py-3 rounded-lg font-semibold hover:bg-primary/90 transition-colors mb-4"
             >
               <Phone className="h-4 w-4" />
-              +61 (0) 412 345 678
+              08 9495 2226
             </a>
 
             {/* Book Inspection Button */}

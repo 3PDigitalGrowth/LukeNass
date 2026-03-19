@@ -68,7 +68,7 @@ export function MeetLuke() {
               </div>
 
               <p className="text-lg text-muted-foreground leading-relaxed mb-6">
-                Since founding Luke Nass Real Estate in 1987, I&apos;ve dedicated decades to mastering the Perth Hills market.
+                Since founding Luke Nass Real Estate in 1996, I&apos;ve dedicated decades to mastering the Perth Hills market.
                 My commitment has remained unwavering: put our clients first, always. This approach has built lasting
                 relationships across Roleystone, Kelmscott, and the surrounding suburbs.
               </p>

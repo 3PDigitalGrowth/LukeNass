@@ -69,9 +69,11 @@ export function LocalOffice() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4 mt-10">
-              <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold flex items-center gap-2 py-6">
-                <Phone className="w-5 h-5" />
-                Call Now
+              <Button asChild className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold flex items-center gap-2 py-6">
+                <a href="tel:0894952226">
+                  <Phone className="w-5 h-5" />
+                  Call Now
+                </a>
               </Button>
               <Button variant="outline" className="border-2 border-secondary font-bold py-6 bg-transparent">
                 <Mail className="w-5 h-5 mr-2" />

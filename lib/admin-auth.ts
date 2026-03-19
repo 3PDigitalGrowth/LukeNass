@@ -8,7 +8,7 @@ export const ADMIN_COOKIE_NAME = "ln_admin_session"
 export const ADMIN_SESSION_VALUE = "authenticated"
 
 export function getAdminPassword() {
-  return process.env.ADMIN_PASSWORD || "12345"
+  return process.env.ADMIN_PASSWORD || "5121"
 }
 
 export function isAdminAuthenticated(

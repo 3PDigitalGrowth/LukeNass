@@ -5,6 +5,7 @@ import { Footer } from '@/components/footer'
 import { AboutHero } from '@/components/about/about-hero'
 import { WhyChooseUs } from '@/components/about/why-choose-us'
 import { MeetLuke } from '@/components/about/meet-luke'
+import { MeetAndrew } from '@/components/about/meet-andrew'
 import { TeamMembers } from '@/components/about/team-members'
 import { BoutiqueAdvantageSection } from '@/components/about/boutique-advantage-section'
 import { HowWeSell } from '@/components/about/how-we-sell'
@@ -19,6 +20,7 @@ export default function AboutPage() {
       <AboutHero />
       <WhyChooseUs />
       <MeetLuke />
+      <MeetAndrew />
       <TeamMembers />
       <BoutiqueAdvantageSection />
       <HowWeSell />

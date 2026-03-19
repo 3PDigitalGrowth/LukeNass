@@ -28,16 +28,16 @@ export function AboutHero() {
           className="max-w-2xl"
         >
           <h1 className="font-serif text-5xl md:text-6xl lg:text-7xl font-bold text-foreground mb-4 tracking-tighter">
-            Strategy Over Luck.<br />Established 1987.
+            Strategy Over Luck.<br />Established 1996.
           </h1>
           <p className="text-xl md:text-2xl text-muted-foreground mb-8 leading-relaxed">
-            Since 1987, we have been the definition of boutique real estate in Roleystone, Kelmscott, and the Perth Hills.
+            Since 1996, Luke Nass Real Estate has defined boutique real estate in Roleystone, Kelmscott, and the Perth Hills.
           </p>
 
           {/* Stats Row */}
           <div className="grid grid-cols-2 gap-4 mb-10 py-6 border-y border-border/30 max-w-md">
             <div>
-              <p className="text-3xl font-serif font-bold text-secondary mb-1">1987</p>
+              <p className="text-3xl font-serif font-bold text-secondary mb-1">1996</p>
               <p className="text-sm text-muted-foreground">Established</p>
             </div>
             <div>
@@ -50,9 +50,15 @@ export function AboutHero() {
             <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-6 px-8 text-lg">
               Book a Property Appraisal
             </Button>
-            <Button variant="outline" className="border-2 border-secondary text-secondary hover:bg-secondary/10 font-bold py-6 px-8 text-lg flex items-center gap-2 bg-transparent">
-              <Phone className="w-5 h-5" />
-              Talk to Luke Now
+            <Button
+              asChild
+              variant="outline"
+              className="border-2 border-secondary text-secondary hover:bg-secondary/10 font-bold py-6 px-8 text-lg flex items-center gap-2 bg-transparent"
+            >
+              <a href="tel:0894952226">
+                <Phone className="w-5 h-5" />
+                Talk To The Team
+              </a>
             </Button>
           </div>
 

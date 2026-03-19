@@ -36,9 +36,9 @@ export function SellHeroSection() {
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              Don&apos;t settle for generic estimates. Our data-driven appraisal tool reveals your property&apos;s real market
-              position in Perth&apos;s evolving landscape. From Roleystone&apos;s luxury estates to Kelmscott&apos;s family homes,
-              we calculate value with precision.
+              Don&apos;t settle for generic estimates. Our appraisal process helps uncover your property&apos;s true position across
+              Perth&apos;s southeast corridor, from affordable family homes and investment properties through to lifestyle
+              acreage, prestige residences, and standout waterfront opportunities.
             </motion.p>
 
             <motion.div
@@ -47,12 +47,18 @@ export function SellHeroSection() {
               whileInView={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
-              <button className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl">
+              <a
+                href="#sell-appraisal-form"
+                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl"
+              >
                 Get Started
-              </button>
-              <button className="px-8 py-3 bg-border text-foreground rounded-lg font-medium hover:bg-border/80 transition-all duration-300">
-                Learn More
-              </button>
+              </a>
+              <a
+                href="tel:0894952226"
+                className="px-8 py-3 bg-border text-foreground rounded-lg font-medium hover:bg-border/80 transition-all duration-300"
+              >
+                Talk to Luke or Andy
+              </a>
             </motion.div>
           </motion.div>
 

@@ -143,7 +143,7 @@ export function Footer() {
               <li className="flex items-start gap-3">
                 <Phone className="h-4 w-4 text-(--umber-foreground)/60 mt-0.5" />
                 <div>
-                  <p className="text-(--umber-foreground) text-sm font-medium">0412 345 678</p>
+                  <p className="text-(--umber-foreground) text-sm font-medium">08 9495 2226</p>
                   <p className="text-(--umber-foreground)/50 text-xs">Available by appointment</p>
                 </div>
               </li>
@@ -203,6 +203,12 @@ export function Footer() {
               className="text-(--umber-foreground)/50 hover:text-(--umber-foreground)/70 transition-colors"
             >
               Accessibility
+            </Link>
+            <Link
+              href="/admin"
+              className="text-(--umber-foreground)/50 hover:text-(--umber-foreground)/70 transition-colors"
+            >
+              Admin
             </Link>
           </div>
         </div>

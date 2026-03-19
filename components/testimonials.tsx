@@ -4,41 +4,23 @@ import { useState } from "react"
 import { motion, AnimatePresence } from "framer-motion"
 import { ChevronLeft, ChevronRight } from "lucide-react"
 import { Button } from "@/components/ui/button"
-
-const testimonials = [
-  {
-    id: 1,
-    quote:
-      "Luke's strategic approach transformed our sale. He kept the campaign focused, communicated clearly, and made us feel supported throughout the process.",
-    name: "Sarah & Michael Thompson",
-    location: "Roleystone, WA",
-    image: "/professional-couple-in-their-50s-portrait.jpg",
-  },
-  {
-    id: 2,
-    quote:
-      "After difficult experiences with other agents, Luke's boutique approach gave us confidence again. He was calm, proactive, and deeply committed to helping us move forward.",
-    name: "David Chen",
-    location: "Kelmscott, WA",
-    image: "/professional-asian-man-40s-portrait.jpg",
-  },
-  {
-    id: 3,
-    quote:
-      "We needed to upsize in a competitive market, and Luke guided us through every step with clarity and reassurance. His transition strategy made the whole experience feel manageable.",
-    name: "Emma & James Wilson",
-    location: "Seville Grove, WA",
-    image: "/young-professional-couple-30s-portrait.jpg",
-  },
-]
+import { testimonials } from "@/lib/testimonials"
 
 export function Testimonials() {
   const [currentIndex, setCurrentIndex] = useState(0)
+  const [expandedIds, setExpandedIds] = useState<number[]>([])
 
   const next = () => setCurrentIndex((i) => (i + 1) % testimonials.length)
   const prev = () => setCurrentIndex((i) => (i - 1 + testimonials.length) % testimonials.length)
 
   const current = testimonials[currentIndex]
+  const isExpanded = expandedIds.includes(current.id)
+
+  const toggleExpanded = (id: number) => {
+    setExpandedIds((prev) =>
+      prev.includes(id) ? prev.filter((existingId) => existingId !== id) : [...prev, id]
+    )
+  }
 
   return (
     <section className="py-20 lg:py-28 bg-card">
@@ -79,20 +61,33 @@ export function Testimonials() {
                   </span>
 
                   {/* Pull quote in serif italics */}
-                  <blockquote className="font-serif text-xl md:text-2xl lg:text-3xl text-foreground italic leading-relaxed -mt-8">
+                  <blockquote
+                    className={`font-serif text-xl md:text-2xl lg:text-3xl text-foreground italic leading-relaxed -mt-8 ${
+                      isExpanded ? "" : "line-clamp-4"
+                    }`}
+                  >
                     {current.quote}
                   </blockquote>
+                  <button
+                    type="button"
+                    onClick={() => toggleExpanded(current.id)}
+                    className="mt-4 text-sm font-medium text-primary hover:text-primary/80 transition-colors"
+                  >
+                    {isExpanded ? "Show less" : "Read full review"}
+                  </button>
 
                   {/* Author attribution */}
                   <div className="flex items-center gap-4 mt-8">
                     <img
-                      src={current.image || "/placeholder.svg"}
-                      alt={current.name}
+                      src={current.agentImage || "/placeholder.svg"}
+                      alt={current.agent}
                       className="w-16 h-16 rounded-full object-cover border-2 border-secondary"
                     />
                     <div>
-                      <p className="font-semibold text-foreground text-lg">{current.name}</p>
-                      <p className="text-muted-foreground">{current.location}</p>
+                      <p className="font-semibold text-foreground text-lg">{current.reviewer}</p>
+                      <p className="text-muted-foreground">
+                        For {current.agent}{current.date ? ` • ${current.date}` : ""}
+                      </p>
                     </div>
                   </div>
                 </div>
