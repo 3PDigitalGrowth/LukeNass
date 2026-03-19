@@ -3,6 +3,7 @@
 import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
+import { useLeadModal } from "@/components/global/lead-capture-provider"
 import { Input } from "@/components/ui/input"
 import { ArrowRight, Search, SlidersHorizontal } from "lucide-react"
 import Image from "next/image"
@@ -43,12 +44,14 @@ const searchTabs = [
 
 export function HeroSection() {
   const [activeTab, setActiveTab] = useState("buy")
+  const [searchQuery, setSearchQuery] = useState("")
   const [filters, setFilters] = useState({
     house: true,
     apartment: false,
     land: false,
     rural: false,
   })
+  const { openLeadModal } = useLeadModal()
 
   return (
     <section className="relative min-h-screen flex flex-col overflow-hidden">
@@ -93,43 +96,57 @@ export function HeroSection() {
               Navigating the 2026 market with 65+ years combined local expertise across Roleystone, Kelmscott, and beyond.
             </motion.p>
 
-            {/* Lead Capture Form */}
+            {/* Seller CTA Panel */}
             <motion.div variants={itemVariants} className="max-w-lg mx-auto lg:ml-auto lg:mr-0">
-              <div className="bg-card/80 backdrop-blur-sm rounded-xl p-2 shadow-2xl">
-                <form className="flex flex-col sm:flex-row gap-3">
-                  <Input
-                    type="text"
-                    placeholder="Enter your address for a 2026 Property Growth Forecast"
-                    className="flex-1 h-12 text-base bg-background/50 border-0 focus-visible:ring-primary"
-                  />
+              <div className="bg-card/80 backdrop-blur-sm rounded-xl p-5 shadow-2xl">
+                <p className="text-sm uppercase tracking-[0.18em] text-primary font-medium mb-3">Seller Strategy Session</p>
+                <p className="text-muted-foreground text-sm md:text-base mb-4">
+                  Request a confidential appraisal and strategy conversation to understand how we would position your home,
+                  communicate with buyers, and negotiate for the strongest result.
+                </p>
+                <div className="grid gap-3">
                   <Button
-                    type="submit"
+                    asChild
                     size="lg"
-                    className="bg-primary text-primary-foreground hover:bg-primary/90 h-12 px-6 font-medium"
+                    className="bg-primary text-primary-foreground hover:bg-primary/90 min-h-12 h-auto px-5 py-3 font-medium whitespace-normal leading-snug"
                   >
-                    Get Forecast
-                    <ArrowRight className="ml-2 h-4 w-4" />
+                    <a href="/sell#sell-appraisal-form">
+                      Request Confidential Appraisal
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
                   </Button>
-                </form>
+                  <Button
+                    asChild
+                    variant="outline"
+                    size="lg"
+                    className="min-h-12 h-auto px-5 py-3 font-medium whitespace-normal leading-snug bg-background/60 border-border/50 hover:bg-muted"
+                  >
+                    <a href="/sell">See Our Selling Approach</a>
+                  </Button>
+                </div>
               </div>
             </motion.div>
 
             {/* Trust Indicators */}
             <motion.div
               variants={itemVariants}
-              className="mt-12 flex flex-col sm:flex-row justify-center lg:justify-end gap-6 sm:gap-8"
+              className="mt-12 flex justify-center lg:justify-end"
             >
-              <div className="px-6 py-5 rounded-xl bg-card/90 backdrop-blur-sm border border-secondary/30 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center lg:items-start">
-                <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">3000+</span>
-                <span className="text-sm sm:text-base text-muted-foreground font-medium">Properties Sold</span>
-              </div>
-              <div className="px-6 py-5 rounded-xl bg-card/90 backdrop-blur-sm border border-secondary/30 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center lg:items-start">
-                <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">65+</span>
-                <span className="text-sm sm:text-base text-muted-foreground font-medium">Years Combined</span>
-              </div>
-              <div className="px-6 py-5 rounded-xl bg-card/90 backdrop-blur-sm border border-secondary/30 shadow-lg hover:shadow-xl transition-shadow flex flex-col items-center lg:items-start">
-                <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">$1.2B+</span>
-                <span className="text-sm sm:text-base text-muted-foreground font-medium">Total Sales Value</span>
+              <div className="w-full max-w-2xl rounded-2xl bg-card/90 backdrop-blur-sm border border-secondary/30 shadow-lg hover:shadow-xl transition-shadow overflow-hidden">
+                <div className="grid grid-cols-1 sm:grid-cols-3">
+                  <div className="px-6 py-5 flex flex-col items-center lg:items-start text-center lg:text-left border-b sm:border-b-0 sm:border-r border-secondary/20">
+                    <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">3000+</span>
+                    <span className="text-sm sm:text-base text-muted-foreground font-medium">Properties Sold</span>
+                  </div>
+                  <div className="px-6 py-5 flex flex-col items-center lg:items-start text-center lg:text-left border-b sm:border-b-0 sm:border-r border-secondary/20">
+                    <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">65+</span>
+                    <span className="text-sm sm:text-base text-muted-foreground font-medium">Years Combined</span>
+                  </div>
+                  <div className="px-6 py-5 flex flex-col items-center lg:items-start text-center lg:text-left">
+                    <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">$1.2B+</span>
+                    <span className="text-sm sm:text-base text-muted-foreground font-medium">Total Sales Value</span>
+                  </div>
+                </div>
               </div>
             </motion.div>
           </motion.div>
@@ -173,6 +190,8 @@ export function HeroSection() {
                   <Input
                     type="text"
                     placeholder="Search suburb, school or street"
+                    value={searchQuery}
+                    onChange={(event) => setSearchQuery(event.target.value)}
                     className="w-full h-12 pl-12 text-base bg-muted/50 border-0 rounded-lg focus-visible:ring-primary"
                   />
                 </div>
@@ -217,6 +236,32 @@ export function HeroSection() {
                 <Button
                   size="lg"
                   className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium gap-2"
+                  onClick={() => {
+                    if (activeTab === "estimate") {
+                      openLeadModal({
+                        type: "seller-appraisal",
+                        source: "Homepage Hero Search",
+                        defaults: {
+                          propertyAddress: searchQuery,
+                        },
+                        metadata: {
+                          "Selected Tab": "Estimate",
+                        },
+                      })
+                      return
+                    }
+
+                    openLeadModal({
+                      type: "buyer-brief",
+                      source: "Homepage Hero Search",
+                      defaults: {
+                        preferredSuburbs: searchQuery,
+                      },
+                      metadata: {
+                        "Selected Tab": activeTab === "sold" ? "Sold" : "Buy",
+                      },
+                    })
+                  }}
                 >
                   <Search className="h-4 w-4" />
                   Search

@@ -1,20 +1,8 @@
 "use client"
 
-import type React from "react"
-
-import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
-import { Input } from "@/components/ui/input"
-import { Textarea } from "@/components/ui/textarea"
+import { useLeadModal } from "@/components/global/lead-capture-provider"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -124,17 +112,7 @@ const advantages = [
 ]
 
 export function BoutiqueAdvantage() {
-  const [chatOpen, setChatOpen] = useState(false)
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleChatSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setChatOpen(false)
-      setSubmitted(false)
-    }, 2000)
-  }
+  const { openLeadModal } = useLeadModal()
 
   return (
     <section className="py-20 lg:py-28 bg-muted/30" id="about">
@@ -188,44 +166,26 @@ export function BoutiqueAdvantage() {
                     initial={{ opacity: 0, y: 10 }}
                     className="mt-6 opacity-0 group-hover:opacity-100 transition-opacity duration-300"
                   >
-                    <Dialog open={chatOpen} onOpenChange={setChatOpen}>
-                      <DialogTrigger asChild>
-                        <Button className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium">
-                          Chat with Luke
-                        </Button>
-                      </DialogTrigger>
-                      <DialogContent className="sm:max-w-md">
-                        <DialogHeader>
-                          <DialogTitle className="font-serif text-2xl">Chat with Luke</DialogTitle>
-                          <DialogDescription>
-                            Send a direct message and Luke will respond personally within 24 hours.
-                          </DialogDescription>
-                        </DialogHeader>
-                        {submitted ? (
-                          <div className="py-8 text-center">
-                            <div className="w-12 h-12 rounded-full bg-primary/10 text-primary mx-auto mb-4 flex items-center justify-center">
-                              <svg className="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M5 13l4 4L19 7" />
-                              </svg>
-                            </div>
-                            <p className="font-medium text-foreground">Message sent!</p>
-                            <p className="text-sm text-muted-foreground mt-1">Luke will be in touch soon.</p>
-                          </div>
-                        ) : (
-                          <form onSubmit={handleChatSubmit} className="space-y-4">
-                            <div className="grid grid-cols-2 gap-4">
-                              <Input placeholder="Your name" required />
-                              <Input type="email" placeholder="Email" required />
-                            </div>
-                            <Input type="tel" placeholder="Phone (optional)" />
-                            <Textarea placeholder="How can Luke help you today?" className="min-h-[120px]" required />
-                            <Button type="submit" className="w-full bg-primary hover:bg-primary/90">
-                              Send Message
-                            </Button>
-                          </form>
-                        )}
-                      </DialogContent>
-                    </Dialog>
+                    <Button
+                      className="w-full bg-primary hover:bg-primary/90 text-primary-foreground font-medium"
+                      onClick={() =>
+                        openLeadModal({
+                          type: "team-contact",
+                          source: "Boutique Advantage",
+                          title: "Chat with Luke",
+                          description: "Send a direct message and Luke will respond personally.",
+                          recipients: ["luke@lukenass.com.au"],
+                          defaults: {
+                            teamMember: "Luke Nass",
+                          },
+                          metadata: {
+                            Agent: "Luke Nass",
+                          },
+                        })
+                      }
+                    >
+                      Chat with Luke
+                    </Button>
                   </motion.div>
                 )}
               </div>

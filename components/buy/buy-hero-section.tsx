@@ -113,8 +113,8 @@ export function BuyHeroSection() {
                 <div>Years Combined</div>
               </div>
               <div>
-                <div className="font-semibold text-primary text-lg mb-1">$1.2B+</div>
-                <div>Total Sales Value</div>
+                <div className="font-semibold text-primary text-lg mb-1">Local Insight</div>
+                <div>Guidance Across The Corridor</div>
               </div>
             </motion.div>
 

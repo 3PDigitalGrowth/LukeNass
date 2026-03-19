@@ -12,11 +12,11 @@ export default function HomePage() {
     <main className="min-h-screen">
       <Header />
       <HeroSection />
-      <UpcomingOpenHomes />
-      <PropertyEcosystem />
-      <BoutiqueAdvantage />
       <SellerLeadMagnet />
       <Testimonials />
+      <BoutiqueAdvantage />
+      <UpcomingOpenHomes />
+      <PropertyEcosystem />
       <Footer />
     </main>
   )

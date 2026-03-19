@@ -5,38 +5,38 @@ import { Home } from 'lucide-react'
 
 interface CaseStudy {
   id: number
-  address: string
   suburb: string
-  finalSale: number
-  daysOnMarket: number
-  highlight: string
+  propertyType: string
+  strategy: string
+  communication: string
+  outcome: string
 }
 
 export function RecentResults() {
   const caseStudies: CaseStudy[] = [
     {
       id: 1,
-      address: '42 Hilltop Drive',
       suburb: 'Roleystone',
-      finalSale: 1080000,
-      daysOnMarket: 18,
-      highlight: 'Street Record Broken',
+      propertyType: 'Lifestyle and family homes',
+      strategy: 'Position homes around lifestyle value, presentation detail, and buyer confidence.',
+      communication: 'Keep sellers updated closely as feedback, inspections, and negotiations evolve.',
+      outcome: 'Campaigns built to create competitive interest and overachieve expectations.',
     },
     {
       id: 2,
-      address: '17 Oak Street',
       suburb: 'Kelmscott',
-      finalSale: 785000,
-      daysOnMarket: 22,
-      highlight: 'Targeted Launch Strategy',
+      propertyType: 'Family homes and value-driven opportunities',
+      strategy: 'Shape the launch to highlight practicality, liveability, and the strongest buyer segments.',
+      communication: 'Provide clear, plain-English guidance so sellers can make confident decisions quickly.',
+      outcome: 'Well-managed campaigns that feel smooth, supported, and strategically executed.',
     },
     {
       id: 3,
-      address: '89 Forest Lane',
       suburb: 'Bedfordale',
-      finalSale: 1350000,
-      daysOnMarket: 25,
-      highlight: 'Multi-Offer Negotiation',
+      propertyType: 'Prestige, acreage, and premium lifestyle properties',
+      strategy: 'Tailor every campaign to the property rather than relying on a generic formula.',
+      communication: 'Support sellers with thoughtful updates and disciplined recommendations from launch to close.',
+      outcome: 'Buyers are positioned carefully so strong offers can be negotiated with confidence.',
     },
   ]
 
@@ -67,10 +67,10 @@ export function RecentResults() {
           className="mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-serif tracking-tighter mb-4 text-foreground">
-            Recent Results in Your Area
+            Strategy Across the Corridor
           </h2>
           <p className="text-lg text-foreground/60">
-            Real sellers. Real results. Real strategy at work.
+            Different homes need different positioning. Our approach adapts to the suburb, the buyer pool, and the seller&apos;s goals.
           </p>
         </motion.div>
 
@@ -87,35 +87,33 @@ export function RecentResults() {
               variants={item}
               className="bg-card rounded-2xl p-8 border border-border/50 shadow-lg hover:shadow-2xl transition-all duration-300 hover:border-primary/50"
             >
-              {/* Header with Badge */}
               <div className="flex items-start justify-between mb-6">
                 <div className="flex items-center gap-3">
                   <div className="w-10 h-10 bg-primary/10 rounded-lg flex items-center justify-center">
                     <Home className="h-5 w-5 text-primary" />
                   </div>
                   <div>
-                    <h3 className="font-serif font-semibold text-foreground">
-                      {study.address}
-                    </h3>
-                    <p className="text-sm text-foreground/60">{study.suburb}</p>
+                    <h3 className="font-serif font-semibold text-foreground">{study.suburb}</h3>
+                    <p className="text-sm text-foreground/60">{study.propertyType}</p>
                   </div>
                 </div>
               </div>
 
-              {/* Highlight Badge */}
-              <div className="inline-block px-3 py-1 bg-secondary/20 text-secondary rounded-full text-xs font-medium mb-6">
-                {study.highlight}
-              </div>
+              <div className="space-y-5">
+                <div className="rounded-xl border border-border/50 bg-background/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Strategy</p>
+                  <p className="text-sm text-foreground/75 leading-relaxed">{study.strategy}</p>
+                </div>
 
-              <div className="mb-6 pb-6 border-b border-border/50">
-                <p className="text-sm text-foreground/60 mb-1">Final Sale</p>
-                <p className="text-2xl font-serif font-semibold text-primary">
-                  ${study.finalSale.toLocaleString()}
-                </p>
-              </div>
+                <div className="rounded-xl border border-border/50 bg-background/70 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">Communication</p>
+                  <p className="text-sm text-foreground/75 leading-relaxed">{study.communication}</p>
+                </div>
 
-              <div className="text-sm text-foreground/60">
-                {study.daysOnMarket} days on market
+                <div className="rounded-xl border border-primary/20 bg-primary/5 p-4">
+                  <p className="text-xs uppercase tracking-[0.18em] text-primary font-medium mb-2">Outcome</p>
+                  <p className="text-sm text-foreground/75 leading-relaxed">{study.outcome}</p>
+                </div>
               </div>
             </motion.div>
           ))}

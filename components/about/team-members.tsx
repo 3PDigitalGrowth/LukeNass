@@ -1,10 +1,12 @@
 'use client'
 
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { motion } from 'framer-motion'
 import { Mail, Phone } from 'lucide-react'
 
 export function TeamMembers() {
+  const { openLeadModal } = useLeadModal()
   const team = [
     {
       name: 'Luke Nass',
@@ -121,7 +123,23 @@ export function TeamMembers() {
                 </div>
 
                 {/* Buttons */}
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
+                <Button
+                  className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
+                  onClick={() =>
+                    openLeadModal({
+                      type: 'team-contact',
+                      source: 'Team Members',
+                      recipients: [member.email],
+                      defaults: {
+                        teamMember: member.name,
+                      },
+                      metadata: {
+                        Agent: member.name,
+                        Role: member.title,
+                      },
+                    })
+                  }
+                >
                   Book Call
                 </Button>
               </div>

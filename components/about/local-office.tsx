@@ -2,10 +2,13 @@
 
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 
 export function LocalOffice() {
+  const { openLeadModal } = useLeadModal()
+
   return (
     <section className="py-20 lg:py-28 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
@@ -76,7 +79,22 @@ export function LocalOffice() {
                   Call Now
                 </a>
               </Button>
-              <Button variant="outline" className="border-2 border-secondary font-bold py-6 bg-transparent">
+              <Button
+                variant="outline"
+                className="border-2 border-secondary font-bold py-6 bg-transparent"
+                onClick={() =>
+                  openLeadModal({
+                    type: 'general-contact',
+                    source: 'Local Office',
+                    defaults: {
+                      topic: 'General Enquiry',
+                    },
+                    metadata: {
+                      Location: 'Kelmscott Office',
+                    },
+                  })
+                }
+              >
                 <Mail className="w-5 h-5 mr-2" />
                 Email Now
               </Button>

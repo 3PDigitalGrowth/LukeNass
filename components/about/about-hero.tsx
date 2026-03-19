@@ -2,10 +2,13 @@
 
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { motion } from 'framer-motion'
-import { Phone, MessageCircle } from 'lucide-react'
+import { Phone } from 'lucide-react'
 
 export function AboutHero() {
+  const { openLeadModal } = useLeadModal()
+
   return (
     <section className="relative py-32 overflow-hidden">
       {/* Background Image with Gradient Overlay */}
@@ -47,7 +50,15 @@ export function AboutHero() {
           </div>
 
           <div className="flex flex-col sm:flex-row gap-4 mb-12">
-            <Button className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-6 px-8 text-lg">
+            <Button
+              className="bg-primary text-primary-foreground hover:bg-primary/90 font-bold py-6 px-8 text-lg"
+              onClick={() =>
+                openLeadModal({
+                  type: 'seller-appraisal',
+                  source: 'About Hero',
+                })
+              }
+            >
               Book a Property Appraisal
             </Button>
             <Button

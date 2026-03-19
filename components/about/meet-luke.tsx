@@ -2,10 +2,13 @@
 
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { motion } from 'framer-motion'
 import { Award } from 'lucide-react'
 
 export function MeetLuke() {
+  const { openLeadModal } = useLeadModal()
+
   return (
     <section className="py-20 lg:py-28 bg-card">
       <div className="container mx-auto px-4 lg:px-8">
@@ -82,7 +85,23 @@ export function MeetLuke() {
               </p>
             </div>
 
-            <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold py-6 px-8 text-lg">
+            <Button
+              className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold py-6 px-8 text-lg"
+              onClick={() =>
+                openLeadModal({
+                  type: 'seller-strategy',
+                  source: 'Meet Luke',
+                  metadata: {
+                    Agent: 'Luke Nass',
+                    Topic: 'Strategy Session',
+                  },
+                  defaults: {
+                    message: 'I would like to request a strategy session with Luke.',
+                  },
+                  recipients: ['luke@lukenass.com.au'],
+                })
+              }
+            >
               Request a Strategy Session with Luke
             </Button>
           </motion.div>

@@ -4,6 +4,7 @@ import { useState, useEffect } from "react"
 import Link from "next/link"
 import Image from "next/image"
 import { Button } from "@/components/ui/button"
+import { useLeadModal } from "@/components/global/lead-capture-provider"
 import { Menu, X } from "lucide-react"
 import { motion, AnimatePresence } from "framer-motion"
 
@@ -17,6 +18,7 @@ const navLinks = [
 export function Header() {
   const [isScrolled, setIsScrolled] = useState(false)
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false)
+  const { openLeadModal } = useLeadModal()
 
   useEffect(() => {
     const handleScroll = () => {
@@ -59,7 +61,15 @@ export function Header() {
                 {link.label}
               </Link>
             ))}
-            <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium">
+            <Button
+              className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium"
+              onClick={() =>
+                openLeadModal({
+                  type: "seller-report",
+                  source: "Header",
+                })
+              }
+            >
               Free Property Report
             </Button>
           </div>
@@ -95,7 +105,16 @@ export function Header() {
                   {link.label}
                 </Link>
               ))}
-              <Button className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium w-full mt-4">
+              <Button
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium w-full mt-4"
+                onClick={() => {
+                  setIsMobileMenuOpen(false)
+                  openLeadModal({
+                    type: "seller-report",
+                    source: "Mobile Header",
+                  })
+                }}
+              >
                 Free Property Report
               </Button>
             </div>

@@ -3,9 +3,13 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { Phone, ExternalLink } from 'lucide-react'
 
 export function SoldSidebar() {
+  const { openLeadModal } = useLeadModal()
+  const propertyAddress = '42 Hilltop Drive, Roleystone WA 6111'
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -43,12 +47,38 @@ export function SoldSidebar() {
         </div>
 
         <div className="space-y-3">
-          <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium">
+          <Button
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium"
+            onClick={() =>
+              openLeadModal({
+                type: 'price-update',
+                source: 'Sold Sidebar',
+                defaults: {
+                  propertyAddress,
+                },
+                metadata: {
+                  Property: propertyAddress,
+                },
+              })
+            }
+          >
             Get Your Price Update
           </Button>
           <Button
             variant="outline"
             className="w-full bg-transparent border border-primary/30 text-primary hover:bg-primary/5"
+            onClick={() =>
+              openLeadModal({
+                type: 'property-discussion',
+                source: 'Sold Sidebar',
+                defaults: {
+                  propertyAddress,
+                },
+                metadata: {
+                  Property: propertyAddress,
+                },
+              })
+            }
           >
             <Phone className="w-4 h-4 mr-2" />
             Discuss This Sale

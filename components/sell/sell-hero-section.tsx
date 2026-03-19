@@ -1,6 +1,7 @@
 'use client'
 
 import { motion } from 'framer-motion'
+import { CheckCircle2 } from 'lucide-react'
 import { AppraisalCalculator } from './appraisal-calculator'
 
 export function SellHeroSection() {
@@ -25,8 +26,8 @@ export function SellHeroSection() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
-              Know Your Home's True{' '}
-              <span className="text-primary">2026 Value</span>
+              Sell with a strategy built to attract
+              <span className="text-primary"> the best possible price.</span>
             </motion.h1>
 
             <motion.p
@@ -35,10 +36,27 @@ export function SellHeroSection() {
               animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
-              Don&apos;t settle for generic estimates. Our appraisal process helps uncover your property&apos;s true position across
-              Perth&apos;s southeast corridor, from affordable family homes and investment properties through to lifestyle
-              acreage, prestige residences, and standout waterfront opportunities.
+              We help sellers across Perth&apos;s southeast corridor with tailored campaign planning, disciplined negotiation,
+              and clear communication from appraisal through to settlement.
             </motion.p>
+
+            <motion.div
+              className="space-y-3 mb-8"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              transition={{ delay: 0.35 }}
+            >
+              {[
+                'Tailored strategy for the property, the market, and your goals',
+                'Consistent communication so you know what is happening at every stage',
+                'A boutique team focused on positioning your home to overachieve expectations',
+              ].map((point) => (
+                <div key={point} className="flex items-start gap-3">
+                  <CheckCircle2 className="h-5 w-5 text-primary mt-0.5 flex-shrink-0" />
+                  <span className="text-foreground/70">{point}</span>
+                </div>
+              ))}
+            </motion.div>
 
             <motion.div
               className="flex gap-4"
@@ -50,7 +68,7 @@ export function SellHeroSection() {
                 href="#sell-appraisal-form"
                 className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl"
               >
-                Get Started
+                Request Confidential Appraisal
               </a>
               <a
                 href="tel:0894952226"

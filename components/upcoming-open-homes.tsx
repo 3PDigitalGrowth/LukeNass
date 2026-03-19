@@ -68,7 +68,7 @@ export function UpcomingOpenHomes() {
           </h3>
           <p className="text-muted-foreground text-lg leading-relaxed mb-8">
             Let us know your requirements and we&apos;ll help match you with suitable homes across Perth&apos;s southeast corridor,
-            including off-market opportunities and upcoming listings that fit your brief.
+            including upcoming listings that fit your brief.
           </p>
           <div className="flex flex-col sm:flex-row justify-center gap-4">
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">

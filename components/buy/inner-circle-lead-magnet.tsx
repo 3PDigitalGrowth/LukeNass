@@ -1,28 +1,12 @@
 'use client'
 
-import React from "react"
-
-import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
-import { Input } from '@/components/ui/input'
-import { Dialog, DialogContent, DialogHeader, DialogTitle, DialogDescription } from '@/components/ui/dialog'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { Crown, ArrowRight } from 'lucide-react'
 
 export function InnerCircleLeadMagnet() {
-  const [isOpen, setIsOpen] = useState(false)
-  const [email, setEmail] = useState('')
-  const [submitted, setSubmitted] = useState(false)
-
-  const handleSubmit = (e: React.FormEvent) => {
-    e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setIsOpen(false)
-      setEmail('')
-      setSubmitted(false)
-    }, 2000)
-  }
+  const { openLeadModal } = useLeadModal()
 
   return (
     <>
@@ -50,7 +34,12 @@ export function InnerCircleLeadMagnet() {
               open home alerts, and property matches tailored to your exact criteria.
             </p>
             <Button
-              onClick={() => setIsOpen(true)}
+              onClick={() =>
+                openLeadModal({
+                  type: 'buyer-updates',
+                  source: 'Inner Circle Lead Magnet',
+                })
+              }
               className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold"
               size="lg"
             >
@@ -61,43 +50,6 @@ export function InnerCircleLeadMagnet() {
         </div>
       </motion.div>
 
-      <Dialog open={isOpen} onOpenChange={setIsOpen}>
-        <DialogContent className="max-w-md">
-          <DialogHeader>
-            <DialogTitle className="font-serif text-2xl tracking-tighter">Get Buyer Updates</DialogTitle>
-            <DialogDescription>Receive relevant listings and property updates tailored to your search.</DialogDescription>
-          </DialogHeader>
-
-          {!submitted ? (
-            <form onSubmit={handleSubmit} className="space-y-4 mt-6">
-              <div>
-                <label className="text-sm font-medium mb-2 block">Email Address</label>
-                <Input
-                  type="email"
-                  placeholder="you@example.com"
-                  value={email}
-                  onChange={(e) => setEmail(e.target.value)}
-                  required
-                  className="h-10"
-                />
-              </div>
-              <Button type="submit" className="w-full bg-primary hover:bg-primary/90 font-semibold h-10">
-                Send Me Updates
-              </Button>
-            </form>
-          ) : (
-            <motion.div
-              initial={{ opacity: 0, scale: 0.8 }}
-              animate={{ opacity: 1, scale: 1 }}
-              className="text-center py-8"
-            >
-              <Crown className="h-12 w-12 text-secondary mx-auto mb-4" />
-              <p className="text-lg font-semibold text-foreground mb-2">You&apos;re on the list.</p>
-              <p className="text-foreground/60">Check your email for tailored property updates.</p>
-            </motion.div>
-          )}
-        </DialogContent>
-      </Dialog>
     </>
   )
 }

@@ -3,8 +3,11 @@
 import { motion } from 'framer-motion'
 import { ArrowRight, Home, TrendingUp, TreePine } from 'lucide-react'
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 
 export function AreaGuidance() {
+  const { openLeadModal } = useLeadModal()
+
   return (
     <section className="py-16 bg-background">
       <div className="container mx-auto px-4 lg:px-8">
@@ -56,7 +59,23 @@ export function AreaGuidance() {
                 </div>
               </div>
 
-              <Button variant="outline" className="w-full justify-between group bg-transparent">
+              <Button
+                variant="outline"
+                className="w-full justify-between group bg-transparent"
+                onClick={() =>
+                  openLeadModal({
+                    type: 'buyer-guidance',
+                    source: 'Buy Area Guidance',
+                    defaults: {
+                      segment: 'Affordable Family Living',
+                    },
+                    metadata: {
+                      Segment: 'Affordable Family Living',
+                      Areas: 'Armadale, Seville Grove, Maddington, Gosnells',
+                    },
+                  })
+                }
+              >
                 Explore Family Value
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -91,7 +110,23 @@ export function AreaGuidance() {
                 </div>
               </div>
 
-              <Button variant="outline" className="w-full justify-between group bg-transparent">
+              <Button
+                variant="outline"
+                className="w-full justify-between group bg-transparent"
+                onClick={() =>
+                  openLeadModal({
+                    type: 'buyer-guidance',
+                    source: 'Buy Area Guidance',
+                    defaults: {
+                      segment: 'Lifestyle and Acreage Homes',
+                    },
+                    metadata: {
+                      Segment: 'Lifestyle and Acreage Homes',
+                      Areas: 'Roleystone, Bedfordale, Mount Nasura, Kelmscott',
+                    },
+                  })
+                }
+              >
                 Explore Lifestyle Homes
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>
@@ -126,7 +161,23 @@ export function AreaGuidance() {
                 </div>
               </div>
 
-              <Button variant="outline" className="w-full justify-between group bg-transparent">
+              <Button
+                variant="outline"
+                className="w-full justify-between group bg-transparent"
+                onClick={() =>
+                  openLeadModal({
+                    type: 'buyer-guidance',
+                    source: 'Buy Area Guidance',
+                    defaults: {
+                      segment: 'Luxury, Land, and Prestige',
+                    },
+                    metadata: {
+                      Segment: 'Luxury, Land, and Prestige',
+                      Areas: "Across Perth's southeast corridor",
+                    },
+                  })
+                }
+              >
                 Explore Premium Opportunities
                 <ArrowRight className="w-4 h-4 group-hover:translate-x-1 transition-transform" />
               </Button>

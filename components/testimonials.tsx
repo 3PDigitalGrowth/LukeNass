@@ -7,13 +7,14 @@ import { Button } from "@/components/ui/button"
 import { testimonials } from "@/lib/testimonials"
 
 export function Testimonials() {
+  const sellerTestimonials = testimonials.filter((testimonial) => ![6, 7].includes(testimonial.id))
   const [currentIndex, setCurrentIndex] = useState(0)
   const [expandedIds, setExpandedIds] = useState<number[]>([])
 
-  const next = () => setCurrentIndex((i) => (i + 1) % testimonials.length)
-  const prev = () => setCurrentIndex((i) => (i - 1 + testimonials.length) % testimonials.length)
+  const next = () => setCurrentIndex((i) => (i + 1) % sellerTestimonials.length)
+  const prev = () => setCurrentIndex((i) => (i - 1 + sellerTestimonials.length) % sellerTestimonials.length)
 
-  const current = testimonials[currentIndex]
+  const current = sellerTestimonials[currentIndex]
   const isExpanded = expandedIds.includes(current.id)
 
   const toggleExpanded = (id: number) => {
@@ -31,9 +32,9 @@ export function Testimonials() {
           viewport={{ once: true }}
           className="text-center mb-16"
         >
-          <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-medium">Featured Stories</span>
+          <span className="text-sm uppercase tracking-[0.2em] text-muted-foreground font-medium">Seller Reviews</span>
           <h2 className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mt-3 mb-4 tracking-tighter">
-            Strategy in Action
+            Why Sellers Recommend Us
           </h2>
           <div className="w-16 h-0.5 bg-secondary mx-auto" />
         </motion.div>
@@ -101,7 +102,7 @@ export function Testimonials() {
             </Button>
 
             <div className="flex items-center gap-3">
-              {testimonials.map((_, i) => (
+              {sellerTestimonials.map((_, i) => (
                 <button
                   key={i}
                   onClick={() => setCurrentIndex(i)}

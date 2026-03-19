@@ -3,9 +3,13 @@
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { Download, ExternalLink } from 'lucide-react'
 
 export function PropertySidebar() {
+  const { openLeadModal } = useLeadModal()
+  const propertyAddress = '42 Mountain View Drive, Roleystone WA 6111'
+
   return (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
@@ -29,10 +33,39 @@ export function PropertySidebar() {
 
         {/* Contact Actions */}
         <div className="space-y-3 mb-6">
-          <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold">
+          <Button
+            className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold"
+            onClick={() =>
+              openLeadModal({
+                type: 'inspection-request',
+                source: 'Property Sidebar',
+                defaults: {
+                  propertyAddress,
+                },
+                metadata: {
+                  Property: propertyAddress,
+                },
+              })
+            }
+          >
             Book Inspection
           </Button>
-          <Button variant="outline" className="w-full border-2 border-primary text-primary hover:bg-primary/5 bg-transparent">
+          <Button
+            variant="outline"
+            className="w-full border-2 border-primary text-primary hover:bg-primary/5 bg-transparent"
+            onClick={() =>
+              openLeadModal({
+                type: 'offer-request',
+                source: 'Property Sidebar',
+                defaults: {
+                  propertyAddress,
+                },
+                metadata: {
+                  Property: propertyAddress,
+                },
+              })
+            }
+          >
             Make an Offer
           </Button>
         </div>
@@ -77,6 +110,18 @@ export function PropertySidebar() {
       <Button
         variant="outline"
         className="w-full border-2 border-primary text-primary hover:bg-primary/5 gap-2 bg-transparent"
+        onClick={() =>
+          openLeadModal({
+            type: 'brochure-request',
+            source: 'Property Sidebar',
+            defaults: {
+              propertyAddress,
+            },
+            metadata: {
+              Property: propertyAddress,
+            },
+          })
+        }
       >
         <Download className="w-4 h-4" />
         Download Brochure

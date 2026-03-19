@@ -2,6 +2,7 @@ import type React from "react"
 import type { Metadata, Viewport } from "next"
 import { Geist, Geist_Mono, Playfair_Display } from "next/font/google"
 import { Analytics } from "@vercel/analytics/next"
+import { LeadCaptureProvider } from "@/components/global/lead-capture-provider"
 import { MobileBookAppraisal } from "@/components/global/mobile-book-appraisal"
 import { ExitIntentModal } from "@/components/global/exit-intent-modal"
 import "./globals.css"
@@ -46,9 +47,11 @@ export default function RootLayout({
   return (
     <html lang="en">
       <body className="font-sans antialiased">
-        {children}
-        <MobileBookAppraisal />
-        <ExitIntentModal />
+        <LeadCaptureProvider>
+          {children}
+          <MobileBookAppraisal />
+          <ExitIntentModal />
+        </LeadCaptureProvider>
         <Analytics />
       </body>
     </html>

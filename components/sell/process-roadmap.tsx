@@ -23,31 +23,31 @@ export function ProcessRoadmap() {
     {
       id: 1,
       title: 'Strategy Session',
-      description: 'We analyze your home, market position, and goals',
+      description: 'We align on your goals, timing, and the right positioning for your home.',
       icon: <Calendar className="h-6 w-6" />,
     },
     {
       id: 2,
-      title: 'Market Prep',
-      description: 'Professional staging, photography, and positioning',
+      title: 'Property Preparation',
+      description: 'We shape the presentation and campaign details to support a stronger buyer response.',
       icon: <Paintbrush className="h-6 w-6" />,
     },
     {
       id: 3,
       title: 'Launch',
-      description: 'Strategic release to qualified buyers and networks',
+      description: 'Your campaign goes live with tailored messaging and clear market positioning.',
       icon: <Megaphone className="h-6 w-6" />,
     },
     {
       id: 4,
-      title: 'Negotiation',
-      description: 'Expert handling of offers and terms',
+      title: 'Buyer Feedback & Negotiation',
+      description: 'We communicate clearly, manage momentum, and negotiate with discipline.',
       icon: <Handshake className="h-6 w-6" />,
     },
     {
       id: 5,
-      title: 'Sold',
-      description: 'Seamless closing and settlement',
+      title: 'Settlement Support',
+      description: 'We stay close to the process so the final stages remain smooth and well-managed.',
       icon: <CheckCircle2 className="h-6 w-6" />,
     },
   ]
@@ -78,10 +78,10 @@ export function ProcessRoadmap() {
           className="max-w-4xl mx-auto mb-16"
         >
           <h2 className="text-4xl lg:text-5xl font-serif tracking-tighter mb-4 text-foreground">
-            Your Selling Journey
+            A Selling Process Built Around Clarity
           </h2>
           <p className="text-lg text-foreground/60">
-            A transparent, step-by-step process designed to maximize your result
+            Sellers should never be left guessing. This is how we keep strategy and communication aligned from start to finish.
           </p>
         </motion.div>
 
@@ -192,11 +192,14 @@ export function ProcessRoadmap() {
           className="text-center mt-16"
         >
           <p className="text-lg text-foreground/70 mb-6">
-            Ready to start your selling journey?
+            Ready to talk through your next move?
           </p>
-          <button className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl">
+          <a
+            href="#sell-appraisal-form"
+            className="inline-flex px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl"
+          >
             Schedule Your Strategy Session
-          </button>
+          </a>
         </motion.div>
       </div>
     </section>

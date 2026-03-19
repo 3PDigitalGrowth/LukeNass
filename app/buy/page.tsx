@@ -28,7 +28,7 @@ export default function Buy() {
                 match you with the right opportunities.
               </p>
               <p className="text-base text-muted-foreground leading-relaxed mb-8">
-                The more detail you provide, the better we can tailor listings, buyer guidance, and off-market opportunities
+                The more detail you provide, the better we can tailor listings, buyer guidance, and suitable opportunities
                 to suit your next move.
               </p>
               <div className="space-y-3 text-sm text-muted-foreground">

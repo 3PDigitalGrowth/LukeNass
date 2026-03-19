@@ -1,18 +1,9 @@
 "use client"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
-import { Input } from "@/components/ui/input"
-import { ArrowRight, TrendingUp, Home, Calendar, CheckCircle2 } from "lucide-react"
-import {
-  Dialog,
-  DialogContent,
-  DialogDescription,
-  DialogHeader,
-  DialogTitle,
-  DialogTrigger,
-} from "@/components/ui/dialog"
+import { ArrowRight, Calendar, CheckCircle2, Handshake, Megaphone, MessageSquareText } from "lucide-react"
+import { useLeadModal } from "@/components/global/lead-capture-provider"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -35,21 +26,24 @@ const itemVariants = {
 }
 
 export function SellerLeadMagnet() {
-  const [sliderValue, setSliderValue] = useState(850000)
-  const [isHovering, setIsHovering] = useState(false)
-  const [formSubmitted, setFormSubmitted] = useState(false)
-
-  // Simulated growth calculation
-  const estimatedGrowth = Math.round(sliderValue * 0.124)
-  const projectedValue = sliderValue + estimatedGrowth
-
-  const formatCurrency = (value: number) => {
-    return new Intl.NumberFormat("en-AU", {
-      style: "currency",
-      currency: "AUD",
-      maximumFractionDigits: 0,
-    }).format(value)
-  }
+  const { openLeadModal } = useLeadModal()
+  const sellerPillars = [
+    {
+      icon: Megaphone,
+      title: "Campaign Strategy",
+      description: "We tailor the positioning, timing, and presentation of your home to create stronger buyer engagement.",
+    },
+    {
+      icon: MessageSquareText,
+      title: "Clear Communication",
+      description: "You know what is happening, why it matters, and what we recommend at every stage of the campaign.",
+    },
+    {
+      icon: Handshake,
+      title: "Negotiation Discipline",
+      description: "Every enquiry, inspection, and offer is handled with a structured plan designed to protect your outcome.",
+    },
+  ]
 
   return (
     <section
@@ -61,8 +55,7 @@ export function SellerLeadMagnet() {
       <div className="absolute inset-0 bg-grain opacity-[0.03] pointer-events-none" />
 
       <div className="container mx-auto px-4 lg:px-8 relative z-10">
-        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
-          {/* Left Side - Interactive Property Calculator */}
+        <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-start">
           <motion.div
             initial={{ opacity: 0, x: -30 }}
             whileInView={{ opacity: 1, x: 0 }}
@@ -70,109 +63,37 @@ export function SellerLeadMagnet() {
             transition={{ duration: 0.6, ease: [0.22, 1, 0.36, 1] }}
             className="order-2 lg:order-1"
           >
-            <div
-              className="bg-card/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl relative overflow-hidden"
-              onMouseEnter={() => setIsHovering(true)}
-              onMouseLeave={() => setIsHovering(false)}
-            >
-              {/* Calculator Header */}
-              <div className="flex items-center gap-3 mb-6">
-                <div className="w-10 h-10 rounded-full bg-primary/10 flex items-center justify-center">
-                  <Home className="w-5 h-5 text-primary" />
-                </div>
-                <div>
-                  <h3 className="font-serif text-lg font-semibold text-card-foreground">Property Growth Calculator</h3>
-                  <p className="text-sm text-muted-foreground">2026 Projection Tool</p>
-                </div>
+            <div className="bg-card/80 backdrop-blur-sm rounded-2xl p-8 shadow-2xl relative overflow-hidden">
+              <div className="mb-6">
+                <p className="text-sm uppercase tracking-[0.18em] text-primary font-medium mb-3">What Sellers Need Most</p>
+                <h3 className="font-serif text-2xl font-semibold text-card-foreground tracking-tight">
+                  A strategy that suits the home, the market, and the person selling it.
+                </h3>
               </div>
 
-              {/* Current Value Input */}
-              <div className="mb-8">
-                <label className="block text-sm font-medium text-muted-foreground mb-3">Estimated Current Value</label>
-                <div className="relative">
-                  <span className="absolute left-4 top-1/2 -translate-y-1/2 text-muted-foreground font-medium">$</span>
-                  <Input
-                    type="text"
-                    value={sliderValue.toLocaleString()}
-                    readOnly
-                    className="pl-8 text-2xl font-semibold h-14 bg-muted/50 border-border"
-                  />
-                </div>
+              <div className="space-y-4">
+                {sellerPillars.map((pillar) => {
+                  const Icon = pillar.icon
 
-                {/* Interactive Slider */}
-                <div className="mt-4 relative">
-                  <input
-                    type="range"
-                    min={400000}
-                    max={2500000}
-                    step={25000}
-                    value={sliderValue}
-                    onChange={(e) => setSliderValue(Number(e.target.value))}
-                    className="w-full h-2 bg-muted rounded-full appearance-none cursor-pointer
-                      [&::-webkit-slider-thumb]:appearance-none
-                      [&::-webkit-slider-thumb]:w-5
-                      [&::-webkit-slider-thumb]:h-5
-                      [&::-webkit-slider-thumb]:rounded-full
-                      [&::-webkit-slider-thumb]:bg-primary
-                      [&::-webkit-slider-thumb]:cursor-pointer
-                      [&::-webkit-slider-thumb]:shadow-lg
-                      [&::-webkit-slider-thumb]:transition-transform
-                      [&::-webkit-slider-thumb]:hover:scale-110
-                      [&::-moz-range-thumb]:w-5
-                      [&::-moz-range-thumb]:h-5
-                      [&::-moz-range-thumb]:rounded-full
-                      [&::-moz-range-thumb]:bg-primary
-                      [&::-moz-range-thumb]:border-0
-                      [&::-moz-range-thumb]:cursor-pointer"
-                  />
-                  <div className="flex justify-between mt-2 text-xs text-muted-foreground">
-                    <span>$400K</span>
-                    <span>$2.5M</span>
-                  </div>
-                </div>
+                  return (
+                    <div key={pillar.title} className="rounded-xl border border-border/50 bg-background/70 p-5">
+                      <div className="flex items-start gap-4">
+                        <div className="w-11 h-11 rounded-xl bg-primary/10 flex items-center justify-center flex-shrink-0">
+                          <Icon className="w-5 h-5 text-primary" />
+                        </div>
+                        <div>
+                          <h4 className="font-semibold text-foreground mb-1">{pillar.title}</h4>
+                          <p className="text-sm text-muted-foreground leading-relaxed">{pillar.description}</p>
+                        </div>
+                      </div>
+                    </div>
+                  )
+                })}
               </div>
-
-              {/* Projected Growth Display */}
-              <div className="bg-gradient-to-br from-primary/5 to-secondary/5 rounded-xl p-6 border border-primary/10">
-                <div className="flex items-center justify-between mb-4">
-                  <span className="text-sm font-medium text-muted-foreground">Projected 2026 Value</span>
-                  <span className="flex items-center text-sm text-primary font-semibold">
-                    <TrendingUp className="h-4 w-4 mr-1" />
-                    +12.4%
-                  </span>
-                </div>
-
-                <motion.div
-                  key={projectedValue}
-                  initial={{ scale: 0.95, opacity: 0.5 }}
-                  animate={{ scale: 1, opacity: 1 }}
-                  className="text-3xl md:text-4xl font-serif font-bold text-primary mb-2"
-                >
-                  {formatCurrency(projectedValue)}
-                </motion.div>
-
-                <p className="text-sm text-muted-foreground">
-                  Potential growth of{" "}
-                  <span className="font-semibold text-secondary">{formatCurrency(estimatedGrowth)}</span>
-                </p>
-              </div>
-
-              {/* Animated hover indicator */}
-              <motion.div
-                className="absolute -bottom-1 left-0 right-0 h-1 bg-gradient-to-r from-primary via-secondary to-primary"
-                initial={{ scaleX: 0 }}
-                animate={{ scaleX: isHovering ? 1 : 0 }}
-                transition={{ duration: 0.3 }}
-              />
             </div>
-
-            {/* Disclaimer */}
-            <p className="text-xs text-muted-foreground mt-4 text-center">
-              *Projections based on Perth SE Corridor historical growth data. Actual results may vary.
-            </p>
           </motion.div>
 
-          {/* Right Side - The 2026 Gap Copy */}
+          {/* Right Side - Seller Strategy Copy */}
           <motion.div
             variants={containerVariants}
             initial="hidden"
@@ -185,31 +106,31 @@ export function SellerLeadMagnet() {
               className="inline-flex items-center gap-2 text-secondary font-medium text-sm uppercase tracking-wider mb-4"
             >
               <Calendar className="w-4 h-4" />
-              Seller Intelligence
+              Seller Strategy
             </motion.span>
 
             <motion.h2
               variants={itemVariants}
               className="font-serif text-3xl md:text-4xl lg:text-5xl font-semibold text-foreground mb-6 text-balance tracking-tighter"
             >
-              The 2026 Gap:
+              Strong results start with
               <br />
-              <span className="text-primary">Your Window of Opportunity</span>
+              <span className="text-primary">clarity, communication, and strategy.</span>
             </motion.h2>
 
             <motion.div variants={itemVariants} className="space-y-4 mb-8">
               <p className="text-muted-foreground text-lg leading-relaxed">
-                Perth&apos;s SE Corridor is experiencing a critical market shift. With stock levels at historic lows and
-                buyer demand surging, 2026 presents a rare opportunity for strategic sellers.
+                Sellers choose us when they want a boutique team that thinks carefully, communicates clearly, and builds a
+                campaign around the strengths of the home rather than relying on a one-size-fits-all formula.
               </p>
 
               <div className="bg-card/60 backdrop-blur-sm rounded-xl p-5 shadow-lg">
-                <h4 className="font-semibold text-card-foreground mb-3">The Transition Advantage:</h4>
+                <h4 className="font-semibold text-card-foreground mb-3">What that means for you:</h4>
                 <ul className="space-y-2">
                   {[
-                    "Sell at peak value while competition remains low",
-                    "Secure your next property before prices climb further",
-                    "Navigate timing with expert local guidance",
+                    "A tailored campaign plan built around your property and your goals",
+                    "Consistent communication so you always know what is happening and why",
+                    "Thoughtful negotiation designed to protect your position and overachieve expectations",
                   ].map((item, i) => (
                     <li key={i} className="flex items-start gap-3 text-muted-foreground">
                       <CheckCircle2 className="w-5 h-5 text-primary mt-0.5 flex-shrink-0" />
@@ -222,73 +143,22 @@ export function SellerLeadMagnet() {
 
             {/* Lead Capture CTA */}
             <motion.div variants={itemVariants}>
-              <Dialog>
-                <DialogTrigger asChild>
-                  <Button
-                    size="lg"
-                    className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold text-lg px-8 py-6 h-auto shadow-2xl hover:shadow-xl transition-all"
-                  >
-                    Get Your 2026 Transition Strategy
-                    <ArrowRight className="ml-2 h-5 w-5" />
-                  </Button>
-                </DialogTrigger>
-                <DialogContent className="sm:max-w-md">
-                  <DialogHeader>
-                    <DialogTitle className="font-serif text-2xl">Your 2026 Strategy Session</DialogTitle>
-                    <DialogDescription>
-                      Receive a personalized transition strategy tailored to your property and goals.
-                    </DialogDescription>
-                  </DialogHeader>
-
-                  {!formSubmitted ? (
-                    <form
-                      onSubmit={(e) => {
-                        e.preventDefault()
-                        setFormSubmitted(true)
-                      }}
-                      className="space-y-4 mt-4"
-                    >
-                      <div>
-                        <label className="block text-sm font-medium mb-1.5">Full Name</label>
-                        <Input placeholder="Enter your name" required />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-1.5">Email Address</label>
-                        <Input type="email" placeholder="you@example.com" required />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-1.5">Property Address</label>
-                        <Input placeholder="Your property address" required />
-                      </div>
-                      <div>
-                        <label className="block text-sm font-medium mb-1.5">When are you considering selling?</label>
-                        <select className="w-full h-10 rounded-md border border-input bg-background px-3 text-sm">
-                          <option>Within 3 months</option>
-                          <option>3-6 months</option>
-                          <option>6-12 months</option>
-                          <option>Just exploring options</option>
-                        </select>
-                      </div>
-                      <Button
-                        type="submit"
-                        className="w-full bg-secondary hover:bg-secondary/90 text-secondary-foreground"
-                      >
-                        Send My Strategy
-                      </Button>
-                    </form>
-                  ) : (
-                    <div className="text-center py-8">
-                      <div className="w-16 h-16 rounded-full bg-primary/10 flex items-center justify-center mx-auto mb-4">
-                        <CheckCircle2 className="w-8 h-8 text-primary" />
-                      </div>
-                      <h3 className="font-serif text-xl font-semibold mb-2">Strategy Request Received!</h3>
-                      <p className="text-muted-foreground">
-                        Luke will personally review your details and be in touch within 24 hours.
-                      </p>
-                    </div>
-                  )}
-                </DialogContent>
-              </Dialog>
+              <Button
+                size="lg"
+                className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold text-lg px-8 py-6 h-auto shadow-2xl hover:shadow-xl transition-all"
+                onClick={() =>
+                  openLeadModal({
+                    type: "seller-strategy",
+                    source: "Seller Lead Magnet",
+                    title: "Your Confidential Strategy Session",
+                    description:
+                      "Tell us a little about your property and Luke or Andy will follow up with a tailored seller strategy conversation.",
+                  })
+                }
+              >
+                Request Your Confidential Strategy Session
+                <ArrowRight className="ml-2 h-5 w-5" />
+              </Button>
             </motion.div>
 
             {/* Trust indicators */}

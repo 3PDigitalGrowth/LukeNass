@@ -4,6 +4,7 @@ import { useState } from 'react'
 import Image from 'next/image'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { ChevronDown, Phone, Calendar } from 'lucide-react'
 
 interface PropertyDetailsContentProps {
@@ -13,7 +14,7 @@ interface PropertyDetailsContentProps {
 export function PropertyDetailsContent({ propertyId }: PropertyDetailsContentProps) {
   const [selectedImage, setSelectedImage] = useState(0)
   const [expandedAccordion, setExpandedAccordion] = useState<'floorplan' | 'video' | null>(null)
-  const [showInspectionForm, setShowInspectionForm] = useState(false)
+  const { openLeadModal } = useLeadModal()
 
   // Mock property data - replace with API call
   const property = {
@@ -225,58 +226,24 @@ export function PropertyDetailsContent({ propertyId }: PropertyDetailsContentPro
 
             {/* Book Inspection Button */}
             <Button
-              onClick={() => setShowInspectionForm(!showInspectionForm)}
+              onClick={() =>
+                openLeadModal({
+                  type: 'inspection-request',
+                  source: `Property Details ${propertyId}`,
+                  defaults: {
+                    propertyAddress: property.address,
+                  },
+                  metadata: {
+                    Property: property.address,
+                  },
+                })
+              }
               className="w-full bg-secondary text-secondary-foreground hover:bg-secondary/90 font-semibold py-6"
               size="lg"
             >
               <Calendar className="h-4 w-4 mr-2" />
               Book Inspection
             </Button>
-
-            {/* Inspection Form */}
-            {showInspectionForm && (
-              <motion.form
-                initial={{ opacity: 0, y: 10 }}
-                animate={{ opacity: 1, y: 0 }}
-                transition={{ duration: 0.3 }}
-                className="mt-6 space-y-4 pt-6 border-t border-border"
-              >
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Full Name</label>
-                  <input
-                    type="text"
-                    placeholder="Your name"
-                    className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Email</label>
-                  <input
-                    type="email"
-                    placeholder="your@email.com"
-                    className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Phone</label>
-                  <input
-                    type="tel"
-                    placeholder="+61 (0) 4XX XXX XXX"
-                    className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <div>
-                  <label className="block text-sm font-medium text-foreground mb-2">Preferred Date</label>
-                  <input
-                    type="date"
-                    className="w-full px-4 py-2 rounded-lg border border-border bg-background text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary"
-                  />
-                </div>
-                <Button className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-semibold">
-                  Request Inspection
-                </Button>
-              </motion.form>
-            )}
           </div>
         </motion.div>
       </div>
