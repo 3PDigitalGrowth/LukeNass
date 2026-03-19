@@ -59,7 +59,7 @@ export function SellHeroSection() {
             </motion.div>
 
             <motion.div
-              className="flex gap-4"
+              className="flex flex-col sm:flex-row gap-4"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
@@ -71,10 +71,16 @@ export function SellHeroSection() {
                 Request Confidential Appraisal
               </a>
               <a
-                href="tel:0894952226"
+                href="tel:0418928082"
                 className="px-8 py-3 bg-border text-foreground rounded-lg font-medium hover:bg-border/80 transition-all duration-300"
               >
-                Talk to Luke or Andy
+                Luke 0418 928 082
+              </a>
+              <a
+                href="tel:0419600504"
+                className="px-8 py-3 bg-border text-foreground rounded-lg font-medium hover:bg-border/80 transition-all duration-300"
+              >
+                Andrew 0419 600 504
               </a>
             </motion.div>
           </motion.div>

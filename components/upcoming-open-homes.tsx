@@ -74,10 +74,18 @@ export function UpcomingOpenHomes() {
             <Button asChild size="lg" className="bg-primary hover:bg-primary/90 text-primary-foreground">
               <a href="/buy">Share Your Requirements</a>
             </Button>
+          </div>
+          <div className="mt-4 grid gap-3 sm:grid-cols-2 max-w-xl mx-auto">
             <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary/5 bg-transparent">
-              <a href="tel:0894952226">
+              <a href="tel:0418928082">
                 <Phone className="h-4 w-4 mr-2" />
-                Call Us
+                Luke 0418 928 082
+              </a>
+            </Button>
+            <Button asChild variant="outline" size="lg" className="border-primary text-primary hover:bg-primary/5 bg-transparent">
+              <a href="tel:0419600504">
+                <Phone className="h-4 w-4 mr-2" />
+                Andrew 0419 600 504
               </a>
             </Button>
           </div>

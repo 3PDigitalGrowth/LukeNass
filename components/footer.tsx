@@ -6,22 +6,22 @@ import { Linkedin, Mail, Phone, MapPin, Clock } from "lucide-react"
 import { useEffect, useState } from "react"
 
 const quickLinks = [
-  { href: "#selling", label: "Selling Your Property" },
-  { href: "#buying", label: "Buying a Home" },
-  { href: "#insights", label: "Market Insights" },
-  { href: "#about", label: "About Luke" },
-  { href: "#contact", label: "Contact Us" },
+  { href: "/sell", label: "Selling Your Property" },
+  { href: "/buy", label: "Buying a Home" },
+  { href: "/about#meet-luke", label: "About Luke" },
+  { href: "/about#meet-andrew", label: "About Andrew" },
+  { href: "/about#contact", label: "Contact Us" },
 ]
 
 const seoLinks = [
-  "Real Estate Agent Roleystone",
-  "Homes for Sale Kelmscott",
-  "Property Valuation Armadale",
-  "Sell My House Bedfordale",
-  "Property Marketing Perth Hills",
-  "Luxury Homes Mount Nasura",
-  "First Home Buyer Seville Grove",
-  "Investment Property Camillo",
+  { href: "/about", label: "Real Estate Agent Roleystone" },
+  { href: "/buy", label: "Homes for Sale Kelmscott" },
+  { href: "/sell#sell-appraisal-form", label: "Property Valuation Armadale" },
+  { href: "/sell#sell-appraisal-form", label: "Sell My House Bedfordale" },
+  { href: "/sell", label: "Property Marketing Perth Hills" },
+  { href: "/buy#buyer-match-form", label: "Luxury Homes Mount Nasura" },
+  { href: "/buy#buyer-match-form", label: "First Home Buyer Seville Grove" },
+  { href: "/buy#buyer-match-form", label: "Investment Property Camillo" },
 ]
 
 const socialLinks = [
@@ -150,14 +150,35 @@ export function Footer() {
             <ul className="space-y-4">
               <li className="flex items-start gap-3">
                 <Phone className="h-4 w-4 text-(--umber-foreground)/60 mt-0.5" />
-                <div>
-                  <p className="text-(--umber-foreground) text-sm font-medium">08 9495 2226</p>
-                  <p className="text-(--umber-foreground)/50 text-xs">Available by appointment</p>
+                <div className="space-y-2">
+                  <div>
+                    <p className="text-(--umber-foreground)/50 text-xs">Luke Nass</p>
+                    <a
+                      href="tel:0418928082"
+                      className="text-(--umber-foreground) text-sm font-medium hover:text-(--umber-foreground)/80 transition-colors"
+                    >
+                      0418 928 082
+                    </a>
+                  </div>
+                  <div>
+                    <p className="text-(--umber-foreground)/50 text-xs">Andrew Hill</p>
+                    <a
+                      href="tel:0419600504"
+                      className="text-(--umber-foreground) text-sm font-medium hover:text-(--umber-foreground)/80 transition-colors"
+                    >
+                      0419 600 504
+                    </a>
+                  </div>
                 </div>
               </li>
               <li className="flex items-start gap-3">
                 <Mail className="h-4 w-4 text-(--umber-foreground)/60 mt-0.5" />
-                <p className="text-(--umber-foreground) text-sm">luke@lukenass.com.au</p>
+                <a
+                  href="mailto:luke@lukenass.com.au"
+                  className="text-(--umber-foreground) text-sm hover:text-(--umber-foreground)/80 transition-colors"
+                >
+                  luke@lukenass.com.au
+                </a>
               </li>
               <li className="flex items-start gap-3">
                 <MapPin className="h-4 w-4 text-(--umber-foreground)/60 mt-0.5" />
@@ -176,11 +197,11 @@ export function Footer() {
           <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
             {seoLinks.map((link) => (
               <Link
-                key={link}
-                href="#"
+                key={link.label}
+                href={link.href}
                 className="text-(--umber-foreground)/40 hover:text-(--umber-foreground)/60 text-xs transition-colors"
               >
-                {link}
+                {link.label}
               </Link>
             ))}
           </div>
@@ -195,22 +216,10 @@ export function Footer() {
           </p>
           <div className="flex gap-6 text-xs">
             <Link
-              href="#"
+              href="/privacy-policy"
               className="text-(--umber-foreground)/50 hover:text-(--umber-foreground)/70 transition-colors"
             >
               Privacy Policy
-            </Link>
-            <Link
-              href="#"
-              className="text-(--umber-foreground)/50 hover:text-(--umber-foreground)/70 transition-colors"
-            >
-              Terms of Service
-            </Link>
-            <Link
-              href="#"
-              className="text-(--umber-foreground)/50 hover:text-(--umber-foreground)/70 transition-colors"
-            >
-              Accessibility
             </Link>
             <Link
               href="/admin"

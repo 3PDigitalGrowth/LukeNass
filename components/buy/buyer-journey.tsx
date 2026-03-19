@@ -1,8 +1,8 @@
 'use client'
 
+import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Check } from 'lucide-react'
-import { useLeadModal } from '@/components/global/lead-capture-provider'
 
 const steps = [
   {
@@ -32,7 +32,6 @@ const steps = [
 ]
 
 export function BuyerJourney() {
-  const { openLeadModal } = useLeadModal()
   const containerVariants = {
     hidden: { opacity: 0 },
     show: {
@@ -120,23 +119,9 @@ export function BuyerJourney() {
               <p className="text-muted-foreground text-sm mb-4">
                 Access to multiple lenders and competitive rates through our preferred broker network.
               </p>
-              <button
-                className="text-primary text-sm font-semibold hover:underline"
-                onClick={() =>
-                  openLeadModal({
-                    type: 'partner-introduction',
-                    source: 'Buyer Journey',
-                    defaults: {
-                      serviceType: 'Mortgage Broker',
-                    },
-                    metadata: {
-                      Service: 'Mortgage Broker',
-                    },
-                  })
-                }
-              >
+              <Link href="/trusted-partners" className="text-primary text-sm font-semibold hover:underline">
                 Get broker introduction →
-              </button>
+              </Link>
             </div>
 
             <div>
@@ -144,23 +129,9 @@ export function BuyerJourney() {
               <p className="text-muted-foreground text-sm mb-4">
                 Specialist property lawyers to handle your settlement and protect your interests.
               </p>
-              <button
-                className="text-primary text-sm font-semibold hover:underline"
-                onClick={() =>
-                  openLeadModal({
-                    type: 'partner-introduction',
-                    source: 'Buyer Journey',
-                    defaults: {
-                      serviceType: 'Conveyancer',
-                    },
-                    metadata: {
-                      Service: 'Conveyancer',
-                    },
-                  })
-                }
-              >
+              <Link href="/trusted-partners" className="text-primary text-sm font-semibold hover:underline">
                 Connect with conveyancer →
-              </button>
+              </Link>
             </div>
 
             <div>
@@ -168,23 +139,9 @@ export function BuyerJourney() {
               <p className="text-muted-foreground text-sm mb-4">
                 Professional building and pest inspections to ensure you're making an informed decision.
               </p>
-              <button
-                className="text-primary text-sm font-semibold hover:underline"
-                onClick={() =>
-                  openLeadModal({
-                    type: 'partner-introduction',
-                    source: 'Buyer Journey',
-                    defaults: {
-                      serviceType: 'Building and Pest Inspection',
-                    },
-                    metadata: {
-                      Service: 'Building and Pest Inspection',
-                    },
-                  })
-                }
-              >
+              <Link href="/trusted-partners" className="text-primary text-sm font-semibold hover:underline">
                 Schedule inspection →
-              </button>
+              </Link>
             </div>
           </div>
         </motion.div>

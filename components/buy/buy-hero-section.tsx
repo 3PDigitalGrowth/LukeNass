@@ -85,16 +85,27 @@ export function BuyHeroSection() {
             </motion.div>
 
             {/* CTA Buttons */}
-            <motion.div variants={itemVariants} className="flex flex-col sm:flex-row gap-4">
+            <motion.div variants={itemVariants} className="grid gap-3 sm:grid-cols-2 max-w-lg">
               <Button
                 asChild
                 variant="outline"
                 size="lg"
-                className="border-foreground/30 h-12 px-8 font-medium gap-2 bg-transparent"
+                className="border-foreground/30 h-12 px-6 font-medium gap-2 bg-transparent"
               >
-                <a href="tel:0894952226">
+                <a href="tel:0418928082">
                   <Phone className="h-4 w-4" />
-                  Call Us
+                  Luke 0418 928 082
+                </a>
+              </Button>
+              <Button
+                asChild
+                variant="outline"
+                size="lg"
+                className="border-foreground/30 h-12 px-6 font-medium gap-2 bg-transparent"
+              >
+                <a href="tel:0419600504">
+                  <Phone className="h-4 w-4" />
+                  Andrew 0419 600 504
                 </a>
               </Button>
             </motion.div>
@@ -105,12 +116,12 @@ export function BuyHeroSection() {
               className="mt-12 flex flex-wrap gap-8 text-sm text-muted-foreground"
             >
               <div>
-                <div className="font-semibold text-primary text-lg mb-1">500+</div>
-                <div>Happy Buyers</div>
+                <div className="font-semibold text-primary text-lg mb-1">3000+</div>
+                <div>Happy Buyers &amp; Sellers</div>
               </div>
               <div>
                 <div className="font-semibold text-primary text-lg mb-1">65+</div>
-                <div>Years Combined</div>
+                <div>Years Combined Experience</div>
               </div>
               <div>
                 <div className="font-semibold text-primary text-lg mb-1">Local Insight</div>

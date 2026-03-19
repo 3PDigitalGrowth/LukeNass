@@ -10,7 +10,7 @@ export function MeetLuke() {
   const { openLeadModal } = useLeadModal()
 
   return (
-    <section className="py-20 lg:py-28 bg-card">
+    <section className="py-20 lg:py-28 bg-card" id="meet-luke">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Luke's Photo & Quick Facts */}

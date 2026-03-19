@@ -124,6 +124,22 @@ export function HeroSection() {
                     <a href="/sell">See Our Selling Approach</a>
                   </Button>
                 </div>
+                <div className="mt-4 grid gap-2 sm:grid-cols-2">
+                  <a
+                    href="tel:0418928082"
+                    className="rounded-lg border border-border/50 bg-background/55 px-4 py-3 text-sm text-foreground hover:bg-muted transition-colors"
+                  >
+                    <span className="block font-medium text-foreground">Luke Nass</span>
+                    <span className="text-muted-foreground">0418 928 082</span>
+                  </a>
+                  <a
+                    href="tel:0419600504"
+                    className="rounded-lg border border-border/50 bg-background/55 px-4 py-3 text-sm text-foreground hover:bg-muted transition-colors"
+                  >
+                    <span className="block font-medium text-foreground">Andrew Hill</span>
+                    <span className="text-muted-foreground">0419 600 504</span>
+                  </a>
+                </div>
               </div>
             </motion.div>
 
@@ -136,11 +152,11 @@ export function HeroSection() {
                 <div className="grid grid-cols-1 sm:grid-cols-3">
                   <div className="px-6 py-5 flex flex-col items-center lg:items-start text-center lg:text-left border-b sm:border-b-0 sm:border-r border-secondary/20">
                     <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">3000+</span>
-                    <span className="text-sm sm:text-base text-muted-foreground font-medium">Properties Sold</span>
+                    <span className="text-sm sm:text-base text-muted-foreground font-medium">Happy Buyers &amp; Sellers</span>
                   </div>
                   <div className="px-6 py-5 flex flex-col items-center lg:items-start text-center lg:text-left border-b sm:border-b-0 sm:border-r border-secondary/20">
                     <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">65+</span>
-                    <span className="text-sm sm:text-base text-muted-foreground font-medium">Years Combined</span>
+                    <span className="text-sm sm:text-base text-muted-foreground font-medium">Years Combined Experience</span>
                   </div>
                   <div className="px-6 py-5 flex flex-col items-center lg:items-start text-center lg:text-left">
                     <span className="text-4xl sm:text-5xl font-serif font-bold text-secondary mb-2">$1.2B+</span>

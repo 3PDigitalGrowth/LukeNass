@@ -7,15 +7,15 @@ import { motion } from 'framer-motion'
 import { CheckCircle2, Mail, Phone } from 'lucide-react'
 
 const andrewHighlights = [
-  '24+ years of local area knowledge.',
-  '24+ years of experience selling and negotiating the very best deal.',
-  '24+ years of experience marketing properties to get the optimum final result for you.',
+  '27+ years of local area knowledge.',
+  '27+ years of experience selling and negotiating the very best deal.',
+  '27+ years of experience marketing properties to get the optimum final result for you.',
   'A friendly, professional, and informative approach centred on your needs.',
 ]
 
 export function MeetAndrew() {
   return (
-    <section className="py-20 lg:py-28 bg-background">
+    <section className="py-20 lg:py-28 bg-background" id="meet-andrew">
       <div className="container mx-auto px-4 lg:px-8">
         <div className="grid lg:grid-cols-2 gap-12 lg:gap-16 items-center">
           {/* Left: Andrew's Photo & Quick Facts */}
@@ -106,9 +106,6 @@ export function MeetAndrew() {
             <div className="flex flex-col sm:flex-row gap-4">
               <Button asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold py-6 px-8 text-lg">
                 <Link href="/sell#sell-appraisal-form">Request Appraisal</Link>
-              </Button>
-              <Button asChild variant="outline" className="border-2 border-secondary text-secondary hover:bg-secondary/10 font-bold py-6 px-8 text-lg bg-transparent">
-                <Link href="/buy">Recent Listings</Link>
               </Button>
             </div>
           </motion.div>

@@ -161,10 +161,18 @@ export function PropertyEcosystem() {
                         <ArrowRight className="ml-2 h-4 w-4" />
                       </a>
                     </Button>
+                  </div>
+                  <div className="mt-4 grid gap-3 sm:grid-cols-2 max-w-xl mx-auto">
                     <Button asChild size="lg" variant="outline" className="bg-transparent border-primary text-primary hover:bg-primary/5">
-                      <a href="tel:0894952226">
+                      <a href="tel:0418928082">
                         <Phone className="h-4 w-4 mr-2" />
-                        Call Us
+                        Luke 0418 928 082
+                      </a>
+                    </Button>
+                    <Button asChild size="lg" variant="outline" className="bg-transparent border-primary text-primary hover:bg-primary/5">
+                      <a href="tel:0419600504">
+                        <Phone className="h-4 w-4 mr-2" />
+                        Andrew 0419 600 504
                       </a>
                     </Button>
                   </div>

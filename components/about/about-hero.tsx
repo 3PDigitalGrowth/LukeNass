@@ -76,7 +76,6 @@ export function AboutHero() {
           {/* Micro Trust Line */}
           <div className="flex flex-col sm:flex-row gap-4 text-sm text-muted-foreground">
             <span>📍 Unit 1/8 Rundle St, Kelmscott WA 6111</span>
-            <span>📞 08 9495 2226</span>
           </div>
         </motion.div>
       </div>

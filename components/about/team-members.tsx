@@ -11,7 +11,7 @@ export function TeamMembers() {
     {
       name: 'Luke Nass',
       title: 'Licensee & Principal',
-      phone: '08 9495 2226',
+      phone: '0418 928 082',
       email: 'luke@lukenass.com.au',
       bio: 'Part of a team with 65+ years combined experience in the Hills, Luke specializes in distressed sales, high-end negotiation, and tailored buyer-seller strategy. A REIWA Award Achiever who guarantees personal integrity.',
       image: '/luke-nass-portrait.png'

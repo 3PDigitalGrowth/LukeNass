@@ -162,7 +162,7 @@ export function BuyListingsPage() {
                 </p>
                 <div className="flex flex-col sm:flex-row justify-center gap-4">
                   <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                    <a href="/inner-circle">
+                    <a href="/buy#buyer-match-form">
                       Submit Your Requirements
                       <ArrowRight className="ml-2 h-4 w-4" />
                     </a>
@@ -172,10 +172,18 @@ export function BuyListingsPage() {
                       Need Help Selling?
                     </a>
                   </Button>
+                </div>
+                <div className="mt-4 grid gap-3 sm:grid-cols-2 max-w-xl mx-auto">
                   <Button asChild size="lg" variant="outline" className="bg-transparent border-primary text-primary hover:bg-primary/5">
-                    <a href="tel:0894952226">
+                    <a href="tel:0418928082">
                       <Phone className="h-4 w-4 mr-2" />
-                      Call Us
+                      Luke 0418 928 082
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="bg-transparent border-primary text-primary hover:bg-primary/5">
+                    <a href="tel:0419600504">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Andrew 0419 600 504
                     </a>
                   </Button>
                 </div>
