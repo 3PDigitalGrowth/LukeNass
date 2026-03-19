@@ -2,6 +2,9 @@
 
 import { useState } from 'react'
 import { motion } from 'framer-motion'
+import { Card, CardContent } from '@/components/ui/card'
+import { Button } from '@/components/ui/button'
+import { ArrowRight, Home, Phone } from 'lucide-react'
 import { FilterBar } from './filter-bar'
 import { ListingCard } from './listing-card'
 import { MapView } from './map-view'
@@ -16,81 +19,18 @@ interface ListingFilters {
   searchQuery: string
 }
 
-// Sample property data
-const sampleListings = [
-  {
-    id: 1,
-    address: '42 Mountain View Drive',
-    suburb: 'Roleystone',
-    price: 1_250_000,
-    beds: 4,
-    baths: 2,
-    cars: 2,
-    image: '/luxury-modern-home-perth-hills-aerial-cinematic.jpg',
-    status: 'New',
-    description: 'Stunning modern home with panoramic views',
-  },
-  {
-    id: 2,
-    address: '28 Hillside Avenue',
-    suburb: 'Kelmscott',
-    price: 895_000,
-    beds: 3,
-    baths: 2,
-    cars: 2,
-    image: '/modern-contemporary-home-kelmscott-hills.jpg',
-    status: 'Under Offer',
-    description: 'Contemporary architect-designed residence',
-  },
-  {
-    id: 3,
-    address: '15 Heritage Lane',
-    suburb: 'Armadale',
-    price: 750_000,
-    beds: 3,
-    baths: 1,
-    cars: 1,
-    image: '/charming-cottage-home-garden.jpg',
-    status: null,
-    description: 'Charming character home on large block',
-  },
-  {
-    id: 4,
-    address: '56 Parkside Crescent',
-    suburb: 'Roleystone',
-    price: 1_450_000,
-    beds: 5,
-    baths: 3,
-    cars: 3,
-    image: '/luxury-home-swimming-pool-perth.jpg',
-    status: 'New',
-    description: 'Luxury estate with heated pool',
-  },
-  {
-    id: 5,
-    address: '9 Garden Court',
-    suburb: 'Bedfordale',
-    price: 680_000,
-    beds: 3,
-    baths: 2,
-    cars: 2,
-    image: '/modern-family-home-swimming-pool.jpg',
-    status: null,
-    description: 'Modern family home in established estate',
-  },
-  {
-    id: 6,
-    address: '33 Valley View Road',
-    suburb: 'Seville Grove',
-    price: 625_000,
-    beds: 2,
-    baths: 2,
-    cars: 1,
-    image: '/modern-minimalist-home-bushland-setting.jpg',
-    status: 'Under Offer',
-    description: 'Minimalist home with bushland outlook',
-  },
-]
+const sampleListings: Array<{
+  id: number
+  address: string
+  suburb: string
+  price: number
+  beds: number
+  baths: number
+  cars: number
+  image: string
+  status: string | null
+  description: string
+}> = []
 
 export function BuyListingsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid')
@@ -132,61 +72,116 @@ export function BuyListingsPage() {
     return true
   })
 
+  const hasListings = sampleListings.length > 0
+
   return (
     <div className="pt-24 pb-16">
-      <FilterBar filters={filters} setFilters={setFilters} viewMode={viewMode} setViewMode={setViewMode} />
-
       <div className="container mx-auto px-4 lg:px-8">
-        {viewMode === 'grid' ? (
+        {hasListings ? (
           <>
-            <div className="mt-8 mb-6">
-              <p className="text-foreground/60">
-                Showing <span className="font-semibold text-foreground">{filteredListings.length}</span> properties
-              </p>
-            </div>
+            <FilterBar filters={filters} setFilters={setFilters} viewMode={viewMode} setViewMode={setViewMode} />
 
-            {filteredListings.length > 0 ? (
-              <motion.div
-                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                initial="hidden"
-                animate="visible"
-                variants={{
-                  hidden: { opacity: 0 },
-                  visible: {
-                    opacity: 1,
-                    transition: {
-                      staggerChildren: 0.1,
-                      delayChildren: 0.2,
-                    },
-                  },
-                }}
-              >
-                {filteredListings.map((listing) => (
+            {viewMode === 'grid' ? (
+              <>
+                <div className="mt-8 mb-6">
+                  <p className="text-foreground/60">
+                    Showing <span className="font-semibold text-foreground">{filteredListings.length}</span> properties
+                  </p>
+                </div>
+
+                {filteredListings.length > 0 ? (
                   <motion.div
-                    key={listing.id}
+                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                    initial="hidden"
+                    animate="visible"
                     variants={{
-                      hidden: { opacity: 0, y: 20 },
+                      hidden: { opacity: 0 },
                       visible: {
                         opacity: 1,
-                        y: 0,
-                        transition: { duration: 0.5 },
+                        transition: {
+                          staggerChildren: 0.1,
+                          delayChildren: 0.2,
+                        },
                       },
                     }}
                   >
-                    <ListingCard listing={listing} />
+                    {filteredListings.map((listing) => (
+                      <motion.div
+                        key={listing.id}
+                        variants={{
+                          hidden: { opacity: 0, y: 20 },
+                          visible: {
+                            opacity: 1,
+                            y: 0,
+                            transition: { duration: 0.5 },
+                          },
+                        }}
+                      >
+                        <ListingCard listing={listing} />
+                      </motion.div>
+                    ))}
                   </motion.div>
-                ))}
-              </motion.div>
-            ) : (
-              <div className="py-16 text-center">
-                <p className="text-foreground/60 mb-6">No properties match your filters.</p>
-              </div>
-            )}
+                ) : (
+                  <div className="py-16 text-center">
+                    <p className="text-foreground/60 mb-6">No properties match your filters.</p>
+                  </div>
+                )}
 
-            <InnerCircleLeadMagnet />
+                <InnerCircleLeadMagnet />
+              </>
+            ) : (
+              <MapView listings={filteredListings} />
+            )}
           </>
         ) : (
-          <MapView listings={filteredListings} />
+          <motion.div
+            initial={{ opacity: 0, y: 20 }}
+            whileInView={{ opacity: 1, y: 0 }}
+            viewport={{ once: true }}
+            transition={{ duration: 0.5 }}
+            className="max-w-4xl mx-auto"
+          >
+            <Card className="overflow-hidden border border-border/50 bg-gradient-to-br from-card via-card to-primary/5 shadow-xl">
+              <CardContent className="p-8 lg:p-12 text-center">
+                <div className="inline-flex items-center rounded-full border border-primary/15 bg-primary/8 px-4 py-1.5 text-sm font-medium text-primary mb-6">
+                  Current Market Availability
+                </div>
+                <div className="mx-auto mb-6 flex h-16 w-16 items-center justify-center rounded-full bg-primary/10 shadow-sm">
+                  <Home className="h-8 w-8 text-primary" />
+                </div>
+                <h3 className="font-serif text-2xl lg:text-4xl font-semibold text-foreground mb-4 tracking-tight">
+                  There are currently no properties for sale
+                </h3>
+                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-6">
+                  If you&apos;re in the market to buy, tell us exactly what your ideal property looks like and we&apos;ll keep you
+                  informed about suitable opportunities, including homes that may not be publicly advertised yet.
+                </p>
+                <p className="text-base lg:text-lg text-muted-foreground leading-relaxed max-w-2xl mx-auto mb-8">
+                  Need help selling before you buy? We can also help you plan the right sales strategy so your next move is
+                  smooth, well-timed, and positioned for the best possible result.
+                </p>
+                <div className="flex flex-col sm:flex-row justify-center gap-4">
+                  <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
+                    <a href="/inner-circle">
+                      Submit Your Requirements
+                      <ArrowRight className="ml-2 h-4 w-4" />
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="bg-transparent border-primary text-primary hover:bg-primary/5">
+                    <a href="/sell#sell-appraisal-form">
+                      Need Help Selling?
+                    </a>
+                  </Button>
+                  <Button asChild size="lg" variant="outline" className="bg-transparent border-primary text-primary hover:bg-primary/5">
+                    <a href="tel:0894952226">
+                      <Phone className="h-4 w-4 mr-2" />
+                      Call Us
+                    </a>
+                  </Button>
+                </div>
+              </CardContent>
+            </Card>
+          </motion.div>
         )}
       </div>
     </div>

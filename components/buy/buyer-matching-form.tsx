@@ -16,16 +16,14 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
   const [submitted, setSubmitted] = useState(false)
   const [formData, setFormData] = useState({
     budget: [0, 1500000],
-    suburbs: [] as string[],
+    suburbs: '',
     mustHaves: [] as string[],
     timeframe: 'flexible',
     finance: 'preapproved',
     email: '',
     phone: '',
-    smsAlerts: false,
   })
 
-  const suburbs = ['Roleystone', 'Kelmscott', 'Armadale', 'Bedfordale', 'Seville Grove', 'Mount Nasura']
   const mustHaves = ['Pool', 'Modern', 'Land Size', 'Original Features', 'Reno Ready']
 
   const handleSubmit = (e: React.FormEvent) => {
@@ -35,24 +33,14 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
       setSubmitted(false)
       setFormData({
         budget: [0, 1500000],
-        suburbs: [],
+        suburbs: '',
         mustHaves: [],
         timeframe: 'flexible',
         finance: 'preapproved',
         email: '',
         phone: '',
-        smsAlerts: false,
       })
     }, 5000)
-  }
-
-  const toggleSuburb = (suburb: string) => {
-    setFormData({
-      ...formData,
-      suburbs: formData.suburbs.includes(suburb)
-        ? formData.suburbs.filter((s) => s !== suburb)
-        : [...formData.suburbs, suburb],
-    })
   }
 
   const toggleMustHave = (item: string) => {
@@ -154,22 +142,13 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
                   <label className="block text-sm font-semibold text-foreground mb-4 flex items-center gap-2">
                     <MapPin className="w-4 h-4" /> Preferred Suburbs
                   </label>
-                  <div className="grid grid-cols-2 md:grid-cols-3 gap-3">
-                    {suburbs.map((suburb) => (
-                      <button
-                        key={suburb}
-                        type="button"
-                        onClick={() => toggleSuburb(suburb)}
-                        className={`px-4 py-2 rounded-lg font-medium transition-all ${
-                          formData.suburbs.includes(suburb)
-                            ? 'bg-primary text-primary-foreground'
-                            : 'bg-muted/50 text-foreground border border-border/50 hover:bg-muted'
-                        }`}
-                      >
-                        {suburb}
-                      </button>
-                    ))}
-                  </div>
+                  <input
+                    type="text"
+                    value={formData.suburbs}
+                    onChange={(e) => setFormData({ ...formData, suburbs: e.target.value })}
+                    placeholder="Enter your ideal suburbs, e.g. Kelmscott, Roleystone, Bedfordale"
+                    className="w-full px-4 py-3 rounded-lg bg-muted/50 border border-border/50 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
+                  />
                 </div>
 
                 {/* Must Haves */}
@@ -231,22 +210,6 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
                       className="w-full px-4 py-2 rounded-lg bg-muted/50 border border-border/50 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                     />
                   </div>
-                </div>
-
-                {/* SMS Alerts Checkbox */}
-                <div className="mb-8">
-                  <label className="flex items-center gap-3 cursor-pointer">
-                    <input
-                      type="checkbox"
-                      checked={formData.smsAlerts}
-                      onChange={(e) => setFormData({ ...formData, smsAlerts: e.target.checked })}
-                      className="w-4 h-4 rounded accent-primary"
-                    />
-                    <span className="text-sm text-muted-foreground">
-                      <span className="font-semibold text-foreground">SMS alerts for relevant new listings</span> - Stay updated when
-                      suitable properties hit the market
-                    </span>
-                  </label>
                 </div>
 
                 <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-3 font-bold text-lg">
