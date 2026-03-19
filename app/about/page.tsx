@@ -11,7 +11,6 @@ import { BoutiqueAdvantageSection } from '@/components/about/boutique-advantage-
 import { HowWeSell } from '@/components/about/how-we-sell'
 import { TestimonialsFeatured } from '@/components/about/testimonials-featured'
 import { LocalOffice } from '@/components/about/local-office'
-import { FinalCTA } from '@/components/about/final-cta'
 
 export default function AboutPage() {
   return (
@@ -26,7 +25,6 @@ export default function AboutPage() {
       <HowWeSell />
       <TestimonialsFeatured />
       <LocalOffice />
-      <FinalCTA />
       <Footer />
     </main>
   )
