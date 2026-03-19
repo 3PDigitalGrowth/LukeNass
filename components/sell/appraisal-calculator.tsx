@@ -95,9 +95,8 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
   const calculatorContent = (
     <motion.div
       initial={{ opacity: 0, y: 20 }}
-      whileInView={{ opacity: 1, y: 0 }}
+      animate={{ opacity: 1, y: 0 }}
       transition={{ duration: 0.6 }}
-      viewport={{ once: true }}
       className={embedded ? 'w-full' : 'max-w-3xl mx-auto'}
       id={embedded ? 'sell-appraisal-form' : undefined}
     >

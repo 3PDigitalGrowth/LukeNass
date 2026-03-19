@@ -15,15 +15,14 @@ export function SellHeroSection() {
           {/* Left: Content */}
           <motion.div
             initial={{ opacity: 0, y: 20 }}
-            whileInView={{ opacity: 1, y: 0 }}
+            animate={{ opacity: 1, y: 0 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
             className="lg:pt-10"
           >
             <motion.h1
               className="text-5xl lg:text-6xl font-serif tracking-tighter leading-tight mb-6 text-foreground"
               initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
               transition={{ delay: 0.2 }}
             >
               Know Your Home's True{' '}
@@ -33,7 +32,7 @@ export function SellHeroSection() {
             <motion.p
               className="text-lg text-foreground/70 mb-8 leading-relaxed"
               initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
               transition={{ delay: 0.3 }}
             >
               Don&apos;t settle for generic estimates. Our appraisal process helps uncover your property&apos;s true position across
@@ -44,7 +43,7 @@ export function SellHeroSection() {
             <motion.div
               className="flex gap-4"
               initial={{ opacity: 0 }}
-              whileInView={{ opacity: 1 }}
+              animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
               <a
@@ -65,9 +64,8 @@ export function SellHeroSection() {
           {/* Right: Embedded appraisal form */}
           <motion.div
             initial={{ opacity: 0, scale: 0.9 }}
-            whileInView={{ opacity: 1, scale: 1 }}
+            animate={{ opacity: 1, scale: 1 }}
             transition={{ duration: 0.8 }}
-            viewport={{ once: true }}
             className="w-full"
           >
             <AppraisalCalculator embedded />

@@ -40,8 +40,7 @@ export function WhyChooseUs() {
       <div className="container mx-auto px-4 lg:px-8">
         <motion.div
           initial={{ opacity: 0, y: 20 }}
-          whileInView={{ opacity: 1, y: 0 }}
-          viewport={{ once: true }}
+          animate={{ opacity: 1, y: 0 }}
           className="text-center mb-16"
         >
           <h2 className="font-serif text-4xl lg:text-5xl font-bold text-foreground mb-4 tracking-tighter">
@@ -55,8 +54,7 @@ export function WhyChooseUs() {
         <motion.div
           variants={container}
           initial="hidden"
-          whileInView="show"
-          viewport={{ once: true }}
+          animate="show"
           className="grid md:grid-cols-3 gap-8"
         >
           {reasons.map((reason, idx) => (

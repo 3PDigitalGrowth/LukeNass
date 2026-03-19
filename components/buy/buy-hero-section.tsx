@@ -4,7 +4,6 @@ import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { Phone } from 'lucide-react'
 import Image from 'next/image'
-import { BuyMatchingForm } from './buyer-matching-form'
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -38,18 +37,20 @@ export function BuyHeroSection() {
           priority
           className="object-cover object-[42%_center] sm:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/80 lg:bg-gradient-to-r lg:from-background/95 lg:via-background/80 lg:to-background/40" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/30 via-transparent to-background/80 lg:bg-gradient-to-l lg:from-background/95 lg:via-background/80 lg:to-background/40" />
         <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80" />
       </div>
 
       {/* Content */}
       <div className="relative z-10 container mx-auto px-4 lg:px-8 pt-32 pb-16 flex-1 flex flex-col justify-center">
-        <div className="grid grid-cols-1 lg:grid-cols-[minmax(0,0.95fr)_minmax(420px,1.05fr)] gap-10 lg:gap-12 items-start">
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-12 items-start">
+          <div className="hidden lg:block lg:order-1" />
+
           <motion.div
             variants={containerVariants}
             initial="hidden"
             animate="visible"
-            className="max-w-xl lg:pt-10"
+            className="max-w-xl lg:pt-10 lg:order-2 lg:justify-self-end"
           >
             <motion.div variants={itemVariants}>
               <h1 className="font-serif text-4xl md:text-5xl lg:text-6xl font-semibold text-foreground leading-tight text-balance mb-6 tracking-tighter">
@@ -117,15 +118,6 @@ export function BuyHeroSection() {
               </div>
             </motion.div>
 
-          </motion.div>
-
-          <motion.div
-            initial={{ opacity: 0, scale: 0.96 }}
-            animate={{ opacity: 1, scale: 1 }}
-            transition={{ duration: 0.5, ease: [0.22, 1, 0.36, 1] }}
-            className="hidden lg:block w-full"
-          >
-            <BuyMatchingForm embedded showIntro={false} />
           </motion.div>
         </div>
       </div>

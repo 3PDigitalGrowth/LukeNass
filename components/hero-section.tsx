@@ -61,8 +61,8 @@ export function HeroSection() {
           priority
           className="object-cover object-[42%_center] sm:object-center"
         />
-        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/80 lg:bg-gradient-to-r lg:from-transparent lg:via-background/30 lg:to-background/90" />
-        <div className="absolute inset-0 bg-gradient-to-b from-background/40 via-transparent to-background/80" />
+        <div className="absolute inset-0 bg-gradient-to-b from-transparent via-transparent to-background/60 lg:bg-gradient-to-r lg:from-transparent lg:via-background/18 lg:to-background/70" />
+        <div className="absolute inset-0 bg-gradient-to-b from-background/10 via-transparent to-background/45" />
       </div>
 
       {/* Restructured layout to use grid with content on right half */}

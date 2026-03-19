@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { Button } from '@/components/ui/button'
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
@@ -82,19 +83,20 @@ export function LocalOffice() {
             </div>
           </motion.div>
 
-          {/* Map Placeholder */}
+          {/* Office Location Image */}
           <motion.div
             initial={{ opacity: 0, x: 20 }}
             whileInView={{ opacity: 1, x: 0 }}
             viewport={{ once: true }}
             transition={{ duration: 0.8, delay: 0.2 }}
-            className="rounded-2xl overflow-hidden shadow-xl h-96 bg-muted flex items-center justify-center border border-border/50"
+            className="rounded-2xl overflow-hidden shadow-xl h-96 bg-muted border border-border/50 relative"
           >
-            <div className="text-center">
-              <MapPin className="w-12 h-12 text-primary/50 mx-auto mb-4" />
-              <p className="text-muted-foreground">Google Map Integration Coming Soon</p>
-              <p className="text-sm text-muted-foreground mt-2">Unit 1/8 Rundle St, Kelmscott WA 6111</p>
-            </div>
+            <Image
+              src="/local-office-map.png"
+              alt="Map showing Unit 1/8 Rundle St, Kelmscott WA 6111"
+              fill
+              className="object-cover"
+            />
           </motion.div>
         </div>
       </div>
