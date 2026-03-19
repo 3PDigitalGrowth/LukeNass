@@ -96,6 +96,14 @@ export function Footer() {
                 <Clock className="h-4 w-4" />
                 {officeStatus.message}
               </p>
+              <div className="mt-4 pt-4 border-t border-(--umber-foreground)/10">
+                <p className="text-(--umber-foreground) text-sm font-medium mb-2">Office Hours</p>
+                <div className="space-y-1 text-(--umber-foreground)/70 text-sm">
+                  <p>Monday-Friday: 9am-5pm</p>
+                  <p>Saturday: By Appointment Only</p>
+                  <p>Sunday: Closed</p>
+                </div>
+              </div>
             </div>
 
             {/* Social Links */}
