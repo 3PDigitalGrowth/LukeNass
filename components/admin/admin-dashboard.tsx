@@ -2,11 +2,13 @@
 
 import { useEffect, useMemo, useState } from "react"
 import { useRouter } from "next/navigation"
-import { FileText, LogOut, RefreshCcw, Upload, Video } from "lucide-react"
+import { ExternalLink, FileText, Link2, LogOut, RefreshCcw, Trash2, Upload, Video } from "lucide-react"
 
 import type { AdminAsset } from "@/lib/admin-assets"
+import type { AdminLink } from "@/lib/admin-links"
 import { Button } from "@/components/ui/button"
 import { Input } from "@/components/ui/input"
+import { Textarea } from "@/components/ui/textarea"
 
 function formatFileSize(bytes: number) {
   if (bytes < 1024) return `${bytes} B`
@@ -25,11 +27,22 @@ function getAssetKind(mimeType: string) {
 export function AdminDashboard() {
   const router = useRouter()
   const [assets, setAssets] = useState<AdminAsset[]>([])
+  const [links, setLinks] = useState<AdminLink[]>([])
   const [selectedFiles, setSelectedFiles] = useState<File[]>([])
   const [isLoading, setIsLoading] = useState(true)
+  const [areLinksLoading, setAreLinksLoading] = useState(true)
   const [isUploading, setIsUploading] = useState(false)
+  const [isCreatingLink, setIsCreatingLink] = useState(false)
+  const [deletingLinkId, setDeletingLinkId] = useState("")
   const [status, setStatus] = useState("")
   const [error, setError] = useState("")
+  const [linkStatus, setLinkStatus] = useState("")
+  const [linkError, setLinkError] = useState("")
+  const [linkForm, setLinkForm] = useState({
+    title: "",
+    url: "",
+    description: "",
+  })
 
   const totalSelectedSize = useMemo(
     () => selectedFiles.reduce((sum, file) => sum + file.size, 0),
@@ -53,8 +66,26 @@ export function AdminDashboard() {
     setIsLoading(false)
   }
 
+  const loadLinks = async () => {
+    setAreLinksLoading(true)
+    setLinkError("")
+
+    const response = await fetch("/api/admin/links", { cache: "no-store" })
+
+    if (!response.ok) {
+      setLinkError("Unable to load important links.")
+      setAreLinksLoading(false)
+      return
+    }
+
+    const data = (await response.json()) as { links: AdminLink[] }
+    setLinks(data.links)
+    setAreLinksLoading(false)
+  }
+
   useEffect(() => {
     void loadAssets()
+    void loadLinks()
   }, [])
 
   const handleUpload = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -102,6 +133,80 @@ export function AdminDashboard() {
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" })
     router.refresh()
+  }
+
+  const handleCreateLink = async (event: React.FormEvent<HTMLFormElement>) => {
+    event.preventDefault()
+
+    if (!linkForm.title.trim() || !linkForm.url.trim()) {
+      setLinkError("Add both a title and a URL.")
+      return
+    }
+
+    setIsCreatingLink(true)
+    setLinkError("")
+    setLinkStatus("")
+
+    try {
+      const response = await fetch("/api/admin/links", {
+        method: "POST",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify(linkForm),
+      })
+
+      const data = (await response.json()) as { error?: string }
+
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to create link.")
+      }
+
+      setLinkForm({
+        title: "",
+        url: "",
+        description: "",
+      })
+      setLinkStatus("Important link saved successfully.")
+      await loadLinks()
+    } catch (createError) {
+      setLinkError(
+        createError instanceof Error
+          ? createError.message
+          : "Unable to create link."
+      )
+    } finally {
+      setIsCreatingLink(false)
+    }
+  }
+
+  const handleDeleteLink = async (id: string) => {
+    setDeletingLinkId(id)
+    setLinkError("")
+    setLinkStatus("")
+
+    try {
+      const response = await fetch(`/api/admin/links/${id}`, {
+        method: "DELETE",
+      })
+
+      const data = (await response.json()) as { error?: string }
+
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to delete link.")
+      }
+
+      setLinkStatus("Important link removed.")
+      await loadLinks()
+    } catch (deleteError) {
+      setLinkError(
+        deleteError instanceof Error
+          ? deleteError.message
+          : "Unable to delete link."
+      )
+    } finally {
+      setDeletingLinkId("")
+    }
   }
 
   return (
@@ -179,6 +284,80 @@ export function AdminDashboard() {
               Refresh Library
             </Button>
           </div>
+        </form>
+      </div>
+
+      <div className="rounded-2xl border border-border/50 bg-card p-6 lg:p-8 shadow-lg">
+        <div className="mb-6">
+          <p className="text-sm uppercase tracking-[0.18em] text-muted-foreground font-medium mb-2">
+            Important Links
+          </p>
+          <h2 className="font-serif text-2xl tracking-tight text-foreground mb-2">
+            Manage Important Links
+          </h2>
+          <p className="text-muted-foreground">
+            Add key URLs that the team wants handy on the admin page, such as campaign folders, listing portals, docs, or external resources.
+          </p>
+        </div>
+
+        <form onSubmit={handleCreateLink} className="space-y-5">
+          <div className="grid gap-5 md:grid-cols-2">
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                Link Title
+              </label>
+              <Input
+                value={linkForm.title}
+                onChange={(event) =>
+                  setLinkForm((current) => ({
+                    ...current,
+                    title: event.target.value,
+                  }))
+                }
+                placeholder="Vendor campaign folder"
+              />
+            </div>
+
+            <div>
+              <label className="block text-sm font-medium text-foreground mb-2">
+                URL
+              </label>
+              <Input
+                value={linkForm.url}
+                onChange={(event) =>
+                  setLinkForm((current) => ({
+                    ...current,
+                    url: event.target.value,
+                  }))
+                }
+                placeholder="https://..."
+              />
+            </div>
+          </div>
+
+          <div>
+            <label className="block text-sm font-medium text-foreground mb-2">
+              Description
+            </label>
+            <Textarea
+              value={linkForm.description}
+              onChange={(event) =>
+                setLinkForm((current) => ({
+                  ...current,
+                  description: event.target.value,
+                }))
+              }
+              placeholder="Optional note to explain when or why this link matters."
+            />
+          </div>
+
+          {linkError ? <p className="text-sm text-destructive">{linkError}</p> : null}
+          {linkStatus ? <p className="text-sm text-primary">{linkStatus}</p> : null}
+
+          <Button type="submit" disabled={isCreatingLink}>
+            <Link2 className="w-4 h-4 mr-2" />
+            {isCreatingLink ? "Saving..." : "Save Important Link"}
+          </Button>
         </form>
       </div>
 
@@ -290,6 +469,92 @@ export function AdminDashboard() {
                 </div>
               )
             })}
+          </div>
+        ) : null}
+      </div>
+
+      <div>
+        <div className="flex items-center justify-between mb-5">
+          <h2 className="font-serif text-2xl tracking-tight text-foreground">
+            Important Links
+          </h2>
+          <p className="text-sm text-muted-foreground">
+            {links.length} link{links.length === 1 ? "" : "s"}
+          </p>
+        </div>
+
+        {areLinksLoading ? (
+          <div className="rounded-2xl border border-border/50 bg-card p-8 text-muted-foreground">
+            Loading important links...
+          </div>
+        ) : null}
+
+        {!areLinksLoading && links.length === 0 ? (
+          <div className="rounded-2xl border border-dashed border-border bg-card p-10 text-center">
+            <p className="text-foreground font-medium mb-2">No important links added yet.</p>
+            <p className="text-muted-foreground">
+              Save your first link above to keep key resources easy to access from the admin page.
+            </p>
+          </div>
+        ) : null}
+
+        {!areLinksLoading && links.length > 0 ? (
+          <div className="grid gap-6 md:grid-cols-2 xl:grid-cols-3">
+            {links.map((link) => (
+              <div
+                key={link.id}
+                className="rounded-2xl border border-border/50 bg-card p-5 shadow-lg"
+              >
+                <div className="flex items-start justify-between gap-3 mb-4">
+                  <div>
+                    <h3 className="font-semibold text-foreground break-words">
+                      {link.title}
+                    </h3>
+                    <p className="text-sm text-muted-foreground">
+                      {new Date(link.createdAt).toLocaleString()}
+                    </p>
+                  </div>
+                  <span className="rounded-full bg-secondary/15 px-3 py-1 text-xs font-medium text-secondary">
+                    LINK
+                  </span>
+                </div>
+
+                <div className="rounded-xl border border-border/50 bg-background/60 p-4 mb-4">
+                  <a
+                    href={link.url}
+                    target="_blank"
+                    rel="noopener noreferrer"
+                    className="text-sm font-medium text-primary break-all hover:underline"
+                  >
+                    {link.url}
+                  </a>
+                  {link.description ? (
+                    <p className="text-sm text-muted-foreground mt-3">
+                      {link.description}
+                    </p>
+                  ) : null}
+                </div>
+
+                <div className="flex flex-col gap-3 sm:flex-row">
+                  <Button asChild className="flex-1">
+                    <a href={link.url} target="_blank" rel="noopener noreferrer">
+                      <ExternalLink className="w-4 h-4 mr-2" />
+                      Open Link
+                    </a>
+                  </Button>
+                  <Button
+                    type="button"
+                    variant="outline"
+                    className="flex-1 bg-transparent"
+                    disabled={deletingLinkId === link.id}
+                    onClick={() => void handleDeleteLink(link.id)}
+                  >
+                    <Trash2 className="w-4 h-4 mr-2" />
+                    {deletingLinkId === link.id ? "Removing..." : "Remove"}
+                  </Button>
+                </div>
+              </div>
+            ))}
           </div>
         ) : null}
       </div>
