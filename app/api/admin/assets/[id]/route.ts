@@ -17,7 +17,15 @@ export async function GET(
   const { id } = await context.params
   const asset = await getAssetById(id)
 
-  if (!asset || !(await assetExists(asset))) {
+  if (!asset) {
+    return NextResponse.json({ error: "File not found." }, { status: 404 })
+  }
+
+  if (asset.blobUrl) {
+    return NextResponse.redirect(asset.blobUrl)
+  }
+
+  if (!(await assetExists(asset))) {
     return NextResponse.json({ error: "File not found." }, { status: 404 })
   }
 

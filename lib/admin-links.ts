@@ -1,6 +1,7 @@
 import { randomUUID } from "crypto"
 import { mkdir, readFile, writeFile } from "fs/promises"
 import path from "path"
+import { list, put } from "@vercel/blob"
 
 export interface AdminLink {
   id: string
@@ -12,12 +13,48 @@ export interface AdminLink {
 
 const STORAGE_ROOT = path.join(process.cwd(), "storage", "admin-assets")
 const LINKS_PATH = path.join(STORAGE_ROOT, "important-links.json")
+const LINKS_BLOB_PATH = "admin-assets/important-links.json"
+const isBlobStorageEnabled = Boolean(process.env.BLOB_READ_WRITE_TOKEN)
+const isVercelEnvironment = Boolean(process.env.VERCEL)
 
 async function ensureStorage() {
   await mkdir(STORAGE_ROOT, { recursive: true })
 }
 
+function assertWritableStorageConfigured() {
+  if (!isBlobStorageEnabled && isVercelEnvironment) {
+    throw new Error(
+      "Admin storage is not configured for production. Connect Vercel Blob and set BLOB_READ_WRITE_TOKEN."
+    )
+  }
+}
+
+async function readBlobLinks() {
+  const { blobs } = await list({
+    prefix: LINKS_BLOB_PATH,
+    limit: 10,
+  })
+  const linksBlob = blobs.find((blob) => blob.pathname === LINKS_BLOB_PATH)
+
+  if (!linksBlob) {
+    return [] as AdminLink[]
+  }
+
+  const response = await fetch(linksBlob.url, { cache: "no-store" })
+
+  if (!response.ok) {
+    return [] as AdminLink[]
+  }
+
+  const parsed = (await response.json()) as AdminLink[]
+  return parsed.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
+}
+
 export async function readAdminLinks() {
+  if (isBlobStorageEnabled) {
+    return readBlobLinks()
+  }
+
   try {
     const content = await readFile(LINKS_PATH, "utf8")
     const parsed = JSON.parse(content) as AdminLink[]
@@ -29,6 +66,17 @@ export async function readAdminLinks() {
 }
 
 async function writeAdminLinks(links: AdminLink[]) {
+  if (isBlobStorageEnabled) {
+    await put(LINKS_BLOB_PATH, JSON.stringify(links, null, 2), {
+      access: "public",
+      addRandomSuffix: false,
+      allowOverwrite: true,
+      contentType: "application/json",
+    })
+    return
+  }
+
+  assertWritableStorageConfigured()
   await ensureStorage()
   await writeFile(LINKS_PATH, JSON.stringify(links, null, 2), "utf8")
 }
