@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto"
 import { mkdir, readFile, stat, writeFile } from "fs/promises"
 import path from "path"
-import { list, put } from "@vercel/blob"
+import { get, put } from "@vercel/blob"
 
 export interface AdminAsset {
   id: string
@@ -43,23 +43,17 @@ function assertWritableStorageConfigured() {
 }
 
 async function readBlobManifest() {
-  const { blobs } = await list({
-    prefix: MANIFEST_BLOB_PATH,
-    limit: 10,
+  const result = await get(MANIFEST_BLOB_PATH, {
+    access: "private",
+    useCache: false,
   })
-  const manifestBlob = blobs.find((blob) => blob.pathname === MANIFEST_BLOB_PATH)
 
-  if (!manifestBlob) {
+  if (!result || result.statusCode !== 200) {
     return [] as AdminAsset[]
   }
 
-  const response = await fetch(manifestBlob.url, { cache: "no-store" })
-
-  if (!response.ok) {
-    return [] as AdminAsset[]
-  }
-
-  const parsed = (await response.json()) as AdminAsset[]
+  const content = await new Response(result.stream).text()
+  const parsed = JSON.parse(content) as AdminAsset[]
   return parsed.sort((a, b) => b.uploadedAt.localeCompare(a.uploadedAt))
 }
 
@@ -81,7 +75,7 @@ export async function readAssets() {
 async function writeAssets(assets: AdminAsset[]) {
   if (isBlobStorageEnabled) {
     await put(MANIFEST_BLOB_PATH, JSON.stringify(assets, null, 2), {
-      access: "public",
+      access: "private",
       addRandomSuffix: false,
       allowOverwrite: true,
       contentType: "application/json",
@@ -105,7 +99,7 @@ export async function storeAsset(file: File) {
 
   if (isBlobStorageEnabled) {
     const uploadedBlob = await put(`${FILE_BLOB_PREFIX}${storedName}`, file, {
-      access: "public",
+      access: "private",
       addRandomSuffix: false,
       contentType: file.type || "application/octet-stream",
     })
@@ -144,6 +138,10 @@ export async function getAssetById(id: string) {
 
 export function getAssetFilePath(asset: AdminAsset) {
   return path.join(FILES_DIR, asset.storedName)
+}
+
+export function getAssetBlobPath(asset: AdminAsset) {
+  return `${FILE_BLOB_PREFIX}${asset.storedName}`
 }
 
 export async function assetExists(asset: AdminAsset) {

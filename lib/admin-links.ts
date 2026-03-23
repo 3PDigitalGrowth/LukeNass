@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto"
 import { mkdir, readFile, writeFile } from "fs/promises"
 import path from "path"
-import { list, put } from "@vercel/blob"
+import { get, put } from "@vercel/blob"
 
 export interface AdminLink {
   id: string
@@ -30,23 +30,17 @@ function assertWritableStorageConfigured() {
 }
 
 async function readBlobLinks() {
-  const { blobs } = await list({
-    prefix: LINKS_BLOB_PATH,
-    limit: 10,
+  const result = await get(LINKS_BLOB_PATH, {
+    access: "private",
+    useCache: false,
   })
-  const linksBlob = blobs.find((blob) => blob.pathname === LINKS_BLOB_PATH)
 
-  if (!linksBlob) {
+  if (!result || result.statusCode !== 200) {
     return [] as AdminLink[]
   }
 
-  const response = await fetch(linksBlob.url, { cache: "no-store" })
-
-  if (!response.ok) {
-    return [] as AdminLink[]
-  }
-
-  const parsed = (await response.json()) as AdminLink[]
+  const content = await new Response(result.stream).text()
+  const parsed = JSON.parse(content) as AdminLink[]
   return parsed.sort((a, b) => b.createdAt.localeCompare(a.createdAt))
 }
 
@@ -68,7 +62,7 @@ export async function readAdminLinks() {
 async function writeAdminLinks(links: AdminLink[]) {
   if (isBlobStorageEnabled) {
     await put(LINKS_BLOB_PATH, JSON.stringify(links, null, 2), {
-      access: "public",
+      access: "private",
       addRandomSuffix: false,
       allowOverwrite: true,
       contentType: "application/json",
