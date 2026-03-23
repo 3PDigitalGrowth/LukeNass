@@ -1,7 +1,7 @@
 import { randomUUID } from "crypto"
-import { mkdir, readFile, stat, writeFile } from "fs/promises"
+import { mkdir, readFile, rm, stat, writeFile } from "fs/promises"
 import path from "path"
-import { get, put } from "@vercel/blob"
+import { del, get, put } from "@vercel/blob"
 
 export interface AdminAsset {
   id: string
@@ -134,6 +134,30 @@ export async function storeAsset(file: File) {
 export async function getAssetById(id: string) {
   const assets = await readAssets()
   return assets.find((asset) => asset.id === id) || null
+}
+
+export async function deleteAsset(id: string) {
+  const assets = await readAssets()
+  const asset = assets.find((entry) => entry.id === id)
+
+  if (!asset) {
+    return false
+  }
+
+  if (asset.blobUrl) {
+    await del(getAssetBlobPath(asset))
+  } else {
+    try {
+      await rm(getAssetFilePath(asset), { force: true })
+    } catch {
+      // Ignore missing file errors so the manifest can still be cleaned up.
+    }
+  }
+
+  const nextAssets = assets.filter((entry) => entry.id !== id)
+  await writeAssets(nextAssets)
+
+  return true
 }
 
 export function getAssetFilePath(asset: AdminAsset) {

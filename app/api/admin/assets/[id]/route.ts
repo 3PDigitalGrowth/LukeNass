@@ -5,6 +5,7 @@ import { get } from "@vercel/blob"
 import { isAdminAuthenticated } from "@/lib/admin-auth"
 import {
   assetExists,
+  deleteAsset,
   getAssetBlobPath,
   getAssetById,
   getAssetFilePath,
@@ -62,4 +63,22 @@ export async function GET(
       "Cache-Control": "private, no-store",
     },
   })
+}
+
+export async function DELETE(
+  request: NextRequest,
+  context: { params: Promise<{ id: string }> }
+) {
+  if (!isAdminAuthenticated(request)) {
+    return NextResponse.json({ error: "Unauthorized" }, { status: 401 })
+  }
+
+  const { id } = await context.params
+  const deleted = await deleteAsset(id)
+
+  if (!deleted) {
+    return NextResponse.json({ error: "File not found." }, { status: 404 })
+  }
+
+  return NextResponse.json({ success: true })
 }

@@ -33,6 +33,7 @@ export function AdminDashboard() {
   const [areLinksLoading, setAreLinksLoading] = useState(true)
   const [isUploading, setIsUploading] = useState(false)
   const [isCreatingLink, setIsCreatingLink] = useState(false)
+  const [deletingAssetId, setDeletingAssetId] = useState("")
   const [deletingLinkId, setDeletingLinkId] = useState("")
   const [status, setStatus] = useState("")
   const [error, setError] = useState("")
@@ -133,6 +134,35 @@ export function AdminDashboard() {
   const handleLogout = async () => {
     await fetch("/api/admin/logout", { method: "POST" })
     router.refresh()
+  }
+
+  const handleDeleteAsset = async (id: string) => {
+    setDeletingAssetId(id)
+    setError("")
+    setStatus("")
+
+    try {
+      const response = await fetch(`/api/admin/assets/${id}`, {
+        method: "DELETE",
+      })
+
+      const data = (await response.json()) as { error?: string }
+
+      if (!response.ok) {
+        throw new Error(data.error || "Unable to delete file.")
+      }
+
+      setStatus("File removed successfully.")
+      await loadAssets()
+    } catch (deleteError) {
+      setError(
+        deleteError instanceof Error
+          ? deleteError.message
+          : "Unable to delete file."
+      )
+    } finally {
+      setDeletingAssetId("")
+    }
   }
 
   const handleCreateLink = async (event: React.FormEvent<HTMLFormElement>) => {
@@ -464,6 +494,16 @@ export function AdminDashboard() {
                       <a href={assetUrl} download={asset.originalName}>
                         Download
                       </a>
+                    </Button>
+                    <Button
+                      type="button"
+                      variant="outline"
+                      className="flex-1 bg-transparent"
+                      disabled={deletingAssetId === asset.id}
+                      onClick={() => void handleDeleteAsset(asset.id)}
+                    >
+                      <Trash2 className="w-4 h-4 mr-2" />
+                      {deletingAssetId === asset.id ? "Removing..." : "Remove"}
                     </Button>
                   </div>
                 </div>
