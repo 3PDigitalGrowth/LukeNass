@@ -59,26 +59,26 @@ export function SellHeroSection() {
             </motion.div>
 
             <motion.div
-              className="flex flex-col sm:flex-row gap-4"
+              className="flex flex-col sm:flex-row sm:flex-wrap gap-3"
               initial={{ opacity: 0 }}
               animate={{ opacity: 1 }}
               transition={{ delay: 0.4 }}
             >
               <a
                 href="#sell-appraisal-form"
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl"
+                className="inline-flex items-center justify-center rounded-lg bg-primary px-5 py-3 text-sm font-medium text-primary-foreground transition-all duration-300 hover:bg-primary/90 shadow-lg hover:shadow-2xl"
               >
                 Request Confidential Appraisal
               </a>
               <a
                 href="tel:0418928082"
-                className="px-8 py-3 bg-border text-foreground rounded-lg font-medium hover:bg-border/80 transition-all duration-300"
+                className="inline-flex items-center justify-center rounded-lg bg-border px-5 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:bg-border/80"
               >
                 Luke 0418 928 082
               </a>
               <a
                 href="tel:0419600504"
-                className="px-8 py-3 bg-border text-foreground rounded-lg font-medium hover:bg-border/80 transition-all duration-300"
+                className="inline-flex items-center justify-center rounded-lg bg-border px-5 py-3 text-sm font-medium text-foreground transition-all duration-300 hover:bg-border/80"
               >
                 Andrew 0419 600 504
               </a>

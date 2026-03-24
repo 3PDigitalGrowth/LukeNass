@@ -5,6 +5,7 @@ import { motion, AnimatePresence } from "framer-motion"
 import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
+import { useLeadModal } from "@/components/global/lead-capture-provider"
 import { ArrowRight, CheckCircle2, MessageSquareText, Phone } from "lucide-react"
 
 const containerVariants = {
@@ -82,6 +83,7 @@ const properties = {
 
 export function PropertyEcosystem() {
   const [activeTab, setActiveTab] = useState<PortfolioTab>(tabs[0])
+  const { openLeadModal } = useLeadModal()
   const activeProperties = properties[activeTab]
 
   return (
@@ -155,11 +157,27 @@ export function PropertyEcosystem() {
                     <div className="rounded-xl border border-border/50 bg-background/70 px-4 py-3">Negotiation built for results</div>
                   </div>
                   <div className="flex flex-col sm:flex-row justify-center gap-4">
-                    <Button asChild size="lg" className="bg-primary text-primary-foreground hover:bg-primary/90">
-                      <a href="/sell#sell-appraisal-form">
-                        Request a Confidential Chat
-                        <ArrowRight className="ml-2 h-4 w-4" />
-                      </a>
+                    <Button
+                      size="lg"
+                      className="bg-primary text-primary-foreground hover:bg-primary/90"
+                      onClick={() =>
+                        openLeadModal({
+                          type: "strategy-session",
+                          source: "Property Portfolio Empty State",
+                          title: "Request a Confidential Chat",
+                          description:
+                            "Share your details and tell us about your property goals. The team will email you a confirmation and follow up personally.",
+                          defaults: {
+                            reason: "Selling",
+                          },
+                          metadata: {
+                            Context: "Live Listings empty state",
+                          },
+                        })
+                      }
+                    >
+                      Request a Confidential Chat
+                      <ArrowRight className="ml-2 h-4 w-4" />
                     </Button>
                   </div>
                   <div className="mt-4 grid gap-3 sm:grid-cols-2 max-w-xl mx-auto">

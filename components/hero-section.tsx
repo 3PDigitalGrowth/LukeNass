@@ -1,20 +1,10 @@
 "use client"
 
-import { useState } from "react"
 import { motion } from "framer-motion"
 import { Button } from "@/components/ui/button"
 import { useLeadModal } from "@/components/global/lead-capture-provider"
-import { Input } from "@/components/ui/input"
-import { ArrowRight, Search, SlidersHorizontal } from "lucide-react"
+import { ArrowRight } from "lucide-react"
 import Image from "next/image"
-import {
-  DropdownMenu,
-  DropdownMenuContent,
-  DropdownMenuLabel,
-  DropdownMenuSeparator,
-  DropdownMenuCheckboxItem,
-  DropdownMenuTrigger,
-} from "@/components/ui/dropdown-menu"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -36,21 +26,7 @@ const itemVariants = {
   },
 }
 
-const searchTabs = [
-  { id: "buy", label: "Buy" },
-  { id: "sold", label: "Sold" },
-  { id: "estimate", label: "Estimate" },
-]
-
 export function HeroSection() {
-  const [activeTab, setActiveTab] = useState("buy")
-  const [searchQuery, setSearchQuery] = useState("")
-  const [filters, setFilters] = useState({
-    house: true,
-    apartment: false,
-    land: false,
-    rural: false,
-  })
   const { openLeadModal } = useLeadModal()
 
   return (
@@ -168,124 +144,6 @@ export function HeroSection() {
           </motion.div>
         </div>
 
-        <motion.div
-          variants={itemVariants}
-          initial="hidden"
-          animate="visible"
-          transition={{ delay: 0.8 }}
-          className="mt-auto pt-8"
-        >
-          <div className="grid grid-cols-1 lg:grid-cols-2">
-            <div className="hidden lg:block" />
-            <div className="bg-card/95 backdrop-blur-md rounded-2xl shadow-2xl overflow-hidden">
-              {/* Tabs */}
-              <div className="flex border-b border-border/50">
-                {searchTabs.map((tab) => (
-                  <button
-                    key={tab.id}
-                    onClick={() => setActiveTab(tab.id)}
-                    className={`relative flex-1 py-4 text-sm font-medium transition-colors ${
-                      activeTab === tab.id ? "text-primary" : "text-muted-foreground hover:text-foreground"
-                    }`}
-                  >
-                    {tab.label}
-                    {activeTab === tab.id && (
-                      <motion.div
-                        layoutId="activeSearchTab"
-                        className="absolute bottom-0 left-0 right-0 h-0.5 bg-primary"
-                      />
-                    )}
-                  </button>
-                ))}
-              </div>
-
-              {/* Search Input Row */}
-              <div className="p-4 flex flex-col sm:flex-row gap-3 items-center">
-                <div className="relative flex-1 w-full">
-                  <Search className="absolute left-4 top-1/2 -translate-y-1/2 h-5 w-5 text-muted-foreground" />
-                  <Input
-                    type="text"
-                    placeholder="Search suburb, school or street"
-                    value={searchQuery}
-                    onChange={(event) => setSearchQuery(event.target.value)}
-                    className="w-full h-12 pl-12 text-base bg-muted/50 border-0 rounded-lg focus-visible:ring-primary"
-                  />
-                </div>
-
-                <DropdownMenu>
-                  <DropdownMenuTrigger asChild>
-                    <Button variant="outline" className="h-12 px-5 gap-2 border-border/50 bg-background hover:bg-muted">
-                      <SlidersHorizontal className="h-4 w-4" />
-                      Filters
-                    </Button>
-                  </DropdownMenuTrigger>
-                  <DropdownMenuContent align="end" className="w-56">
-                    <DropdownMenuLabel>Property Type</DropdownMenuLabel>
-                    <DropdownMenuSeparator />
-                    <DropdownMenuCheckboxItem
-                      checked={filters.house}
-                      onCheckedChange={(checked) => setFilters((prev) => ({ ...prev, house: checked }))}
-                    >
-                      House
-                    </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem
-                      checked={filters.apartment}
-                      onCheckedChange={(checked) => setFilters((prev) => ({ ...prev, apartment: checked }))}
-                    >
-                      Apartment
-                    </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem
-                      checked={filters.land}
-                      onCheckedChange={(checked) => setFilters((prev) => ({ ...prev, land: checked }))}
-                    >
-                      Land
-                    </DropdownMenuCheckboxItem>
-                    <DropdownMenuCheckboxItem
-                      checked={filters.rural}
-                      onCheckedChange={(checked) => setFilters((prev) => ({ ...prev, rural: checked }))}
-                    >
-                      Rural
-                    </DropdownMenuCheckboxItem>
-                  </DropdownMenuContent>
-                </DropdownMenu>
-
-                <Button
-                  size="lg"
-                  className="h-12 px-8 bg-primary text-primary-foreground hover:bg-primary/90 font-medium gap-2"
-                  onClick={() => {
-                    if (activeTab === "estimate") {
-                      openLeadModal({
-                        type: "seller-appraisal",
-                        source: "Homepage Hero Search",
-                        defaults: {
-                          propertyAddress: searchQuery,
-                        },
-                        metadata: {
-                          "Selected Tab": "Estimate",
-                        },
-                      })
-                      return
-                    }
-
-                    openLeadModal({
-                      type: "buyer-brief",
-                      source: "Homepage Hero Search",
-                      defaults: {
-                        preferredSuburbs: searchQuery,
-                      },
-                      metadata: {
-                        "Selected Tab": activeTab === "sold" ? "Sold" : "Buy",
-                      },
-                    })
-                  }}
-                >
-                  <Search className="h-4 w-4" />
-                  Search
-                </Button>
-              </div>
-            </div>
-          </div>
-        </motion.div>
       </div>
     </section>
   )

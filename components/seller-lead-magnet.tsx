@@ -148,11 +148,11 @@ export function SellerLeadMagnet() {
                 className="bg-secondary hover:bg-secondary/90 text-secondary-foreground font-semibold text-lg px-8 py-6 h-auto shadow-2xl hover:shadow-xl transition-all"
                 onClick={() =>
                   openLeadModal({
-                    type: "seller-strategy",
+                    type: "strategy-session",
                     source: "Seller Lead Magnet",
                     title: "Your Confidential Strategy Session",
                     description:
-                      "Tell us a little about your property and Luke or Andy will follow up with a tailored seller strategy conversation.",
+                      "Tell us whether you need help buying, selling, or renting and the team will follow up with a tailored strategy conversation.",
                   })
                 }
               >

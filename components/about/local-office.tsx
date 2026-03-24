@@ -2,13 +2,10 @@
 
 import Image from 'next/image'
 import { Button } from '@/components/ui/button'
-import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { motion } from 'framer-motion'
 import { Phone, Mail, MapPin, Clock } from 'lucide-react'
 
 export function LocalOffice() {
-  const { openLeadModal } = useLeadModal()
-
   return (
     <section className="py-20 lg:py-28 bg-background" id="contact">
       <div className="container mx-auto px-4 lg:px-8">
@@ -49,7 +46,9 @@ export function LocalOffice() {
                 <Phone className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
                 <div>
                   <p className="font-bold text-foreground">Phone</p>
-                  <p className="text-muted-foreground">08 9495 2226</p>
+                  <a href="tel:0894952226" className="text-muted-foreground hover:text-primary transition-colors">
+                    08 9495 2226
+                  </a>
                 </div>
               </div>
 
@@ -57,7 +56,9 @@ export function LocalOffice() {
                 <Mail className="w-6 h-6 text-secondary flex-shrink-0 mt-1" />
                 <div>
                   <p className="font-bold text-foreground">Email</p>
-                  <p className="text-muted-foreground">luke@lukenass.com.au</p>
+                  <a href="mailto:luke@lukenass.com.au" className="text-muted-foreground hover:text-primary transition-colors">
+                    luke@lukenass.com.au
+                  </a>
                 </div>
               </div>
 
@@ -79,24 +80,11 @@ export function LocalOffice() {
                   Call Now
                 </a>
               </Button>
-              <Button
-                variant="outline"
-                className="border-2 border-secondary font-bold py-6 bg-transparent"
-                onClick={() =>
-                  openLeadModal({
-                    type: 'general-contact',
-                    source: 'Local Office',
-                    defaults: {
-                      topic: 'General Enquiry',
-                    },
-                    metadata: {
-                      Location: 'Kelmscott Office',
-                    },
-                  })
-                }
-              >
-                <Mail className="w-5 h-5 mr-2" />
-                Email Now
+              <Button asChild variant="outline" className="border-2 border-secondary font-bold py-6 bg-transparent">
+                <a href="mailto:luke@lukenass.com.au">
+                  <Mail className="w-5 h-5 mr-2" />
+                  Email Now
+                </a>
               </Button>
             </div>
           </motion.div>

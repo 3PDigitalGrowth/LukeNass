@@ -6,6 +6,7 @@ import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { CheckCircle2, MapPin, Clock, Home } from 'lucide-react'
+import { submitLeadForm } from '@/lib/submit-lead-form'
 
 interface BuyMatchingFormProps {
   embedded?: boolean
@@ -14,6 +15,8 @@ interface BuyMatchingFormProps {
 
 export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatchingFormProps) {
   const [submitted, setSubmitted] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
   const [formData, setFormData] = useState({
     budget: [0, 1500000],
     suburbs: '',
@@ -26,11 +29,48 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
 
   const mustHaves = ['Pool', 'Modern', 'Land Size', 'Original Features', 'Reno Ready']
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const timeframeLabels: Record<string, string> = {
+    flexible: 'Flexible',
+    '3months': 'Within 3 months',
+    '6months': 'Within 6 months',
+    '12months': 'Within 12 months',
+  }
+
+  const financeLabels: Record<string, string> = {
+    preapproved: 'Pre-approved',
+    savingdeposit: 'Saving for deposit',
+    cash: 'Cash buyer',
+    exploring: 'Exploring options',
+  }
+
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
-    setSubmitted(true)
-    setTimeout(() => {
-      setSubmitted(false)
+
+    setIsSubmitting(true)
+    setErrorMessage(null)
+
+    try {
+      await submitLeadForm(
+        {
+          type: 'buyer-brief',
+          source: 'Buy page buyer match form',
+          title: 'Get Matched to Your Ideal Home',
+        },
+        {
+          email: formData.email,
+          phone: formData.phone,
+          budget: `$${formData.budget[0].toLocaleString()} - $${formData.budget[1].toLocaleString()}`,
+          preferredSuburbs: formData.suburbs,
+          timeframe: timeframeLabels[formData.timeframe] || formData.timeframe,
+          financeStatus: financeLabels[formData.finance] || formData.finance,
+          mustHaves: formData.mustHaves.length ? formData.mustHaves.join(', ') : 'None specified',
+          message: formData.mustHaves.length
+            ? `Buyer is looking for: ${formData.mustHaves.join(', ')}.`
+            : 'No additional must-haves provided.',
+        }
+      )
+
+      setSubmitted(true)
       setFormData({
         budget: [0, 1500000],
         suburbs: '',
@@ -40,7 +80,11 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
         email: '',
         phone: '',
       })
-    }, 5000)
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to send your request right now.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const toggleMustHave = (item: string) => {
@@ -83,7 +127,7 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
               Perfect! We&apos;ve Got You Matched
             </h3>
             <p className="text-muted-foreground mb-4">
-              Check your email and SMS for matching properties. We&apos;ll send updates as new opportunities align with your criteria.
+              Check your inbox for a confirmation email. The team has received your buyer brief and will follow up with suitable opportunities.
             </p>
           </motion.div>
         ) : (
@@ -187,7 +231,7 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
                   </select>
                 </div>
 
-                {/* Contact & Alerts */}
+                {/* Contact Details */}
                 <div className="grid md:grid-cols-2 gap-6 mb-8 pb-8 border-b border-border/30">
                   <div>
                     <label className="block text-sm font-semibold text-foreground mb-2">Email</label>
@@ -201,24 +245,30 @@ export function BuyMatchingForm({ embedded = false, showIntro = true }: BuyMatch
                     />
                   </div>
                   <div>
-                    <label className="block text-sm font-semibold text-foreground mb-2">Phone (for SMS alerts)</label>
+                    <label className="block text-sm font-semibold text-foreground mb-2">Phone</label>
                     <input
                       type="tel"
                       value={formData.phone}
                       onChange={(e) => setFormData({ ...formData, phone: e.target.value })}
-                      placeholder="(02) 0000 0000"
+                      placeholder="0412 345 678"
                       className="w-full px-4 py-2 rounded-lg bg-muted/50 border border-border/50 text-foreground placeholder-muted-foreground focus:outline-none focus:ring-2 focus:ring-primary/50"
                     />
                   </div>
                 </div>
 
-                <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-3 font-bold text-lg">
-                  Get Matched to Suitable Listings
-                </Button>
-
                 <p className="text-xs text-muted-foreground text-center mt-4">
-                  We never spam. Unsubscribe anytime.
+                  We will email you a confirmation and the team will receive your enquiry instantly.
                 </p>
+
+                {errorMessage && (
+                  <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive">
+                    {errorMessage}
+                  </div>
+                )}
+
+            <Button type="submit" className="w-full bg-primary text-primary-foreground hover:bg-primary/90 py-3 font-bold text-lg" disabled={isSubmitting}>
+              {isSubmitting ? 'Sending...' : 'Get Matched to Suitable Listings'}
+            </Button>
           </form>
         )}
       </div>

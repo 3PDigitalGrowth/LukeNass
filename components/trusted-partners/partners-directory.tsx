@@ -129,13 +129,13 @@ export function PartnersDirectory() {
               </a>
 
               {/* Call Button */}
-              <Button
-                onClick={() => window.location.href = `tel:${partner.phone}`}
-                className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-medium py-2 rounded-lg transition-all mt-auto"
+              <a
+                href={`tel:${partner.phone}`}
+                className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 mt-auto"
               >
-                <Phone className="w-4 h-4 mr-2" />
+                <Phone className="w-4 h-4" />
                 Call Now
-              </Button>
+              </a>
 
               {partner.website ? (
                 <Button

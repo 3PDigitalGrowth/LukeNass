@@ -68,7 +68,7 @@ export function AboutHero() {
             >
               <a href="tel:0894952226">
                 <Phone className="w-5 h-5" />
-                Talk To The Team
+                Call (08) 9495 2226
               </a>
             </Button>
           </div>

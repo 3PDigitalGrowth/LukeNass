@@ -1,8 +1,8 @@
 'use client'
 
 import Image from 'next/image'
-import Link from 'next/link'
 import { Button } from '@/components/ui/button'
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { motion } from 'framer-motion'
 import { CheckCircle2, Mail, Phone } from 'lucide-react'
 
@@ -14,6 +14,8 @@ const andrewHighlights = [
 ]
 
 export function MeetAndrew() {
+  const { openLeadModal } = useLeadModal()
+
   return (
     <section className="py-20 lg:py-28 bg-background" id="meet-andrew">
       <div className="container mx-auto px-4 lg:px-8">
@@ -104,8 +106,22 @@ export function MeetAndrew() {
             </div>
 
             <div className="flex flex-col sm:flex-row gap-4">
-              <Button asChild className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold py-6 px-8 text-lg">
-                <Link href="/sell#sell-appraisal-form">Request Appraisal</Link>
+              <Button
+                className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-bold py-6 px-8 text-lg"
+                onClick={() =>
+                  openLeadModal({
+                    type: 'seller-appraisal',
+                    source: 'Meet Andrew',
+                    title: 'Request an Appraisal with Andrew',
+                    description:
+                      'Share your property and contact details and the team will email you a confirmation before following up with your appraisal.',
+                    metadata: {
+                      Agent: 'Andrew Hill',
+                    },
+                  })
+                }
+              >
+                Request Appraisal
               </Button>
             </div>
           </motion.div>

@@ -4,13 +4,34 @@ import { useEffect, useState } from 'react'
 import { motion, AnimatePresence } from 'framer-motion'
 import { Button } from '@/components/ui/button'
 import { X, Download } from 'lucide-react'
+import { submitLeadForm } from '@/lib/submit-lead-form'
 
 export function ExitIntentModal() {
   const [showModal, setShowModal] = useState(false)
   const [hasShown, setHasShown] = useState(false)
+  const [email, setEmail] = useState('')
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
+  const sessionStorageKey = 'lukenass-exit-intent-shown'
 
   useEffect(() => {
-    if (hasShown) return
+    const alreadyShown = window.sessionStorage.getItem(sessionStorageKey) === 'true'
+    if (alreadyShown) {
+      setHasShown(true)
+    }
+  }, [])
+
+  useEffect(() => {
+    if (hasShown) {
+      window.sessionStorage.setItem(sessionStorageKey, 'true')
+      return
+    }
+
+    const alreadyShown = window.sessionStorage.getItem(sessionStorageKey) === 'true'
+    if (alreadyShown) {
+      setHasShown(true)
+      return
+    }
 
     const handleMouseLeave = (e: MouseEvent) => {
       if ((e as any).clientY <= 0) {
@@ -23,13 +44,49 @@ export function ExitIntentModal() {
     return () => document.removeEventListener('mouseleave', handleMouseLeave)
   }, [hasShown])
 
-  const handleDownload = () => {
-    // In a real app, this would trigger a PDF download
+  useEffect(() => {
+    if (!showModal) {
+      setErrorMessage(null)
+      setIsSubmitting(false)
+    }
+  }, [showModal])
+
+  const triggerDownload = () => {
     const link = document.createElement('a')
     link.href = '/perth-se-corridor-2026-outlook.pdf'
     link.download = 'perth-se-corridor-2026-outlook.pdf'
     link.click()
-    setShowModal(false)
+  }
+
+  const handleSubmit = async (event: React.FormEvent) => {
+    event.preventDefault()
+
+    setIsSubmitting(true)
+    setErrorMessage(null)
+
+    try {
+      await submitLeadForm(
+        {
+          type: 'market-report-download',
+          source: 'Exit intent modal',
+          title: 'Perth Southeast Corridor Outlook Download',
+          metadata: {
+            'Follow-up action': 'Please email this user with the Perth Southeast Corridor outlook and offer RP Data guidance until logins are available.',
+          },
+        },
+        {
+          email,
+        }
+      )
+
+      triggerDownload()
+      setShowModal(false)
+      setEmail('')
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to send your request right now.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   return (
@@ -75,19 +132,27 @@ export function ExitIntentModal() {
                 </ul>
               </div>
 
-              <form className="space-y-3 mb-6">
+              <form onSubmit={handleSubmit} className="space-y-3 mb-6">
                 <input
                   type="email"
+                  value={email}
+                  onChange={(event) => setEmail(event.target.value)}
                   placeholder="your@email.com"
                   className="w-full px-4 py-2 rounded-lg bg-muted/50 border border-border/50 text-foreground placeholder-muted-foreground focus-visible:outline-none focus-visible:ring-2 focus-visible:ring-primary/50"
                   required
                 />
+                {errorMessage && (
+                  <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive text-left">
+                    {errorMessage}
+                  </div>
+                )}
                 <Button
-                  onClick={handleDownload}
+                  type="submit"
+                  disabled={isSubmitting}
                   className="w-full bg-primary text-primary-foreground hover:bg-primary/90 font-bold h-11 rounded-lg flex items-center justify-center gap-2"
                 >
                   <Download className="w-4 h-4" />
-                  Download Free Report
+                  {isSubmitting ? 'Sending...' : 'Download Free Report'}
                 </Button>
               </form>
 

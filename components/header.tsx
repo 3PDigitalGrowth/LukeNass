@@ -65,8 +65,10 @@ export function Header() {
               className="bg-secondary text-secondary-foreground hover:bg-secondary/90 font-medium"
               onClick={() =>
                 openLeadModal({
-                  type: "seller-report",
+                  type: "seller-appraisal",
                   source: "Header",
+                  title: "Request Your Free Property Appraisal",
+                  description: "Share your property and contact details and the team will email you a confirmation before following up with your appraisal.",
                 })
               }
             >
@@ -110,8 +112,10 @@ export function Header() {
                 onClick={() => {
                   setIsMobileMenuOpen(false)
                   openLeadModal({
-                    type: "seller-report",
+                    type: "seller-appraisal",
                     source: "Mobile Header",
+                    title: "Request Your Free Property Appraisal",
+                    description: "Share your property and contact details and the team will email you a confirmation before following up with your appraisal.",
                   })
                 }}
               >

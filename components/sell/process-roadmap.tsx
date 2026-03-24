@@ -2,6 +2,7 @@
 
 import React from "react"
 
+import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { motion } from 'framer-motion'
 import {
   Calendar,
@@ -19,6 +20,8 @@ interface TimelineStep {
 }
 
 export function ProcessRoadmap() {
+  const { openLeadModal } = useLeadModal()
+
   const steps: TimelineStep[] = [
     {
       id: 1,
@@ -194,12 +197,24 @@ export function ProcessRoadmap() {
           <p className="text-lg text-foreground/70 mb-6">
             Ready to talk through your next move?
           </p>
-          <a
-            href="#sell-appraisal-form"
+          <button
+            type="button"
             className="inline-flex px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl"
+            onClick={() =>
+              openLeadModal({
+                type: 'seller-appraisal',
+                source: 'Sell Process Roadmap',
+                title: 'Schedule Your Strategy Session',
+                description:
+                  'Share your property and contact details and the team will email you a confirmation before following up personally.',
+                metadata: {
+                  Context: 'Sell process roadmap CTA',
+                },
+              })
+            }
           >
             Schedule Your Strategy Session
-          </a>
+          </button>
         </motion.div>
       </div>
     </section>

@@ -13,17 +13,6 @@ const quickLinks = [
   { href: "/about#contact", label: "Contact Us" },
 ]
 
-const seoLinks = [
-  { href: "/about", label: "Real Estate Agent Roleystone" },
-  { href: "/buy", label: "Homes for Sale Kelmscott" },
-  { href: "/sell#sell-appraisal-form", label: "Property Valuation Armadale" },
-  { href: "/sell#sell-appraisal-form", label: "Sell My House Bedfordale" },
-  { href: "/sell", label: "Property Marketing Perth Hills" },
-  { href: "/buy#buyer-match-form", label: "Luxury Homes Mount Nasura" },
-  { href: "/buy#buyer-match-form", label: "First Home Buyer Seville Grove" },
-  { href: "/buy#buyer-match-form", label: "Investment Property Camillo" },
-]
-
 const socialLinks = [
   {
     href: "https://au.linkedin.com/company/luke-nass-real-estate",
@@ -188,22 +177,6 @@ export function Footer() {
                 </div>
               </li>
             </ul>
-          </div>
-        </div>
-      </div>
-
-      <div className="border-t border-(--umber-foreground)/10 bg-(--umber-foreground)/5">
-        <div className="container mx-auto px-4 lg:px-8 py-6">
-          <div className="flex flex-wrap gap-x-6 gap-y-2 justify-center">
-            {seoLinks.map((link) => (
-              <Link
-                key={link.label}
-                href={link.href}
-                className="text-(--umber-foreground)/40 hover:text-(--umber-foreground)/60 text-xs transition-colors"
-              >
-                {link.label}
-              </Link>
-            ))}
           </div>
         </div>
       </div>

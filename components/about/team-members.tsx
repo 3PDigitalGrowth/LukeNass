@@ -129,7 +129,6 @@ export function TeamMembers() {
                     openLeadModal({
                       type: 'team-contact',
                       source: 'Team Members',
-                      recipients: [member.email],
                       defaults: {
                         teamMember: member.name,
                       },

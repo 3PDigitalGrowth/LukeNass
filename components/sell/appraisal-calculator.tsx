@@ -5,6 +5,7 @@ import React from "react"
 import { useState } from 'react'
 import { motion } from 'framer-motion'
 import { ChevronRight, MapPin } from 'lucide-react'
+import { submitLeadForm } from '@/lib/submit-lead-form'
 
 interface FormData {
   address: string
@@ -21,8 +22,6 @@ interface AppraisalCalculatorProps {
   embedded?: boolean
 }
 
-const APPRAISAL_RECIPIENTS = ['luke@lukenass.com.au', 'andrew@lukenass.com.au']
-
 export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorProps) {
   const [formData, setFormData] = useState<FormData>({
     address: '',
@@ -35,6 +34,8 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
     phone: '',
   })
   const [requestPrepared, setRequestPrepared] = useState(false)
+  const [isSubmitting, setIsSubmitting] = useState(false)
+  const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
   const suburbs = [
     'Roleystone',
@@ -57,36 +58,42 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
     }))
   }
 
-  const handleSubmit = (e: React.FormEvent) => {
+  const handleSubmit = async (e: React.FormEvent) => {
     e.preventDefault()
 
-    const subject = encodeURIComponent(
-      `Confidential Appraisal Request: ${formData.address || 'Property in ' + formData.suburb}`
-    )
-    const body = encodeURIComponent(
-      [
-        'Hi Luke and Andy,',
-        '',
-        'I would like to request a confidential appraisal and strategy session.',
-        '',
-        `Street Address: ${formData.address}`,
-        `Suburb: ${formData.suburb}`,
-        `Property Type: ${formData.propertyType || 'Not specified'}`,
-        `Selling Timeframe: ${formData.timeframe}`,
-        `Goals / Questions: ${formData.goals || 'Not provided'}`,
-        '',
-        `Name: ${formData.name}`,
-        `Email: ${formData.email}`,
-        `Phone: ${formData.phone || 'Not provided'}`,
-      ].join('\n')
-    )
+    setIsSubmitting(true)
+    setErrorMessage(null)
 
-    window.location.href = `mailto:${APPRAISAL_RECIPIENTS.join(',')}?subject=${subject}&body=${body}`
-    setRequestPrepared(true)
+    try {
+      await submitLeadForm(
+        {
+          type: 'seller-appraisal',
+          source: embedded ? 'Sell page appraisal form' : 'Standalone appraisal form',
+          title: 'Request Your Confidential Appraisal',
+        },
+        {
+          propertyAddress: formData.address,
+          suburb: formData.suburb,
+          propertyType: formData.propertyType,
+          timeframe: formData.timeframe,
+          message: formData.goals,
+          name: formData.name,
+          email: formData.email,
+          phone: formData.phone,
+        }
+      )
+
+      setRequestPrepared(true)
+    } catch (error) {
+      setErrorMessage(error instanceof Error ? error.message : 'Unable to send your request right now.')
+    } finally {
+      setIsSubmitting(false)
+    }
   }
 
   const resetForm = () => {
     setRequestPrepared(false)
+    setErrorMessage(null)
     setFormData({
       address: '',
       suburb: '',
@@ -136,14 +143,14 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
             className="text-center"
           >
             <h3 className="text-2xl font-serif tracking-tight mb-4">
-              Your Strategy Request Is Ready
+              Your Request Has Been Sent
             </h3>
             <div className="bg-gradient-to-br from-primary/10 to-secondary/10 rounded-xl p-8 mb-8">
               <p className="text-foreground/70 text-lg">
-                We&apos;ve prepared an email draft with your property details for Luke and Andy.
+                Your details have been sent to the team and a confirmation email is on its way to your inbox.
               </p>
               <p className="text-foreground/60 mt-4">
-                Send the email and one of them will follow up personally with tailored seller guidance.
+                Luke or Andy will follow up personally with tailored seller guidance.
               </p>
             </div>
             <p className="text-foreground/70 mb-8">
@@ -307,15 +314,23 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
 
             <div className="flex flex-col sm:flex-row sm:items-center sm:justify-between gap-4 pt-6 border-t border-border/50">
               <p className="text-sm text-muted-foreground">
-                Luke or Andy will review your request personally.
+                Luke or Andy will review your request personally and you will receive a confirmation email.
               </p>
-              <button
-                type="submit"
-                className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center gap-2"
-              >
-                Email Request
-                <ChevronRight className="h-4 w-4" />
-              </button>
+              <div className="flex flex-col items-stretch gap-3 sm:items-end">
+                {errorMessage && (
+                  <div className="rounded-lg border border-destructive/30 bg-destructive/10 px-4 py-3 text-sm text-destructive sm:max-w-sm">
+                    {errorMessage}
+                  </div>
+                )}
+                <button
+                  type="submit"
+                  disabled={isSubmitting}
+                  className="px-8 py-3 bg-primary text-primary-foreground rounded-lg font-medium hover:bg-primary/90 transition-all duration-300 shadow-lg hover:shadow-2xl flex items-center justify-center gap-2 disabled:cursor-not-allowed disabled:opacity-70"
+                >
+                  {isSubmitting ? 'Sending...' : 'Send Request'}
+                  <ChevronRight className="h-4 w-4" />
+                </button>
+              </div>
             </div>
           </form>
         )}
