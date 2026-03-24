@@ -11,21 +11,21 @@ const partnersData = {
   'Settlement & Legal': {
     icon: FileText,
     partners: [
-      { company: 'Jarrah Settlements', contact: 'Adam', phone: OFFICE_PHONE, website: 'https://www.jarrahsettlements.com.au/' },
-      { company: 'Roleystone Settlements', contact: 'Karen or Tania', phone: OFFICE_PHONE, website: 'https://rksettlements.com.au/' },
+      { company: 'Jarrah Settlements', contact: 'Adam', phone: '1300 661 049', website: 'https://www.jarrahsettlements.com.au/' },
+      { company: 'Roleystone Settlements', contact: 'Karen or Tania', phone: '(08) 9496 1662', website: 'https://rksettlements.com.au/' },
     ],
   },
   'Finance': {
     icon: Briefcase,
     partners: [
-      { company: 'Westate Finance', contact: 'Bruce Campbell', phone: OFFICE_PHONE, website: 'https://www.coniannello.com.au/' },
-      { company: 'Everfirst Financial', contact: 'Richard Siegers', phone: OFFICE_PHONE, website: 'https://www.everfirst.net.au/' },
+      { company: 'Westate Finance', contact: 'Bruce Campbell', phone: '0403 825 628', website: 'https://www.coniannello.com.au/' },
+      { company: 'Everfirst Financial', contact: 'Richard Siegers', phone: '0438 111 444', website: 'https://www.everfirst.net.au/' },
     ],
   },
   'Property Inspections': {
     icon: Home,
     partners: [
-      { company: 'Directional Services (Pest)', contact: 'Colin', phone: OFFICE_PHONE },
+      { company: 'Directional Services (Pest)', contact: 'Colin', phone: '(08) 9399 2071' },
       { company: 'Asset Wise Building Inspections', contact: 'Asset Wise Team', phone: OFFICE_PHONE, website: 'https://assetwisebuilding.au/' },
     ],
   },
@@ -33,20 +33,24 @@ const partnersData = {
     icon: Zap,
     partners: [
       { company: 'Always Electrical', contact: 'Ron', phone: OFFICE_PHONE, website: 'https://alwayselectrical.com.au/' },
-      { company: 'GSS Security', contact: 'Gordon', phone: OFFICE_PHONE, website: 'https://www.gssgroup.au/gss-security/' },
+      { company: 'GSS Security', contact: 'Gordon', phone: '0419 927 119', website: 'https://www.gssgroup.au/gss-security/' },
     ],
   },
   'Council & Planning': {
     icon: CheckCircle2,
     partners: [
-      { company: 'Dykstra Planning', contact: 'Henry', phone: OFFICE_PHONE, website: 'https://www.harleydykstra.com.au/' },
-      { company: 'City of Armadale', contact: 'Inquiry', phone: OFFICE_PHONE, website: 'https://www.armadale.wa.gov.au/' },
+      { company: 'Dykstra Planning', contact: 'Henry', phone: '08 6117 9151', website: 'https://www.harleydykstra.com.au/' },
+      { company: 'City of Armadale', contact: 'Inquiry', phone: '(08) 9394 5000', website: 'https://my.armadale.wa.gov.au/' },
       { company: 'City of Gosnells', contact: 'Inquiry', phone: OFFICE_PHONE, website: 'https://www.gosnells.wa.gov.au/' },
     ],
   },
 }
 
 type CategoryKey = keyof typeof partnersData
+
+function toTelHref(phone: string) {
+  return `tel:${phone.replace(/[^\d+]/g, '')}`
+}
 
 export function PartnersDirectory() {
   const [activeTab, setActiveTab] = useState<CategoryKey>('Settlement & Legal')
@@ -122,7 +126,7 @@ export function PartnersDirectory() {
 
               {/* Phone Number */}
               <a
-                href={`tel:${partner.phone}`}
+                href={toTelHref(partner.phone)}
                 className="text-2xl font-bold text-primary mb-6 hover:text-primary/80 transition-colors"
               >
                 {partner.phone}
@@ -130,7 +134,7 @@ export function PartnersDirectory() {
 
               {/* Call Button */}
               <a
-                href={`tel:${partner.phone}`}
+                href={toTelHref(partner.phone)}
                 className="inline-flex w-full items-center justify-center gap-2 rounded-lg bg-primary px-4 py-2 text-sm font-medium text-primary-foreground transition-all hover:bg-primary/90 mt-auto"
               >
                 <Phone className="w-4 h-4" />

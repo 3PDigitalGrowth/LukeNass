@@ -37,17 +37,6 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
   const [isSubmitting, setIsSubmitting] = useState(false)
   const [errorMessage, setErrorMessage] = useState<string | null>(null)
 
-  const suburbs = [
-    'Roleystone',
-    'Kelmscott',
-    'Armadale',
-    'Seville Grove',
-    'Bedfordale',
-    'Mount Nasura',
-    'Maddington',
-    'Gosnells',
-  ]
-
   const handleInputChange = (
     e: React.ChangeEvent<HTMLInputElement | HTMLSelectElement | HTMLTextAreaElement>
   ) => {
@@ -189,20 +178,15 @@ export function AppraisalCalculator({ embedded = false }: AppraisalCalculatorPro
                   <label className="block text-sm font-medium text-foreground mb-3">
                     Suburb
                   </label>
-                  <select
+                  <input
+                    type="text"
                     name="suburb"
                     value={formData.suburb}
                     onChange={handleInputChange}
+                    placeholder="Enter suburb"
                     className="w-full px-4 py-3 bg-background border border-border/50 rounded-lg focus:outline-none focus:ring-2 focus:ring-primary/50 transition-all"
                     required
-                  >
-                    <option value="">Select suburb</option>
-                    {suburbs.map((s) => (
-                      <option key={s} value={s}>
-                        {s}
-                      </option>
-                    ))}
-                  </select>
+                  />
                 </div>
 
                 <div className="grid sm:grid-cols-2 gap-4">
