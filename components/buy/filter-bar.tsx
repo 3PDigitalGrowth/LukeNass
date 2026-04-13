@@ -24,7 +24,7 @@ interface FilterBarProps {
   setViewMode: (mode: 'grid' | 'map') => void
 }
 
-const suburbs = ['Roleystone', 'Kelmscott', 'Armadale', 'Bedfordale', 'Seville Grove', 'Mount Nasura']
+const suburbs = ['Roleystone', 'Kelmscott', 'Armadale', 'Bedfordale', 'Seville Grove', 'Mount Nasura', 'Mount Pleasant', 'Byford', 'Harrisdale', 'Darling Downs']
 
 export function FilterBar({ filters, setFilters, viewMode, setViewMode }: FilterBarProps) {
   const [isOpen, setIsOpen] = useState(false)

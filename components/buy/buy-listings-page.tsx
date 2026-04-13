@@ -1,14 +1,15 @@
 'use client'
 
-import { useState } from 'react'
+import { useState, useMemo } from 'react'
 import { motion } from 'framer-motion'
 import { Card, CardContent } from '@/components/ui/card'
 import { Button } from '@/components/ui/button'
-import { ArrowRight, Home, Phone } from 'lucide-react'
+import { ArrowRight, Home, Phone, Loader2 } from 'lucide-react'
 import { FilterBar } from './filter-bar'
 import { ListingCard } from './listing-card'
 import { MapView } from './map-view'
 import { InnerCircleLeadMagnet } from './inner-circle-lead-magnet'
+import { useListings } from '@/lib/hooks/use-listings'
 
 interface ListingFilters {
   priceRange: [number, number]
@@ -18,19 +19,6 @@ interface ListingFilters {
   propertyType: string[]
   searchQuery: string
 }
-
-const sampleListings: Array<{
-  id: number
-  address: string
-  suburb: string
-  price: number
-  beds: number
-  baths: number
-  cars: number
-  image: string
-  status: string | null
-  description: string
-}> = []
 
 export function BuyListingsPage() {
   const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid')
@@ -43,36 +31,73 @@ export function BuyListingsPage() {
     searchQuery: '',
   })
 
-  const filteredListings = sampleListings.filter((listing) => {
-    // Price filter
-    if (listing.price < filters.priceRange[0] || listing.price > filters.priceRange[1]) {
-      return false
-    }
+  const { properties, loading, error } = useListings('current', 50)
 
-    // Suburb filter
-    if (filters.suburbs.length > 0 && !filters.suburbs.includes(listing.suburb)) {
-      return false
-    }
+  const mappedListings = useMemo(
+    () =>
+      properties.map((p) => ({
+        id: p.listingId,
+        address: `${p.address.streetNumber} ${p.address.streetName}`.trim(),
+        suburb: `${p.address.suburb} ${p.address.stateRegion} ${p.address.postcode}`.trim(),
+        price: p.price.match || 0,
+        priceDisplay: p.price.display || 'Contact Agent',
+        beds: p.attributes.bedrooms ?? 0,
+        baths: p.attributes.bathrooms ?? 0,
+        cars: p.attributes.totalCars ?? p.attributes.garages ?? p.attributes.carports ?? 0,
+        image: p.primaryImage || '',
+        status: p.underContract ? 'Under Offer' : null,
+        description: p.headline || p.subcategory || '',
+        landArea: p.attributes.landArea,
+      })),
+    [properties]
+  )
 
-    // Beds filter
-    if (filters.beds !== null && listing.beds < filters.beds) {
-      return false
-    }
+  const filteredListings = useMemo(() => {
+    return mappedListings.filter((listing) => {
+      if (listing.price > 0 && (listing.price < filters.priceRange[0] || listing.price > filters.priceRange[1])) {
+        return false
+      }
+      if (filters.suburbs.length > 0 && !filters.suburbs.some((s) => listing.suburb.toLowerCase().includes(s.toLowerCase()))) {
+        return false
+      }
+      if (filters.beds !== null && listing.beds < filters.beds) {
+        return false
+      }
+      if (filters.baths !== null && listing.baths < filters.baths) {
+        return false
+      }
+      if (
+        filters.searchQuery &&
+        !listing.address.toLowerCase().includes(filters.searchQuery.toLowerCase()) &&
+        !listing.suburb.toLowerCase().includes(filters.searchQuery.toLowerCase())
+      ) {
+        return false
+      }
+      return true
+    })
+  }, [mappedListings, filters])
 
-    // Baths filter
-    if (filters.baths !== null && listing.baths < filters.baths) {
-      return false
-    }
+  const hasListings = !loading && mappedListings.length > 0
 
-    // Search query filter
-    if (filters.searchQuery && !listing.address.toLowerCase().includes(filters.searchQuery.toLowerCase()) && !listing.suburb.toLowerCase().includes(filters.searchQuery.toLowerCase())) {
-      return false
-    }
+  if (loading) {
+    return (
+      <div className="pt-24 pb-16">
+        <div className="container mx-auto px-4 lg:px-8 flex justify-center py-20">
+          <Loader2 className="h-8 w-8 animate-spin text-primary" />
+        </div>
+      </div>
+    )
+  }
 
-    return true
-  })
-
-  const hasListings = sampleListings.length > 0
+  if (error) {
+    return (
+      <div className="pt-24 pb-16">
+        <div className="container mx-auto px-4 lg:px-8 text-center py-20">
+          <p className="text-muted-foreground">Unable to load listings at this time. Please try again later.</p>
+        </div>
+      </div>
+    )
+  }
 
   return (
     <div className="pt-24 pb-16">

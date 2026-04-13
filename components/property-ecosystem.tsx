@@ -6,7 +6,10 @@ import { Card, CardContent } from "@/components/ui/card"
 import { Button } from "@/components/ui/button"
 import { Badge } from "@/components/ui/badge"
 import { useLeadModal } from "@/components/global/lead-capture-provider"
-import { ArrowRight, CheckCircle2, MessageSquareText, Phone } from "lucide-react"
+import { useListings } from "@/lib/hooks/use-listings"
+import type { Property } from "@/lib/types/property"
+import { ArrowRight, CheckCircle2, MessageSquareText, Phone, Bed, Bath, Car, Ruler, Loader2, Calendar, Clock } from "lucide-react"
+import Link from "next/link"
 
 const containerVariants = {
   hidden: { opacity: 0 },
@@ -31,60 +34,146 @@ const itemVariants = {
 const tabs = ["Live Listings", "Historical Success"] as const
 type PortfolioTab = (typeof tabs)[number]
 
-type HistoricalProperty = {
-  id: number
-  image: string
-  title: string
-  location: string
-  price: string
-  badge: string
-  beds: number
-  baths: number
-  thirdStat?: string
+function formatOpenHomeShort(start: string): string {
+  try {
+    const d = new Date(start.replace(' ', 'T'))
+    return d.toLocaleDateString('en-AU', { weekday: 'short', day: 'numeric', month: 'short' }) +
+      ' ' + d.toLocaleTimeString('en-AU', { hour: 'numeric', minute: '2-digit', hour12: true })
+  } catch {
+    return ''
+  }
 }
 
-const properties = {
-  "Live Listings": [],
-  "Historical Success": [
-    {
-      id: 7,
-      image: "/11-george-street-kelmscott-sold.png",
-      title: "11 George Street",
-      location: "Kelmscott WA 6111",
-      price: "SOLD",
-      badge: "Sold",
-      beds: 3,
-      baths: 1,
-      thirdStat: "1 Car",
-    },
-    {
-      id: 8,
-      image: "/21-savage-road-kelmscott-sold.png",
-      title: "21 Savage Road",
-      location: "Kelmscott WA 6111",
-      price: "SOLD",
-      badge: "Sold",
-      beds: 4,
-      baths: 2,
-      thirdStat: "2 Car",
-    },
-    {
-      id: 9,
-      image: "/16-spencer-road-kelmscott-sold.png",
-      title: "16 Spencer Road",
-      location: "Kelmscott WA 6111",
-      price: "SOLD",
-      badge: "Sold",
-      beds: 3,
-      baths: 1,
-    },
-  ],
-} satisfies Record<PortfolioTab, HistoricalProperty[]>
+function PropertyCard({ property, variant }: { property: Property; variant: "live" | "sold" }) {
+  const cars = property.attributes.totalCars ?? property.attributes.garages ?? property.attributes.carports ?? 0
+  const isSold = variant === "sold"
+  const futureOpenHomes = property.opentimes.filter((ot) => {
+    try { return new Date(ot.end.replace(' ', 'T')) > new Date() } catch { return false }
+  })
+
+  return (
+    <Link href={`/property/${property.listingId}`}>
+      <Card className="group h-full overflow-hidden border border-border/40 bg-card shadow-md hover:-translate-y-1 hover:shadow-2xl transition-all duration-500">
+        <div className="relative aspect-[4/3] overflow-hidden bg-muted">
+          {property.primaryImage ? (
+            <img
+              src={property.primaryImage}
+              alt={property.address.display}
+              className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
+            />
+          ) : (
+            <div className="flex items-center justify-center w-full h-full text-muted-foreground">
+              No image available
+            </div>
+          )}
+          <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
+
+          {property.underContract && (
+            <Badge className="absolute top-4 right-4 bg-amber-500 text-white border-0">Under Offer</Badge>
+          )}
+
+          {!isSold && futureOpenHomes.length > 0 && !property.underContract && (
+            <Badge className="absolute top-4 right-4 bg-primary text-primary-foreground border-0 shadow-lg">
+              <Calendar className="h-3 w-3 mr-1" />
+              Open Home
+            </Badge>
+          )}
+
+          <Badge className="absolute top-4 left-4 bg-card/90 text-foreground border border-white/20 backdrop-blur-sm shadow-sm">
+            {isSold ? "Sold" : property.subcategory || "For Sale"}
+          </Badge>
+
+          <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
+            <div>
+              <p className="text-xs uppercase tracking-[0.2em] text-white/75 mb-1">
+                {isSold ? "Historical Success" : "Current Listing"}
+              </p>
+              <h3 className="font-serif text-xl lg:text-2xl text-white leading-tight">
+                {property.address.streetNumber} {property.address.streetName}
+              </h3>
+            </div>
+            {isSold && (
+              <div className="hidden sm:flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm">
+                <CheckCircle2 className="h-5 w-5" />
+              </div>
+            )}
+          </div>
+        </div>
+
+        <CardContent className="p-6 flex flex-col">
+          <div className="flex items-start justify-between gap-4 mb-5">
+            <div>
+              <p className="text-sm text-muted-foreground mb-1">
+                {property.address.suburb} {property.address.stateRegion} {property.address.postcode}
+              </p>
+              <p className="font-serif text-xl font-semibold text-primary">
+                {isSold ? (property.soldPrice || "SOLD") : (property.price.display || "Contact Agent")}
+              </p>
+            </div>
+            {isSold && (
+              <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary shrink-0">
+                Sold Result
+              </Badge>
+            )}
+          </div>
+
+          {!isSold && futureOpenHomes.length > 0 && (
+            <div className="space-y-1.5 mb-4">
+              {futureOpenHomes.slice(0, 2).map((ot, idx) => (
+                <div key={idx} className="flex items-center gap-2 text-sm text-primary font-medium">
+                  <Clock className="h-3.5 w-3.5 shrink-0" />
+                  <span>{formatOpenHomeShort(ot.start)}</span>
+                </div>
+              ))}
+            </div>
+          )}
+
+          <div className="grid grid-cols-3 gap-3 pt-5 border-t border-border/60">
+            {property.attributes.bedrooms != null && (
+              <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
+                <Bed className="h-4 w-4 mx-auto mb-1 text-primary" />
+                <div className="text-xs uppercase tracking-wide text-muted-foreground mb-0.5">Beds</div>
+                <div className="font-semibold text-foreground">{property.attributes.bedrooms}</div>
+              </div>
+            )}
+            {property.attributes.bathrooms != null && (
+              <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
+                <Bath className="h-4 w-4 mx-auto mb-1 text-primary" />
+                <div className="text-xs uppercase tracking-wide text-muted-foreground mb-0.5">Baths</div>
+                <div className="font-semibold text-foreground">{property.attributes.bathrooms}</div>
+              </div>
+            )}
+            {cars > 0 && (
+              <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
+                <Car className="h-4 w-4 mx-auto mb-1 text-primary" />
+                <div className="text-xs uppercase tracking-wide text-muted-foreground mb-0.5">Cars</div>
+                <div className="font-semibold text-foreground">{cars}</div>
+              </div>
+            )}
+            {property.attributes.landArea != null && (
+              <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
+                <Ruler className="h-4 w-4 mx-auto mb-1 text-primary" />
+                <div className="text-xs uppercase tracking-wide text-muted-foreground mb-0.5">Land</div>
+                <div className="font-semibold text-foreground">{Math.round(property.attributes.landArea)}m²</div>
+              </div>
+            )}
+          </div>
+        </CardContent>
+      </Card>
+    </Link>
+  )
+}
 
 export function PropertyEcosystem() {
   const [activeTab, setActiveTab] = useState<PortfolioTab>(tabs[0])
   const { openLeadModal } = useLeadModal()
-  const activeProperties = properties[activeTab]
+
+  const { properties: currentListings, loading: loadingCurrent } = useListings("current", 12)
+  const { properties: soldListings, loading: loadingSold } = useListings("sold", 12)
+
+  const isLive = activeTab === "Live Listings"
+  const activeProperties = isLive ? currentListings : soldListings
+  const isLoading = isLive ? loadingCurrent : loadingSold
 
   return (
     <section className="py-20 lg:py-28 bg-muted/30" id="buying">
@@ -128,7 +217,17 @@ export function PropertyEcosystem() {
 
         {/* Property Grid */}
         <AnimatePresence mode="wait">
-          {activeTab === "Live Listings" && activeProperties.length === 0 ? (
+          {isLoading ? (
+            <motion.div
+              key="loading"
+              initial={{ opacity: 0 }}
+              animate={{ opacity: 1 }}
+              exit={{ opacity: 0 }}
+              className="flex justify-center py-16"
+            >
+              <Loader2 className="h-8 w-8 animate-spin text-primary" />
+            </motion.div>
+          ) : isLive && activeProperties.length === 0 ? (
             <motion.div
               key={activeTab}
               initial={{ opacity: 0, y: 20 }}
@@ -207,56 +306,8 @@ export function PropertyEcosystem() {
               className="grid grid-cols-1 md:grid-cols-2 xl:grid-cols-3 gap-6 lg:gap-8"
             >
               {activeProperties.map((property) => (
-                <motion.div key={property.id} variants={itemVariants}>
-                  <Card className="group h-full overflow-hidden border border-border/40 bg-card shadow-md hover:-translate-y-1 hover:shadow-2xl transition-all duration-500">
-                    <div className="relative aspect-[4/3] overflow-hidden">
-                      <img
-                        src={property.image || "/placeholder.svg"}
-                        alt={property.title}
-                        className="object-cover w-full h-full group-hover:scale-105 transition-transform duration-500"
-                      />
-                      <div className="absolute inset-0 bg-gradient-to-t from-black/55 via-black/10 to-transparent" />
-                      <Badge className="absolute top-4 left-4 bg-card/90 text-foreground border border-white/20 backdrop-blur-sm shadow-sm">
-                        {property.badge}
-                      </Badge>
-                      <div className="absolute bottom-4 left-4 right-4 flex items-end justify-between gap-4">
-                        <div>
-                          <p className="text-xs uppercase tracking-[0.2em] text-white/75 mb-1">Historical Success</p>
-                          <h3 className="font-serif text-2xl text-white leading-tight">{property.title}</h3>
-                        </div>
-                        <div className="hidden sm:flex h-10 w-10 items-center justify-center rounded-full bg-white/15 text-white backdrop-blur-sm">
-                          <CheckCircle2 className="h-5 w-5" />
-                        </div>
-                      </div>
-                    </div>
-                    <CardContent className="p-6 flex flex-col">
-                      <div className="flex items-start justify-between gap-4 mb-5">
-                        <div>
-                          <p className="text-sm text-muted-foreground mb-1">{property.location}</p>
-                          <p className="font-serif text-xl font-semibold text-primary">{property.price}</p>
-                        </div>
-                        <Badge variant="outline" className="border-primary/20 bg-primary/5 text-primary">
-                          Sold Result
-                        </Badge>
-                      </div>
-                      <div className={`grid gap-3 pt-5 border-t border-border/60 ${property.thirdStat ? "grid-cols-3" : "grid-cols-2"}`}>
-                        <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
-                          <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Beds</div>
-                          <div className="font-semibold text-foreground">{property.beds}</div>
-                        </div>
-                        <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
-                          <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Baths</div>
-                          <div className="font-semibold text-foreground">{property.baths}</div>
-                        </div>
-                        {property.thirdStat && (
-                          <div className="rounded-lg bg-muted/50 px-3 py-3 text-center">
-                            <div className="text-xs uppercase tracking-wide text-muted-foreground mb-1">Parking</div>
-                            <div className="font-semibold text-foreground">{property.thirdStat.replace(" Car", "")}</div>
-                          </div>
-                        )}
-                      </div>
-                    </CardContent>
-                  </Card>
+                <motion.div key={property.listingId} variants={itemVariants}>
+                  <PropertyCard property={property} variant={isLive ? "live" : "sold"} />
                 </motion.div>
               ))}
             </motion.div>
