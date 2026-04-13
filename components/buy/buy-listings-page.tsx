@@ -7,7 +7,6 @@ import { Button } from '@/components/ui/button'
 import { ArrowRight, Home, Phone, Loader2 } from 'lucide-react'
 import { FilterBar } from './filter-bar'
 import { ListingCard } from './listing-card'
-import { MapView } from './map-view'
 import { InnerCircleLeadMagnet } from './inner-circle-lead-magnet'
 import { useListings } from '@/lib/hooks/use-listings'
 
@@ -21,7 +20,6 @@ interface ListingFilters {
 }
 
 export function BuyListingsPage() {
-  const [viewMode, setViewMode] = useState<'grid' | 'map'>('grid')
   const [filters, setFilters] = useState<ListingFilters>({
     priceRange: [0, 2_000_000],
     suburbs: [],
@@ -104,59 +102,53 @@ export function BuyListingsPage() {
       <div className="container mx-auto px-4 lg:px-8">
         {hasListings ? (
           <>
-            <FilterBar filters={filters} setFilters={setFilters} viewMode={viewMode} setViewMode={setViewMode} />
+            <FilterBar filters={filters} setFilters={setFilters} />
 
-            {viewMode === 'grid' ? (
-              <>
-                <div className="mt-8 mb-6">
-                  <p className="text-foreground/60">
-                    Showing <span className="font-semibold text-foreground">{filteredListings.length}</span> properties
-                  </p>
-                </div>
+            <div className="mt-8 mb-6">
+              <p className="text-foreground/60">
+                Showing <span className="font-semibold text-foreground">{filteredListings.length}</span> properties
+              </p>
+            </div>
 
-                {filteredListings.length > 0 ? (
+            {filteredListings.length > 0 ? (
+              <motion.div
+                className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
+                initial="hidden"
+                animate="visible"
+                variants={{
+                  hidden: { opacity: 0 },
+                  visible: {
+                    opacity: 1,
+                    transition: {
+                      staggerChildren: 0.1,
+                      delayChildren: 0.2,
+                    },
+                  },
+                }}
+              >
+                {filteredListings.map((listing) => (
                   <motion.div
-                    className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-6"
-                    initial="hidden"
-                    animate="visible"
+                    key={listing.id}
                     variants={{
-                      hidden: { opacity: 0 },
+                      hidden: { opacity: 0, y: 20 },
                       visible: {
                         opacity: 1,
-                        transition: {
-                          staggerChildren: 0.1,
-                          delayChildren: 0.2,
-                        },
+                        y: 0,
+                        transition: { duration: 0.5 },
                       },
                     }}
                   >
-                    {filteredListings.map((listing) => (
-                      <motion.div
-                        key={listing.id}
-                        variants={{
-                          hidden: { opacity: 0, y: 20 },
-                          visible: {
-                            opacity: 1,
-                            y: 0,
-                            transition: { duration: 0.5 },
-                          },
-                        }}
-                      >
-                        <ListingCard listing={listing} />
-                      </motion.div>
-                    ))}
+                    <ListingCard listing={listing} />
                   </motion.div>
-                ) : (
-                  <div className="py-16 text-center">
-                    <p className="text-foreground/60 mb-6">No properties match your filters.</p>
-                  </div>
-                )}
-
-                <InnerCircleLeadMagnet />
-              </>
+                ))}
+              </motion.div>
             ) : (
-              <MapView listings={filteredListings} />
+              <div className="py-16 text-center">
+                <p className="text-foreground/60 mb-6">No properties match your filters.</p>
+              </div>
             )}
+
+            <InnerCircleLeadMagnet />
           </>
         ) : (
           <motion.div

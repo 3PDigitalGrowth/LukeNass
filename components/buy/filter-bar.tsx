@@ -8,7 +8,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Slider } from '@/components/ui/slider'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Popover, PopoverContent, PopoverTrigger } from '@/components/ui/popover'
-import { MapPin, Settings2, Map, Grid3X3 } from 'lucide-react'
+import { Settings2 } from 'lucide-react'
 
 interface FilterBarProps {
   filters: {
@@ -20,13 +20,11 @@ interface FilterBarProps {
     searchQuery: string
   }
   setFilters: (filters: any) => void
-  viewMode: 'grid' | 'map'
-  setViewMode: (mode: 'grid' | 'map') => void
 }
 
 const suburbs = ['Roleystone', 'Kelmscott', 'Armadale', 'Bedfordale', 'Seville Grove', 'Mount Nasura', 'Mount Pleasant', 'Byford', 'Harrisdale', 'Darling Downs']
 
-export function FilterBar({ filters, setFilters, viewMode, setViewMode }: FilterBarProps) {
+export function FilterBar({ filters, setFilters }: FilterBarProps) {
   const [isOpen, setIsOpen] = useState(false)
 
   return (
@@ -42,24 +40,6 @@ export function FilterBar({ filters, setFilters, viewMode, setViewMode }: Filter
                 onChange={(e) => setFilters({ ...filters, searchQuery: e.target.value })}
                 className="h-10"
               />
-            </div>
-            <div className="flex items-center gap-2 bg-muted p-1 rounded-lg">
-              <Button
-                size="sm"
-                variant={viewMode === 'grid' ? 'default' : 'ghost'}
-                onClick={() => setViewMode('grid')}
-                className="h-8"
-              >
-                <Grid3X3 className="h-4 w-4" />
-              </Button>
-              <Button
-                size="sm"
-                variant={viewMode === 'map' ? 'default' : 'ghost'}
-                onClick={() => setViewMode('map')}
-                className="h-8"
-              >
-                <Map className="h-4 w-4" />
-              </Button>
             </div>
           </div>
 
