@@ -1,6 +1,5 @@
 'use client'
 
-import Image from 'next/image'
 import Link from 'next/link'
 import { motion } from 'framer-motion'
 import { Bed, Bath, Car, Ruler } from 'lucide-react'
@@ -32,10 +31,10 @@ export function ListingCard({ listing }: ListingCardProps) {
       : 'Contact Agent')
 
   return (
-    <Link href={`/property/${listing.id}`}>
-      <motion.div whileHover={{ y: -8 }} className="group cursor-pointer">
-        <div className="rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-card border border-border">
-          <div className="relative h-64 bg-muted overflow-hidden">
+    <Link href={`/property/${listing.id}`} className="block h-full">
+      <motion.div whileHover={{ y: -8 }} className="group cursor-pointer h-full">
+        <div className="h-full flex flex-col rounded-lg overflow-hidden shadow-lg hover:shadow-2xl transition-all duration-300 bg-card border border-border">
+          <div className="relative h-64 bg-muted overflow-hidden shrink-0">
             {listing.image ? (
               <img
                 src={listing.image}
@@ -66,7 +65,7 @@ export function ListingCard({ listing }: ListingCardProps) {
             )}
           </div>
 
-          <div className="p-4">
+          <div className="p-4 flex flex-col flex-1">
             <div className="mb-3">
               <p className="text-2xl font-bold text-primary tracking-tighter">{priceLabel}</p>
             </div>
@@ -77,10 +76,10 @@ export function ListingCard({ listing }: ListingCardProps) {
             </div>
 
             {listing.description && (
-              <p className="text-sm text-foreground/60 mb-4">{listing.description}</p>
+              <p className="text-sm text-foreground/60 mb-4 line-clamp-2">{listing.description}</p>
             )}
 
-            <div className="flex items-center justify-between pt-4 border-t border-border">
+            <div className="flex items-center justify-between pt-4 border-t border-border mt-auto">
               <div className="flex items-center gap-4 text-sm">
                 {listing.beds > 0 && (
                   <div className="flex items-center gap-1 text-foreground/70">
