@@ -38,7 +38,6 @@ const partnersData = {
     icon: CheckCircle2,
     partners: [
       { company: 'Dykstra Planning', contact: 'Henry', phone: '08 6117 9151', website: 'https://www.harleydykstra.com.au/' },
-      { company: 'City of Armadale', contact: 'Inquiry', phone: '(08) 9394 5000', website: 'https://my.armadale.wa.gov.au/' },
       { company: 'City of Gosnells', contact: 'Inquiry', phone: '(08) 9397 3000', website: 'https://www.gosnells.wa.gov.au/' },
     ],
   },
