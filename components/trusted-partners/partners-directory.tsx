@@ -5,8 +5,6 @@ import { motion } from 'framer-motion'
 import { Phone, Globe, FileText, Zap, Home, Briefcase, CheckCircle2 } from 'lucide-react'
 import { Button } from '@/components/ui/button'
 
-const OFFICE_PHONE = '08 9495 2226'
-
 const partnersData = {
   'Settlement & Legal': {
     icon: FileText,
@@ -18,7 +16,7 @@ const partnersData = {
   'Finance': {
     icon: Briefcase,
     partners: [
-      { company: 'Westate Finance', contact: 'Bruce Campbell', phone: '0403 825 628', website: 'https://www.coniannello.com.au/' },
+      { company: 'Westate Finance', contact: 'Bruce Campbell', phone: '0403 825 628' },
       { company: 'Everfirst Financial', contact: 'Richard Siegers', phone: '0438 111 444', website: 'https://www.everfirst.net.au/' },
     ],
   },
@@ -26,14 +24,14 @@ const partnersData = {
     icon: Home,
     partners: [
       { company: 'Directional Services (Pest)', contact: 'Colin', phone: '(08) 9399 2071' },
-      { company: 'Asset Wise Building Inspections', contact: 'Asset Wise Team', phone: OFFICE_PHONE, website: 'https://assetwisebuilding.au/' },
+      { company: 'Asset Wise Building Inspections', contact: 'Asset Wise Team', phone: '1300 027 738', website: 'https://assetwisebuilding.au/' },
     ],
   },
   'Trades & Maintenance': {
     icon: Zap,
     partners: [
-      { company: 'Always Electrical', contact: 'Ron', phone: OFFICE_PHONE, website: 'https://alwayselectrical.com.au/' },
-      { company: 'GSS Security', contact: 'Gordon', phone: '0419 927 119', website: 'https://www.gssgroup.au/gss-security/' },
+      { company: 'Always Electrical', contact: 'Ron', phone: '(08) 9399 2071', website: 'https://alwayselectrical.com.au/' },
+      { company: 'GSS Security', contact: 'Gordon', phone: '0419 927 119' },
     ],
   },
   'Council & Planning': {
@@ -41,7 +39,7 @@ const partnersData = {
     partners: [
       { company: 'Dykstra Planning', contact: 'Henry', phone: '08 6117 9151', website: 'https://www.harleydykstra.com.au/' },
       { company: 'City of Armadale', contact: 'Inquiry', phone: '(08) 9394 5000', website: 'https://my.armadale.wa.gov.au/' },
-      { company: 'City of Gosnells', contact: 'Inquiry', phone: OFFICE_PHONE, website: 'https://www.gosnells.wa.gov.au/' },
+      { company: 'City of Gosnells', contact: 'Inquiry', phone: '(08) 9397 3000', website: 'https://www.gosnells.wa.gov.au/' },
     ],
   },
 }
