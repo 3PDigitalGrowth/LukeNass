@@ -46,6 +46,7 @@ export function BuyListingsPage() {
         status: p.underContract ? 'Under Offer' : null,
         description: p.headline || p.subcategory || '',
         landArea: p.attributes.landArea,
+        hasVideo: !!p.videoUrl,
       })),
     [properties]
   )

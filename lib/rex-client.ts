@@ -93,6 +93,109 @@ function normalizeEvent(evt: Record<string, unknown>): OpenTime | null {
   }
 }
 
+const VIDEO_HOSTS = ['youtube.com', 'youtu.be', 'www.youtube.com', 'm.youtube.com', 'vimeo.com', 'player.vimeo.com', 'www.vimeo.com']
+
+function looksLikeVideoUrl(url: string): boolean {
+  if (!url) return false
+  try {
+    const u = new URL(url)
+    if (VIDEO_HOSTS.includes(u.hostname.toLowerCase())) return true
+  } catch {
+    // fall through
+  }
+  return /\.(mp4|mov|webm|m4v)(\?|$)/i.test(url)
+}
+
+function looksLikeVideoType(value: unknown): boolean {
+  if (!value) return false
+  const s = String(value).toLowerCase()
+  return s === 'video' || s.includes('video') || s.includes('youtube') || s.includes('vimeo')
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function extractVideoUrl(row: any): string | null {
+  const links = Array.isArray(row?.links) ? row.links : []
+
+  for (const link of links) {
+    if (!link) continue
+    const url = ensureHttps((link.url as string) || (link.link as string) || '')
+    if (!url) continue
+    if (
+      looksLikeVideoType(link.type) ||
+      looksLikeVideoType(link.type_id) ||
+      looksLikeVideoType(link.name) ||
+      looksLikeVideoType(link.label) ||
+      looksLikeVideoType(link.category) ||
+      looksLikeVideoType(link.type_name)
+    ) {
+      return url
+    }
+  }
+
+  for (const link of links) {
+    if (!link) continue
+    const url = ensureHttps((link.url as string) || (link.link as string) || '')
+    if (url && looksLikeVideoUrl(url)) return url
+  }
+
+  const fallbacks: unknown[] = [
+    row?.video_link,
+    row?.video_url,
+    row?.advert_internet?.video_link,
+    row?.advert_internet?.video_url,
+    Array.isArray(row?.videos) && row.videos.length > 0 ? row.videos[0]?.url : null,
+  ]
+  for (const candidate of fallbacks) {
+    if (typeof candidate === 'string' && candidate.trim()) {
+      return ensureHttps(candidate)
+    }
+  }
+
+  return null
+}
+
+function buildVideoEmbedUrl(url: string | null): string | null {
+  if (!url) return null
+  let parsed: URL
+  try {
+    parsed = new URL(url)
+  } catch {
+    return null
+  }
+
+  const host = parsed.hostname.toLowerCase().replace(/^www\./, '')
+
+  if (host === 'youtu.be') {
+    const id = parsed.pathname.replace(/^\//, '').split('/')[0]
+    return id ? `https://www.youtube.com/embed/${id}` : null
+  }
+
+  if (host === 'youtube.com' || host === 'm.youtube.com') {
+    if (parsed.pathname === '/watch') {
+      const id = parsed.searchParams.get('v')
+      return id ? `https://www.youtube.com/embed/${id}` : null
+    }
+    const shortsMatch = parsed.pathname.match(/^\/shorts\/([^/]+)/)
+    if (shortsMatch) return `https://www.youtube.com/embed/${shortsMatch[1]}`
+    const embedMatch = parsed.pathname.match(/^\/embed\/([^/]+)/)
+    if (embedMatch) return `https://www.youtube.com/embed/${embedMatch[1]}`
+    const vMatch = parsed.pathname.match(/^\/v\/([^/]+)/)
+    if (vMatch) return `https://www.youtube.com/embed/${vMatch[1]}`
+  }
+
+  if (host === 'vimeo.com') {
+    const id = parsed.pathname.replace(/^\//, '').split('/')[0]
+    return /^\d+$/.test(id) ? `https://player.vimeo.com/video/${id}` : null
+  }
+
+  if (host === 'player.vimeo.com') {
+    const videoMatch = parsed.pathname.match(/^\/video\/(\d+)/)
+    if (videoMatch) return `https://player.vimeo.com/video/${videoMatch[1]}`
+  }
+
+  return null
+}
+
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 function normalizePublishedListing(row: any): Property {
   const addr = row.address || {}
@@ -107,6 +210,9 @@ function normalizePublishedListing(row: any): Property {
   const contract = row.contract || {}
   const soldDate = contract.date || row.state_date || null
   const soldPrice = contract.price_display || row.state_value_price_display || null
+
+  const videoUrl = extractVideoUrl(row)
+  const videoEmbedUrl = buildVideoEmbedUrl(videoUrl)
 
   return {
     id: Number(row.property_id) || 0,
@@ -164,6 +270,9 @@ function normalizePublishedListing(row: any): Property {
 
     soldDate,
     soldPrice,
+
+    videoUrl,
+    videoEmbedUrl,
   }
 }
 
@@ -183,7 +292,7 @@ export async function fetchListings(
     criteria: [{ name: 'system_listing_state', value: state, type: '=' }],
     order_by: { system_modtime: 'desc' },
     extra_options: {
-      extra_fields: ['images', 'advert_internet', 'subcategories', 'events'],
+      extra_fields: ['images', 'advert_internet', 'subcategories', 'events', 'links'],
     },
   })
 
@@ -198,7 +307,7 @@ export async function fetchListingById(listingId: number): Promise<Property | nu
     limit: 1,
     criteria: [{ name: 'listing_id', value: listingId, type: '=' }],
     extra_options: {
-      extra_fields: ['images', 'advert_internet', 'subcategories', 'events'],
+      extra_fields: ['images', 'advert_internet', 'subcategories', 'events', 'links'],
     },
   })
 

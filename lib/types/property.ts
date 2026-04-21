@@ -74,6 +74,9 @@ export interface Property {
 
   soldDate: string | null
   soldPrice: string | null
+
+  videoUrl: string | null
+  videoEmbedUrl: string | null
 }
 
 export interface OpenTime {

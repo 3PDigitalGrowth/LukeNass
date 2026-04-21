@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button'
 import { Badge } from '@/components/ui/badge'
 import { useLeadModal } from '@/components/global/lead-capture-provider'
 import { useListingDetail } from '@/lib/hooks/use-listings'
+import { PropertyVideoHero } from './property-video-hero'
 import {
   ChevronDown, Phone, Calendar, Bed, Bath, Car, Ruler, MapPin,
   ExternalLink, Loader2, ChevronLeft, ChevronRight, X, Clock,
@@ -19,7 +20,6 @@ export function PropertyDetailsContent({ propertyId }: PropertyDetailsContentPro
   const [selectedImage, setSelectedImage] = useState(0)
   const [lightboxOpen, setLightboxOpen] = useState(false)
   const [descriptionExpanded, setDescriptionExpanded] = useState(false)
-  const [expandedAccordion, setExpandedAccordion] = useState<'floorplan' | 'video' | null>(null)
   const { openLeadModal } = useLeadModal()
   const { property, loading, error } = useListingDetail(propertyId)
 
@@ -168,6 +168,15 @@ export function PropertyDetailsContent({ propertyId }: PropertyDetailsContentPro
           <div className="mb-4">
             <Badge className="bg-amber-500 text-white border-0 text-sm px-4 py-1.5">Under Offer</Badge>
           </div>
+        )}
+
+        {property.videoUrl && (
+          <PropertyVideoHero
+            videoUrl={property.videoUrl}
+            videoEmbedUrl={property.videoEmbedUrl}
+            posterUrl={property.primaryImage}
+            title={property.address.display}
+          />
         )}
 
         <div className="grid grid-cols-4 gap-3 h-[500px] lg:h-[600px] mb-8">

@@ -2,7 +2,7 @@
 
 import Link from 'next/link'
 import { motion } from 'framer-motion'
-import { Bed, Bath, Car, Ruler } from 'lucide-react'
+import { Bed, Bath, Car, Ruler, Play } from 'lucide-react'
 
 interface ListingCardProps {
   listing: {
@@ -18,6 +18,7 @@ interface ListingCardProps {
     status: string | null
     description: string
     landArea?: number | null
+    hasVideo?: boolean
   }
 }
 
@@ -60,6 +61,18 @@ export function ListingCard({ listing }: ListingCardProps) {
                   }`}
                 >
                   {listing.status}
+                </motion.div>
+              </div>
+            )}
+            {listing.hasVideo && (
+              <div className="absolute top-3 left-3 z-10">
+                <motion.div
+                  initial={{ opacity: 0, scale: 0.8 }}
+                  animate={{ opacity: 1, scale: 1 }}
+                  className="flex items-center gap-1 px-2.5 py-1 rounded-full text-xs font-semibold text-white bg-black/70 backdrop-blur-sm"
+                >
+                  <Play className="h-3 w-3 fill-current" />
+                  <span>Video</span>
                 </motion.div>
               </div>
             )}
