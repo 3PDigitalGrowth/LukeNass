@@ -113,28 +113,46 @@ function looksLikeVideoType(value: unknown): boolean {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
+function linkUrlOf(link: any): string {
+  return ensureHttps(
+    (link?.link_url as string) ||
+    (link?.url as string) ||
+    (link?.link as string) ||
+    ''
+  )
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+function linkTypeOf(link: any): unknown[] {
+  return [
+    link?.link_type,
+    link?.link_type_name,
+    link?.link_label,
+    link?.type,
+    link?.type_id,
+    link?.type_name,
+    link?.name,
+    link?.label,
+    link?.category,
+  ]
+}
+
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
 function extractVideoUrl(row: any): string | null {
   const links = Array.isArray(row?.links) ? row.links : []
 
   for (const link of links) {
     if (!link) continue
-    const url = ensureHttps((link.url as string) || (link.link as string) || '')
+    const url = linkUrlOf(link)
     if (!url) continue
-    if (
-      looksLikeVideoType(link.type) ||
-      looksLikeVideoType(link.type_id) ||
-      looksLikeVideoType(link.name) ||
-      looksLikeVideoType(link.label) ||
-      looksLikeVideoType(link.category) ||
-      looksLikeVideoType(link.type_name)
-    ) {
+    if (linkTypeOf(link).some(looksLikeVideoType)) {
       return url
     }
   }
 
   for (const link of links) {
     if (!link) continue
-    const url = ensureHttps((link.url as string) || (link.link as string) || '')
+    const url = linkUrlOf(link)
     if (url && looksLikeVideoUrl(url)) return url
   }
 
