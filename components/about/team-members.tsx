@@ -32,22 +32,6 @@ export function TeamMembers() {
       email: 'admin@lukenass.com.au',
       bio: 'The backbone of our boutique service. Gill ensures every campaign runs flawlessly, from compliance to settlement, giving sellers total peace of mind.',
       image: '/gill-nass-portrait.png'
-    },
-    {
-      name: 'Ben Mathews',
-      title: 'Principal, The Mathews Team',
-      phone: '0488 997 018',
-      email: 'ben.mathews@themathewsgroup.net',
-      bio: 'Ben leads The Mathews Team alongside his brother Steve, delivering strong outcomes through a considered, strategic approach. With 500+ career sales totalling over $300 million, Ben ranks in the top 30 operators across Greater Perth on realestate.com.au, with deep expertise across the 6112, 6111 and 6122 postcodes.',
-      image: '/ben-mathews-portrait.png'
-    },
-    {
-      name: 'Steve Mathews',
-      title: 'Operations Manager, The Mathews Team',
-      phone: '0488 997 018',
-      email: 'steve.mathews@themathewsgroup.net',
-      bio: 'Working closely alongside his brother Ben, Steve drives the day-to-day operations of The Mathews Team, managing processes from initial buyer engagement through to settlement. With a solid real estate background and in-depth knowledge of the City of Armadale market, Steve ensures every campaign runs smoothly with a focus on communication, transparency, and client satisfaction.',
-      image: '/steve-mathews-portrait.png'
     }
   ]
 
