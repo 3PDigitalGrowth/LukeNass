@@ -12,6 +12,7 @@ const navLinks = [
   { href: "/buy", label: "Buy" },
   { href: "/sell", label: "Selling" },
   { href: "/about", label: "About" },
+  { href: "/blog", label: "Insights" },
   { href: "/trusted-partners", label: "Trusted Partners" },
 ]
 
