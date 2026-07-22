@@ -186,6 +186,7 @@ export function Footer() {
         <div className="container mx-auto px-4 lg:px-8 py-6 flex flex-col md:flex-row justify-between items-center gap-4">
           <p className="text-(--umber-foreground)/50 text-xs">
             © {new Date().getFullYear()} Luke Nass Real Estate. All rights reserved. REIWA Member.
+              {" "} <a href="https://www.3pdigital.com.au" target="_blank" rel="noopener">Proudly supported by 3P Digital</a>
           </p>
           <div className="flex gap-6 text-xs">
             <Link
