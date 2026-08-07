@@ -9,8 +9,8 @@ const partnersData = {
   'Settlement & Legal': {
     icon: FileText,
     partners: [
-      { company: 'Jarrah Settlements', contact: 'Adam', phone: '1300 661 049', website: 'https://www.jarrahsettlements.com.au/' },
-      { company: 'Roleystone Settlements', contact: 'Karen or Tania', phone: '(08) 9496 1662', website: 'https://rksettlements.com.au/' },
+      { company: 'Jarrah Settlements', contact: 'Adam', phone: '(08) 9397 5600', website: 'https://www.jarrahsettlements.com.au/' },
+      { company: 'Roleystone/Kelmscott Settlements', contact: 'Karen or Tania', phone: '(08) 9496 1662', website: 'https://rksettlements.com.au/' },
     ],
   },
   'Finance': {
