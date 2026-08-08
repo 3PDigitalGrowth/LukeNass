@@ -19,6 +19,7 @@ interface ListingCardProps {
     description: string
     landArea?: number | null
     hasVideo?: boolean
+    offMarket?: boolean
   }
 }
 
@@ -47,21 +48,32 @@ export function ListingCard({ listing }: ListingCardProps) {
                 No image available
               </div>
             )}
-            {listing.status && (
-              <div className="absolute top-3 right-3 z-10">
-                <motion.div
-                  initial={{ opacity: 0, scale: 0.8 }}
-                  animate={{ opacity: 1, scale: 1 }}
-                  className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
-                    listing.status === 'New'
-                      ? 'bg-primary'
-                      : listing.status === 'Under Offer'
-                        ? 'bg-amber-500'
-                        : 'bg-muted-foreground'
-                  }`}
-                >
-                  {listing.status}
-                </motion.div>
+            {(listing.status || listing.offMarket) && (
+              <div className="absolute top-3 right-3 z-10 flex flex-col items-end gap-2">
+                {listing.offMarket && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className="px-3 py-1 rounded-full text-xs font-semibold text-background bg-foreground/90 backdrop-blur-sm"
+                  >
+                    Off Market
+                  </motion.div>
+                )}
+                {listing.status && (
+                  <motion.div
+                    initial={{ opacity: 0, scale: 0.8 }}
+                    animate={{ opacity: 1, scale: 1 }}
+                    className={`px-3 py-1 rounded-full text-xs font-semibold text-white ${
+                      listing.status === 'New'
+                        ? 'bg-primary'
+                        : listing.status === 'Under Offer'
+                          ? 'bg-amber-500'
+                          : 'bg-muted-foreground'
+                    }`}
+                  >
+                    {listing.status}
+                  </motion.div>
+                )}
               </div>
             )}
             {listing.hasVideo && (

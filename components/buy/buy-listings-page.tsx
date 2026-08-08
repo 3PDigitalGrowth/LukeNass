@@ -47,6 +47,7 @@ export function BuyListingsPage() {
         description: p.headline || p.subcategory || '',
         landArea: p.attributes.landArea,
         hasVideo: !!p.videoUrl,
+        offMarket: p.offMarket,
       })),
     [properties]
   )
@@ -109,6 +110,11 @@ export function BuyListingsPage() {
               <p className="text-foreground/60">
                 Showing <span className="font-semibold text-foreground">{filteredListings.length}</span> properties
               </p>
+              {filteredListings.some((l) => l.offMarket) && (
+                <p className="mt-1 text-sm text-foreground/60">
+                  Includes off market listings available exclusively through our website.
+                </p>
+              )}
             </div>
 
             {filteredListings.length > 0 ? (

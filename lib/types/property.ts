@@ -68,6 +68,7 @@ export interface Property {
   agent2: PropertyAgent | null
 
   underContract: boolean
+  offMarket: boolean
   ebrochureLink: string | null
 
   opentimes: OpenTime[]

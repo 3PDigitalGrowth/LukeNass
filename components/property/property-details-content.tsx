@@ -164,9 +164,16 @@ export function PropertyDetailsContent({ propertyId }: PropertyDetailsContentPro
 
       {/* Hero Gallery */}
       <section className="container mx-auto px-4 lg:px-8 mb-12">
-        {property.underContract && (
-          <div className="mb-4">
-            <Badge className="bg-amber-500 text-white border-0 text-sm px-4 py-1.5">Under Offer</Badge>
+        {(property.underContract || property.offMarket) && (
+          <div className="mb-4 flex flex-wrap gap-2">
+            {property.offMarket && (
+              <Badge className="bg-foreground text-background border-0 text-sm px-4 py-1.5">
+                Off Market: Exclusive to Our Website
+              </Badge>
+            )}
+            {property.underContract && (
+              <Badge className="bg-amber-500 text-white border-0 text-sm px-4 py-1.5">Under Offer</Badge>
+            )}
           </div>
         )}
 

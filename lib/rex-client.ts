@@ -6,6 +6,7 @@ const REX_PASSWORD = process.env.REX_API_PASSWORD
 
 let cachedToken: string | null = null
 let tokenExpiresAt = 0
+let pendingLogin: Promise<string> | null = null
 
 function ensureHttps(url: unknown): string {
   if (!url || typeof url !== 'string') return ''
@@ -16,24 +17,36 @@ function ensureHttps(url: unknown): string {
 async function getToken(): Promise<string> {
   if (cachedToken && Date.now() < tokenExpiresAt) return cachedToken
 
+  // Rex invalidates earlier session tokens when a new login occurs, so concurrent
+  // callers must share a single login request rather than racing separate ones.
+  if (pendingLogin) return pendingLogin
+
   if (!REX_EMAIL || !REX_PASSWORD) {
     throw new Error('REX_API_EMAIL and REX_API_PASSWORD must be set')
   }
 
-  const res = await fetch(`${REX_BASE}/v1/rex/Authentication/login`, {
-    method: 'POST',
-    headers: { 'Content-Type': 'application/json' },
-    body: JSON.stringify({ email: REX_EMAIL, password: REX_PASSWORD }),
-  })
+  pendingLogin = (async () => {
+    const res = await fetch(`${REX_BASE}/v1/rex/Authentication/login`, {
+      method: 'POST',
+      headers: { 'Content-Type': 'application/json' },
+      body: JSON.stringify({ email: REX_EMAIL, password: REX_PASSWORD }),
+    })
 
-  if (!res.ok) {
-    throw new Error(`Rex auth failed: ${res.status} ${res.statusText}`)
+    if (!res.ok) {
+      throw new Error(`Rex auth failed: ${res.status} ${res.statusText}`)
+    }
+
+    const data = await res.json()
+    cachedToken = data.result as string
+    tokenExpiresAt = Date.now() + 55 * 60 * 1000
+    return cachedToken
+  })()
+
+  try {
+    return await pendingLogin
+  } finally {
+    pendingLogin = null
   }
-
-  const data = await res.json()
-  cachedToken = data.result as string
-  tokenExpiresAt = Date.now() + 55 * 60 * 1000
-  return cachedToken
 }
 
 async function rexPost<T = unknown>(endpoint: string, body: Record<string, unknown>): Promise<T> {
@@ -215,13 +228,13 @@ function buildVideoEmbedUrl(url: string | null): string | null {
 }
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-function normalizePublishedListing(row: any): Property {
+function normalizePublishedListing(row: any, quietListingIds: Set<number>): Property {
   const addr = row.address || {}
   const attrs = row.attributes || {}
   const formats = addr.formats || {}
   const images = Array.isArray(row.images) ? row.images.map(normalizeImage) : []
   const events = Array.isArray(row.events) ? row.events : []
-  const opentimes = events.map(normalizeEvent).filter((e): e is OpenTime => e !== null)
+  const opentimes = events.map(normalizeEvent).filter((e: OpenTime | null): e is OpenTime => e !== null)
 
   const primaryUrl = images.length > 0 ? images[0].thumbs['800x600'] || images[0].url : null
 
@@ -282,6 +295,7 @@ function normalizePublishedListing(row: any): Property {
     agent2: normalizeAgent(row.listing_agent_2),
 
     underContract: row.under_contract === '1' || row.under_contract === true,
+    offMarket: quietListingIds.has(Number(row.id)),
     ebrochureLink: row.ebrochure_link || row.ebrochure_custom_link || null,
 
     opentimes,
@@ -299,36 +313,67 @@ interface SearchResult {
   total: number
 }
 
+// Listings published in Rex with the "Upload to Portals" channel switched off.
+// These are quiet listings: live on this website, never sent to realestate.com.au or Domain.
+async function fetchQuietListingIds(): Promise<Set<number>> {
+  try {
+    const result = await rexPost<{ rows: Array<string | number> }>('PublishedListings/search', {
+      limit: 100,
+      criteria: [{ name: 'listing.publish_to_portals', value: false }],
+      result_format: 'ids',
+    })
+    return new Set((result.rows || []).map(Number))
+  } catch (err) {
+    console.error('[rex-client] Quiet listing lookup failed, defaulting to none:', err)
+    return new Set()
+  }
+}
+
 export async function fetchListings(
   state: 'current' | 'sold',
   limit = 50,
   offset = 0
 ): Promise<{ properties: Property[]; total: number }> {
-  const result = await rexPost<SearchResult>('PublishedListings/search', {
-    limit,
-    offset,
-    criteria: [{ name: 'system_listing_state', value: state, type: '=' }],
-    order_by: { system_modtime: 'desc' },
-    extra_options: {
-      extra_fields: ['images', 'advert_internet', 'subcategories', 'events', 'links'],
-    },
-  })
+  const [result, quietListingIds] = await Promise.all([
+    rexPost<SearchResult>('PublishedListings/search', {
+      limit,
+      offset,
+      criteria: [
+        { name: 'system_listing_state', value: state, type: '=' },
+        // Respect Rex's "Make available via API (website, custom feeds)" publish setting
+        { name: 'listing.publish_to_external', value: true },
+      ],
+      order_by: { system_modtime: 'desc' },
+      result_format: 'website_overrides_applied',
+      extra_options: {
+        extra_fields: ['images', 'advert_internet', 'subcategories', 'events', 'links'],
+      },
+    }),
+    fetchQuietListingIds(),
+  ])
 
   return {
-    properties: result.rows.map(normalizePublishedListing),
+    properties: result.rows.map((row) => normalizePublishedListing(row, quietListingIds)),
     total: result.total,
   }
 }
 
 export async function fetchListingById(listingId: number): Promise<Property | null> {
-  const result = await rexPost<SearchResult>('PublishedListings/search', {
-    limit: 1,
-    criteria: [{ name: 'listing_id', value: listingId, type: '=' }],
-    extra_options: {
-      extra_fields: ['images', 'advert_internet', 'subcategories', 'events', 'links'],
-    },
-  })
+  const [result, quietListingIds] = await Promise.all([
+    rexPost<SearchResult>('PublishedListings/search', {
+      limit: 1,
+      criteria: [
+        { name: 'listing_id', value: listingId, type: '=' },
+        { name: 'listing.publish_to_external', value: true },
+      ],
+      result_format: 'website_overrides_applied',
+      extra_options: {
+        extra_fields: ['images', 'advert_internet', 'subcategories', 'events', 'links'],
+      },
+    }),
+    fetchQuietListingIds(),
+  ])
 
   if (!result.rows || result.rows.length === 0) return null
-  return normalizePublishedListing(result.rows[0])
+  return normalizePublishedListing(result.rows[0], quietListingIds)
 }
