@@ -97,7 +97,7 @@ export function TestimonialsFeatured() {
               <div className="pt-4 border-t border-border/50">
                 <p className="font-bold text-foreground mb-1">{testimonial.reviewer}</p>
                 <p className="text-sm text-muted-foreground">
-                  For {testimonial.agent}{testimonial.date ? ` • ${testimonial.date}` : ''}
+                  For {testimonial.agent}
                 </p>
               </div>
                   </>

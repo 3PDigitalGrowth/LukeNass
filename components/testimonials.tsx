@@ -87,7 +87,7 @@ export function Testimonials() {
                     <div>
                       <p className="font-semibold text-foreground text-lg">{current.reviewer}</p>
                       <p className="text-muted-foreground">
-                        For {current.agent}{current.date ? ` • ${current.date}` : ""}
+                        For {current.agent}
                       </p>
                     </div>
                   </div>

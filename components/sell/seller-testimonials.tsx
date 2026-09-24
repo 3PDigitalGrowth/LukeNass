@@ -4,7 +4,7 @@ import { useState } from "react"
 import { motion } from "framer-motion"
 import { testimonials } from "@/lib/testimonials"
 
-const featuredTestimonials = testimonials.filter((testimonial) => [1, 2, 4].includes(testimonial.id))
+const featuredTestimonials = testimonials.filter((testimonial) => [16, 17, 4].includes(testimonial.id))
 
 export function SellerTestimonials() {
   const [expandedIds, setExpandedIds] = useState<number[]>([])
