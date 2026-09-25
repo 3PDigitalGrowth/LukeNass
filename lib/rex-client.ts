@@ -245,6 +245,13 @@ function normalizePublishedListing(row: any, quietListingIds: Set<number>): Prop
   const videoUrl = extractVideoUrl(row)
   const videoEmbedUrl = buildVideoEmbedUrl(videoUrl)
 
+  // Rex keeps the unit in its own field; "5/196 Cammillo Road" needs it joined back on.
+  const unitNumber = addr.unit_number ? String(addr.unit_number).trim() : ''
+  const streetNumber = addr.street_number ? String(addr.street_number).trim() : ''
+  const streetName = addr.street_name ? String(addr.street_name).trim() : ''
+  const numberPart = unitNumber ? `${unitNumber}/${streetNumber}` : streetNumber
+  const streetLine = `${numberPart} ${streetName}`.trim()
+
   return {
     id: Number(row.property_id) || 0,
     listingId: Number(row.id),
@@ -255,12 +262,14 @@ function normalizePublishedListing(row: any, quietListingIds: Set<number>): Prop
       : typeof row.subcategories === 'string' ? row.subcategories : null,
 
     address: {
-      streetNumber: addr.street_number || '',
-      streetName: addr.street_name || '',
+      unitNumber,
+      streetNumber,
+      streetName,
+      streetLine,
       suburb: addr.suburb_or_town || '',
       stateRegion: addr.state_or_region || '',
       postcode: addr.postcode || '',
-      full: formats.full_address || `${addr.street_number || ''} ${addr.street_name || ''}, ${addr.suburb_or_town || ''} ${addr.state_or_region || ''} ${addr.postcode || ''}`.trim(),
+      full: formats.full_address || `${streetLine}, ${addr.suburb_or_town || ''} ${addr.state_or_region || ''} ${addr.postcode || ''}`.trim(),
       display: formats.display_address || formats.full_address || '',
       lat: addr.latitude ? parseFloat(addr.latitude) : null,
       lng: addr.longitude ? parseFloat(addr.longitude) : null,

@@ -89,7 +89,7 @@ function PropertyCard({ property, variant }: { property: Property; variant: "liv
                 {isSold ? "Historical Success" : "Current Listing"}
               </p>
               <h3 className="font-serif text-xl lg:text-2xl text-white leading-tight">
-                {property.address.streetNumber} {property.address.streetName}
+                {property.address.streetLine}
               </h3>
             </div>
             {isSold && (

@@ -28,8 +28,11 @@ export interface Property {
   subcategory: string | null
 
   address: {
+    unitNumber: string
     streetNumber: string
     streetName: string
+    /** Unit, number and street on one line, e.g. "5/196 Cammillo Road" */
+    streetLine: string
     suburb: string
     stateRegion: string
     postcode: string

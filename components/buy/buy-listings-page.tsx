@@ -35,7 +35,7 @@ export function BuyListingsPage() {
     () =>
       properties.map((p) => ({
         id: p.listingId,
-        address: `${p.address.streetNumber} ${p.address.streetName}`.trim(),
+        address: p.address.streetLine,
         suburb: `${p.address.suburb} ${p.address.stateRegion} ${p.address.postcode}`.trim(),
         price: p.price.match || 0,
         priceDisplay: p.price.display || 'Contact Agent',

@@ -93,7 +93,7 @@ function OpenHomeCard({ property }: { property: Property }) {
           )}
 
           <h3 className="font-serif text-lg font-semibold text-foreground mb-1 tracking-tight">
-            {property.address.streetNumber} {property.address.streetName}
+            {property.address.streetLine}
           </h3>
           <div className="flex items-center gap-1.5 text-sm text-muted-foreground mb-3">
             <MapPin className="h-3.5 w-3.5" />
